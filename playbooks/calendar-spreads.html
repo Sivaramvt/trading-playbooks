@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vol Desk Playbook</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .nav-tab {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        .nav-tab.active {
+            border-bottom-color: #0284c7; 
+            color: #0284c7; 
+        }
+        .nav-tab:hover {
+            border-bottom-color: #e5e7eb; 
+            color: #1f2937;
+        }
+
+        
+        .content-panel {
+            display: none;
+        }
+        .content-panel.active {
+            display: block;
+        }
+
+        
+        .strategy-toggle {
+            transition: all 0.2s ease-in-out;
+        }
+        .strategy-toggle.active {
+            background-color: #0c4a6e; 
+            color: white;
+        }
+
+        
+        [data-view="bullish"] .bearish-rule,
+        [data-view="bearish"] .bullish-rule {
+            display: none;
+        }
+        
+        [data-view="bullish"] .bullish-rule {
+            display: flex; 
+        }
+        [data-view="bearish"] .bearish-rule {
+            display: flex; 
+        }
+
+        
+        .rule-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+        }
+        .checklist-item-icon {
+            flex-shrink: 0;
+            width: 1.5rem;
+            height: 1.5rem;
+            margin-right: 0.75rem;
+            font-size: 1.25rem;
+            line-height: 1.5rem;
+        }
+    </style>
+    <!-- Chosen Palette: Warm Stone & Sky (bg-stone-100, bg-white, text-stone-800, text-stone-600, accent: sky-700/0c4a6e) -->
+    <!-- Application Structure Plan: Designed a "Trading Playbook" SPA with a tab-based navigation (Dashboard, Calendar, Diagonal, All Rules). This structure is task-oriented, not linear, matching a trader's workflow. Users select a strategy (e.g., "Diagonal") and see a single, consolidated view combining global and specific rules. Interactivity is handled by sub-navigation (e.g., Bullish/Bearish toggles) that dynamically filter the displayed checklists and strike diagrams. This is superior to the source document's linear sections, as it provides a single, actionable checklist for a specific trade, which is the user's primary goal. -->
+    <!-- Visualization & Content Choices: Report Info: Global/Specific rules -> Goal: Provide a quick, scannable, consolidated checklist. -> Viz: Styled HTML lists (ul/li) with Unicode icons (✅, 📈) and dynamic text. -> Interaction: Toggles (Bullish/Bearish) filter the list content. -> Justification: More actionable than a static table. | Report Info: Strike Selection -> Goal: Compare front/back legs. -> Viz: A 2-column flexbox diagram ("SELL" vs. "BUY"). -> Interaction: Content updates via Bullish/Bearish toggle. -> Justification: Clear, visual comparison of the spread's structure. | Report Info: Key global rules -> Goal: At-a-glance market condition check. -> Viz: A dashboard grid of "stat cards" (styled divs). -> Justification: Highlights the most important "Go/No-Go" signals. | No data charts (e.g., Chart.js) were needed as the report is procedural, not data-driven. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-stone-100 text-stone-800 min-h-screen">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-sky-900">VOL DESK — SPREAD PLAYBOOK</h1>
+            <p class="text-lg text-stone-600">Interactive manual for Nifty Weekly (Tuesday Expiry) Calendar & Diagonal Spreads.</p>
+        </header>
+
+        
+        <nav class="bg-white shadow-sm rounded-lg mb-8">
+            <div class="flex space-x-4 sm:space-x-8 px-4 sm:px-6">
+                <button class="nav-tab active py-4 px-2 sm:px-4 font-semibold text-stone-600" data-target="dashboard-content">
+                    Dashboard
+                </button>
+                <button class="nav-tab py-4 px-2 sm:px-4 font-semibold text-stone-600" data-target="calendar-content">
+                    Calendar Spread
+                </button>
+                <button class="nav-tab py-4 px-2 sm:px-4 font-semibold text-stone-600" data-target="diagonal-content">
+                    Diagonal Spread
+                </button>
+                <button class="nav-tab py-4 px-2 sm:px-4 font-semibold text-stone-600" data-target="rules-content">
+                    Reference
+                </button>
+            </div>
+        </nav>
+
+        
+        <main id="content-panels">
+
+            
+            <section id="dashboard-content" class="content-panel active">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold text-stone-800 mb-2">Pre-Trade Dashboard</h2>
+                    <p class="text-stone-600">This dashboard summarizes the key global market conditions required to attempt *any* spread trade. Check these "Go/No-Go" signals before analyzing a specific strategy.</p>
+                </div>
+                
+                <div class="rule-card-grid">
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <h3 class="text-lg font-semibold text-sky-800 mb-3 flex items-center">
+                            <span class="text-2xl mr-2">📈</span> Volatility Structure
+                        </h3>
+                        <p class="text-3xl font-bold text-stone-800 mb-2">IV Diff ≥ +1.0</p>
+                        <p class="text-stone-600 mb-4">Front-Week IV must be at least 1.0 vol point higher than Back-Week IV.</p>
+                        <ul class="space-y-2">
+                            <li class="flex items-center text-green-700"><span class="text-xl mr-2">✅</span> <strong>Backwardation:</strong> OK (Preferred)</li>
+                            <li class="flex items-center text-yellow-700"><span class="text-xl mr-2">⚠️</span> <strong>Flat:</strong> Caution</li>
+                            <li class="flex items-center text-red-700"><span class="text-xl mr-2">❌</span> <strong>Contango:</strong> NO TRADE</li>
+                        </ul>
+                    </div>
+                    
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <h3 class="text-lg font-semibold text-sky-800 mb-3 flex items-center">
+                            <span class="text-2xl mr-2">⏰</span> Entry Timing
+                        </h3>
+                        <p class="text-stone-600 mb-4">Prioritized list of optimal entry times for maximum theta gradient.</p>
+                        <ol class="list-decimal list-inside space-y-2 font-medium">
+                            <li>Wednesday: 9:20–11:00 (Best)</li>
+                            <li>Friday: 3:00–3:25 PM</li>
+                            <li>Thursday: 2:30–3:25 PM</li>
+                        </ol>
+                        <p class="text-red-700 font-semibold mt-4">Avoid Monday & Tuesday.</p>
+                    </div>
+
+                    
+                    <div class="bg-red-50 border border-red-200 p-6 rounded-lg shadow-sm">
+                        <h3 class="text-lg font-semibold text-red-800 mb-3 flex items-center">
+                            <span class="text-2xl mr-2">⛔</span> Event Risk Protocol
+                        </h3>
+                        <p class="text-red-700 mb-4">Avoid trades 24 hours before these events. Do not hold positions through them.</p>
+                        <ul class="list-disc list-inside space-y-1 text-red-900 font-medium">
+                            <li>US CPI / FOMC</li>
+                            <li>RBI Policy</li>
+                            <li>Budget</li>
+                            <li>Elections</li>
+                            <li>VIX > 16 spikes</li>
+                        </ul>
+                    </div>
+
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <h3 class="text-lg font-semibold text-sky-800 mb-3 flex items-center">
+                            <span class="text-2xl mr-2">⚖️</span> Global Risk Rules
+                        </h3>
+                        <p class="text-stone-600 mb-4">Non-negotiable risk parameters for all positions.</p>
+                        <ul class="list-none space-y-3">
+                            <li class="flex items-center">
+                                <span class="text-2xl mr-3">🛑</span>
+                                <div>
+                                    <span class="font-semibold block">Max Loss Limit</span>
+                                    <span class="text-stone-600">-10% of deployed capital</span>
+                                </div>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-2xl mr-3">💰</span>
+                                <div>
+                                    <span class="font-semibold block">Position Size</span>
+                                    <span class="text-stone-600">0.5% - 1.0% risk per trade</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </section>
+
+            
+            <section id="calendar-content" class="content-panel">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold text-stone-800 mb-2">Calendar Spread Playbook</h2>
+                    <p class="text-stone-600">The complete execution plan for a neutral, theta-harvesting ATM Calendar Spread. This view combines all relevant global and specific rules into a single checklist.</p>
+                </div>
+                
+                <div class="flex flex-col lg:flex-row gap-6">
+                    
+                    <div class="lg:w-2/3">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                            <h3 class="text-xl font-semibold text-sky-800 mb-4">Master Entry Checklist (ATM Calendar)</h3>
+                            <ul class="divide-y divide-stone-200">
+                                <li class="checklist-item">
+                                    <span class="checklist-item-icon">📈</span>
+                                    <div>
+                                        <span class="font-semibold block">Term Structure: Backwardation / Inversion</span>
+                                        <span class="text-stone-600 text-sm">Near IV > Far IV.</span>
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <span class="checklist-item-icon">📊</span>
+                                    <div>
+                                        <span class="font-semibold block">IV Diff: +1.0 to +2.0</span>
+                                        <span class="text-stone-600 text-sm">Front-week IV must be 1.0-2.0 vol points richer.</span>
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <span class="checklist-item-icon">📍</span>
+                                    <div>
+                                        <span class="font-semibold block">Price: Inside H3–L3 Band</span>
+                                        <span class="text-stone-600 text-sm">Use Camarilla pivots for neutral location.</span>
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <span class="checklist-item-icon">⚖️</span>
+                                    <div>
+                                        <span class="font-semibold block">Net Delta: |Δ| ≤ 5</span>
+                                        <span class="text-stone-600 text-sm">Position must be delta-neutral. Adjust strike if needed.</span>
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <span class="checklist-item-icon">📉</span>
+                                    <div>
+                                        <span class="font-semibold block">ATR: Stable / Falling</span>
+                                        <span class="text-stone-600 text-sm">Avoid expanding volatility (rising ATR).</span>
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <span class="checklist-item-icon">⏰</span>
+                                    <div>
+                                        <span class="font-semibold block">Timing: Wed/Fri Best</span>
+                                        <span class="text-stone-600 text-sm">Target Wed 9:20-11:00 or Fri 3:00-3:25 PM.</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    
+                    <div class="lg:w-1/3 space-y-6">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                            <h3 class="text-xl font-semibold text-sky-800 mb-4">Strike Selection</h3>
+                            <div class="flex space-x-4">
+                                <div class="w-1/2">
+                                    <span class="block text-sm font-semibold text-red-600">SELL (Front-Week)</span>
+                                    <span class="block text-lg font-medium">ATM</span>
+                                </div>
+                                <div class="w-1/2">
+                                    <span class="block text-sm font-semibold text-green-600">BUY (Next-Week)</span>
+                                    <span class="block text-lg font-medium">ATM</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                            <h3 class="text-xl font-semibold text-sky-800 mb-4">Management Rules</h3>
+                            <ul class="space-y-3">
+                                <li><strong>Target:</strong> +15% or Hold to Mon Close</li>
+                                <li><strong>Stop Loss:</strong> -10% (Hard Stop)</li>
+                                <li><strong>Exit Trigger 1:</strong> IV Diff < +0.5 (Edge gone)</li>
+                                <li><strong>Exit Trigger 2:</strong> Price breaks R3/S3</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            
+            <section id="diagonal-content" class="content-panel" data-view="bullish">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold text-stone-800 mb-2">Diagonal Spread Playbook</h2>
+                    <p class="text-stone-600 mb-4">The complete execution plan for a directional (theta + alpha) Diagonal Spread. Use the toggles to select your directional bias and see the specific checklist.</p>
+                    
+                    <div class="flex rounded-md shadow-sm" role="group">
+                        <button type_button id="diagonal-toggle-bullish" class="strategy-toggle active py-2 px-6 bg-white text-stone-700 font-semibold rounded-l-md border border-stone-300 hover:bg-stone-50">
+                            Bullish 📈
+                        </button>
+                        <button type_button id="diagonal-toggle-bearish" class="strategy-toggle py-2 px-6 bg-white text-stone-700 font-semibold rounded-r-md border border-stone-300 border-l-0 hover:bg-stone-50">
+                            Bearish 📉
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col lg:flex-row gap-6">
+                    
+                    <div class="lg:w-2/3">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                            <h3 class="text-xl font-semibold text-sky-800 mb-4">Master Entry Checklist (Diagonal)</h3>
+                            <ul class="divide-y divide-stone-200">
+                                
+                                <li class="checklist-item bullish-rule">
+                                    <span class="checklist-item-icon">📈</span>
+                                    <div>
+                                        <span class="font-semibold block">Price Breakout: > R3</span>
+                                        <span class="text-stone-600 text-sm">Camarilla breakout confirms bullish bias.</span>
+                                    </div>
+                                </li>
+                                <li class="checklist-item bearish-rule">
+                                    <span class="checklist-item-icon">📉</span>
+                                    <div>
+                                        <span class="font-semibold block">Price Breakout: < S3</span>
+                                        <span class="text-stone-600 text-sm">Camarilla breakout confirms bearish bias.</span>
+                                    </div>
+                                </li>
+
+                                
+                                <li class="checklist-item bullish-rule">
+                                    <span class="checklist-item-icon">🧭</span>
+                                    <div>
+                                        <span class="font-semibold block">RSI (1H): 52–68</span>
+                                        <span class="text-stone-600 text-sm">Confirms bullish momentum.</span>
+                                    </div>
+                                </li>
+                                <li class="checklist-item bearish-rule">
+                                    <span class="checklist-item-icon">🧭</span>
+                                    <div>
+                                        <span class="font-semibold block">RSI (1H): 32–48</span>
+                                        <span class="text-stone-600 text-sm">Confirms bearish momentum.</span>
+                                    </div>
+                                </li>
+
+                                
+                                <li class="checklist-item bullish-rule">
+                                    <span class="checklist-item-icon">⚖️</span>
+                                    <div>
+                                        <span class="font-semibold block">Net Delta Target: +10 to +15</span>
+                                        <span class="text-stone-600 text-sm">Ensure net position has a positive delta bias.</span>
+                                    </div>
+                                </li>
+                                <li class="checklist-item bearish-rule">
+                                    <span class="checklist-item-icon">⚖️</span>
+                                    <div>
+                                        <span class="font-semibold block">Net Delta Target: -10 to -15</span>
+                                        <span class="text-stone-600 text-sm">Ensure net position has a negative delta bias.</span>
+                                    </div>
+                                </li>
+                                
+                                <li class="checklist-item">
+                                    <span class="checklist-item-icon">📈</span>
+                                    <div>
+                                        <span class="font-semibold block">Term Structure: Backwardation / Inversion</span>
+                                        <span class="text-stone-600 text-sm">Near IV > Far IV.</span>
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <span class="checklist-item-icon">📊</span>
+                                    <div>
+                                        <span class="font-semibold block">IV Diff: +1.0 to +2.5</span>
+                                        <span class="text-stone-600 text-sm">Front-week IV must be 1.0-2.5 vol points richer.</span>
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <span class="checklist-item-icon">📉</span>
+                                    <div>
+                                        <span class="font-semibold block">RV < IV</span>
+                                        <span class="text-stone-600 text-sm">Realized Volatility must be less than Implied.</span>
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <span class="checklist-item-icon">🎢</span>
+                                    <div>
+                                        <span class="font-semibold block">Skew: Front-week > Back-week</span>
+                                        <span class="text-stone-600 text-sm">Ensures the short OTM leg is relatively rich.</span>
+                                    </div>
+                                </li>
+                                <li class="checklist-item">
+                                    <span class="checklist-item-icon">⏰</span>
+                                    <div>
+                                        <span class="font-semibold block">Timing: Wed/Fri Best</span>
+                                        <span class="text-stone-600 text-sm">Target Wed 9:20-11:00 or Fri 3:00-3:25 PM.</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    
+                    <div class="lg:w-1/3 space-y-6">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                            <h3 class="text-xl font-semibold text-sky-800 mb-4">Strike Selection</h3>
+                            
+                            <div class="bullish-rule">
+                                <div class="flex space-x-4">
+                                    <div class="w-1/2">
+                                        <span class="block text-sm font-semibold text-red-600">SELL (Front-Week)</span>
+                                        <span class="block text-lg font-medium">20–30Δ CE</span>
+                                    </div>
+                                    <div class="w-1/2">
+                                        <span class="block text-sm font-semibold text-green-600">BUY (Next-Week)</span>
+                                        <span class="block text-lg font-medium">15–20Δ CE</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bearish-rule">
+                                <div class="flex space-x-4">
+                                    <div class="w-1/2">
+                                        <span class="block text-sm font-semibold text-red-600">SELL (Front-Week)</span>
+                                        <span class="block text-lg font-medium">20–30Δ PE</span>
+                                    </div>
+                                    <div class="w-1/2">
+                                        <span class="block text-sm font-semibold text-green-600">BUY (Next-Week)</span>
+                                        <span class="block text-lg font-medium">15–20Δ PE</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                            <h3 class="text-xl font-semibold text-sky-800 mb-4">Management Rules</h3>
+                            <ul class="space-y-3">
+                                <li><strong>Target:</strong> +15% to +20%</li>
+                                <li><strong>Stop Loss:</strong> -10% (Hard Stop)</li>
+                                <li><strong>Exit:</strong> Must exit by Monday < 2:00 PM</li>
+                                <li><strong>Monitor:</strong> Trend, IV, Skew, Gamma Drift</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            
+            <section id="rules-content" class="content-panel">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold text-stone-800 mb-2">Reference: Golden Rules & Logging</h2>
+                    <p class="text-stone-600">The core principles that must be followed on all trades, and the requirements for trade logging.</p>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="md:w-1/2">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                            <h3 class="text-xl font-semibold text-sky-800 mb-4">Golden Rules</h3>
+                            <ol class="list-decimal list-outside pl-6 space-y-2 text-stone-700">
+                                <li>Never trade in Contango (IV diff $\leq 0$).</li>
+                                <li>Never enter on Monday.</li>
+                                <li>No trades if IV diff < +1.0.</li>
+                                <li>Avoid R4/S4 extremes.</li>
+                                <li>Align diagonals with RSI + Camarilla.</li>
+                                <li>Do not hold diagonals into Tuesday.</li>
+                                <li>Avoid event weeks.</li>
+                                <li class="font-bold text-red-700">Hard stop loss: -10%.</li>
+                                <li>Log everything.</li>
+                                <li>If unsure — skip the trade.</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                            <h3 class="text-xl font-semibold text-sky-800 mb-4">Trade Log Requirements</h3>
+                            <p class="text-stone-600 mb-4">Each trade log must include all of the following fields:</p>
+                            <ul class="list-disc list-outside pl-6 space-y-1 text-stone-700 columns-2">
+                                <li>Time</li>
+                                <li>Front IV</li>
+                                <li>Back IV</li>
+                                <li>IV diff</li>
+                                <li>Term structure</li>
+                                <li>ATR</li>
+                                <li>RSI (1H)</li>
+                                <li>Camarilla loc.</li>
+                                <li>Lot size</li>
+                                <li>Entry</li>
+                                <li>Exit & P/L</li>
+                                <li>Reason</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.nav-tab');
+            const panels = document.querySelectorAll('.content-panel');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    
+                    tabs.forEach(t => t.classList.remove('active'));
+                    panels.forEach(p => p.classList.remove('active'));
+                    
+                    
+                    tab.classList.add('active');
+                    const targetPanelId = tab.getAttribute('data-target');
+                    document.getElementById(targetPanelId).classList.add('active');
+                });
+            });
+
+            
+            const diagonalContent = document.getElementById('diagonal-content');
+            const toggleBullish = document.getElementById('diagonal-toggle-bullish');
+            const toggleBearish = document.getElementById('diagonal-toggle-bearish');
+
+            if(toggleBullish) {
+                toggleBullish.addEventListener('click', () => {
+                    diagonalContent.dataset.view = 'bullish';
+                    toggleBullish.classList.add('active');
+                    toggleBearish.classList.remove('active');
+                });
+            }
+
+            if(toggleBearish) {
+                toggleBearish.addEventListener('click', () => {
+                    diagonalContent.dataset.view = 'bearish';
+                    toggleBearish.classList.add('active');
+                    toggleBullish.classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
