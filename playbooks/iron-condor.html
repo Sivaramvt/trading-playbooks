@@ -1,300 +1,371 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iron Condor Strategy: Volatility Desk Execution Manual</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        /* Custom styles for the Playbook aesthetic (Light Theme) */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f7f7f7; /* Very Light Gray Background */
-        }
-        .container-manual {
-            background-color: #ffffff; /* White container background */
-            border: 1px solid #cccccc;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Light shadow */
-        }
-        h1 {
-            color: #333333; /* Dark title text */
-            border-bottom: 2px solid #00bcd4; /* Cyan accent for title */
-        }
-        .section-header {
-            color: #00bcd4; /* Cyan accent */
-            border-left: 5px solid #00bcd4;
-            padding-left: 1rem;
-            background-color: #e0f7fa; /* Very light cyan background */
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
-            border-radius: 4px;
-        }
-        .table-header {
-            background-color: #e0e0e0; /* Light gray header */
-            color: #333333; /* Dark text */
-            font-weight: 700;
-        }
-        .code-block {
-            font-family: 'JetBrains Mono', monospace;
-            background-color: #f0f0f0; /* Light code block background */
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            color: #d84315; /* Orange accent for key data */
-        }
-        .risk-item {
-            color: #D32F2F; /* Darker Danger Red */
-        }
-        .table-row-hover:hover {
-            background-color: #f0f0f0; /* Light hover effect */
-        }
-        /* Overriding specific dark theme background class for light mode cards */
-        .bg-card-light {
-            background-color: #f0f0f0;
-        }
-    </style>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'primary-accent': '#00bcd4', /* Cyan */
-                        'success-green': '#4CAF50', /* Vibrant Green */
-                        'danger-red': '#F44336', /* Vibrant Red */
-                    }
-                }
-            }
-        }
-    </script>
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 
-<body class="text-gray-800 min-h-screen p-4 sm:p-8">
-    <div class="container-manual max-w-7xl mx-auto p-6 md:p-10 rounded-lg">
+<body class="bg-slate-900 text-slate-200">
 
-        <header class="mb-8">
-            <h1 class="text-4xl sm:text-5xl font-extrabold pb-3 tracking-tight">
-                Vol Desk: Iron Condor
+    <!-- Navigation -->
+    <nav class="glass-panel sticky top-0 z-50 border-b border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../index.html" class="text-xl font-bold text-white flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Back to Home
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <span class="text-slate-400 text-sm">Iron Condor Strategy</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 animate-fade-in">
+
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl sm:text-6xl font-extrabold mb-4 tracking-tight">
+                <span class="text-gradient">Vol Desk:</span> <span class="text-white">Iron Condor</span>
             </h1>
-            <p class="text-lg text-primary-accent mt-2 font-medium">
+            <p class="text-xl text-slate-400 max-w-3xl mx-auto font-light">
                 Strategy: Hedged Iron Condor (Weekly Nifty Index Options - TUESDAY Expiry)
             </p>
         </header>
 
         <!-- SECTION 1: CORE MANDATE -->
         <section class="mb-10">
-            <h2 class="text-3xl font-semibold section-header mb-4">
-                <i class="fas fa-chart-line mr-2"></i> 1. Strategy Overview & Mandate
-            </h2>
-            <p class="text-gray-600 leading-relaxed mt-4">
-                The mandate for this volatility structure is to be **conservative, delta-neutral at entry**, utilizing defined risk spreads to harvest premium in range-bound or moderate-drift environments. Protective legs are mandatory. Our focus remains on controlled risk and integrity of the execution process, not speculative gambling.
-            </p>
-            <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="p-4 rounded-lg bg-card-light flex items-center">
-                    <i class="fas fa-lock text-success-green text-2xl mr-3"></i>
-                    <p class="font-bold text-gray-800">Risk Profile: Defined & Hedged</p>
-                </div>
-                <div class="p-4 rounded-lg bg-card-light flex items-center">
-                    <i class="fas fa-balance-scale text-primary-accent text-2xl mr-3"></i>
-                    <p class="font-bold text-gray-800">Entry Delta: Neutral (or close to zero)</p>
-                </div>
-                <div class="p-4 rounded-lg bg-card-light flex items-center">
-                    <i class="fas fa-calendar-week text-gray-600 text-2xl mr-3"></i>
-                    <p class="font-bold text-gray-800">Target: Weekly Nifty Options</p>
+            <div class="glass-card p-8 rounded-2xl border-t-4 border-blue-500">
+                <h2 class="text-2xl font-bold mb-4 text-blue-400 flex items-center gap-2">
+                    <span class="bg-blue-500/20 p-1.5 rounded-lg text-sm">01</span> Strategy Overview & Mandate
+                </h2>
+                <p class="text-slate-300 leading-relaxed mb-6">
+                    The mandate for this volatility structure is to be <span class="text-white font-bold">conservative,
+                        delta-neutral at entry</span>, utilizing defined risk spreads to harvest premium in range-bound
+                    or moderate-drift environments. Protective legs are mandatory. Our focus remains on controlled risk
+                    and integrity of the execution process, not speculative gambling.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 flex items-center gap-3">
+                        <div class="p-2 bg-emerald-500/20 rounded-lg text-emerald-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Risk Profile</p>
+                            <p class="font-bold text-white">Defined & Hedged</p>
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 flex items-center gap-3">
+                        <div class="p-2 bg-blue-500/20 rounded-lg text-blue-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3">
+                                </path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Entry Delta</p>
+                            <p class="font-bold text-white">Neutral (~0)</p>
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 flex items-center gap-3">
+                        <div class="p-2 bg-purple-500/20 rounded-lg text-purple-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Target</p>
+                            <p class="font-bold text-white">Weekly Nifty Options</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- SECTION 2: RISK FILTERS (WHEN NOT TO TRADE) -->
         <section class="mb-10">
-            <h2 class="text-3xl font-semibold section-header mb-4">
-                <i class="fas fa-exclamation-triangle mr-2"></i> 2. Critical Risk Filters (Red Line)
-            </h2>
-            <p class="text-gray-600 mb-4">
-                No position is to be initiated if the following conditions are present. Avoidable risk is unacceptable.
-            </p>
-            <ul class="list-none space-y-2 pl-0">
-                <li class="risk-item bg-red-100 p-3 rounded-md flex items-center border border-danger-red/50">
-                    <i class="fas fa-times-circle mr-3"></i>
-                    **High Overnight Gaps:** Unpredictable, large overnight moves increase gap risk exponentially. Stand aside.
-                </li>
-                <li class="risk-item bg-red-100 p-3 rounded-md flex items-center border border-danger-red/50">
-                    <i class="fas fa-times-circle mr-3"></i>
-                    **Extreme Implied Volatility (IV):** High VIX environments suggest immediate, sharp directional moves are likely.
-                </li>
-                <li class="risk-item bg-red-100 p-3 rounded-md flex items-center border border-danger-red/50">
-                    <i class="fas fa-times-circle mr-3"></i>
-                    **Confirmed Event Risk:** Avoid initiation before known, high-impact events (e.g., RBI decisions, major earnings for Nifty components).
-                </li>
-            </ul>
+            <div class="glass-card p-8 rounded-2xl border-t-4 border-red-500 bg-red-500/5">
+                <h2 class="text-2xl font-bold mb-4 text-red-400 flex items-center gap-2">
+                    <span class="bg-red-500/20 p-1.5 rounded-lg text-sm">02</span> Critical Risk Filters (Red Line)
+                </h2>
+                <p class="text-slate-300 mb-6">
+                    No position is to be initiated if the following conditions are present. Avoidable risk is
+                    unacceptable.
+                </p>
+                <div class="grid gap-4">
+                    <div class="p-4 bg-red-500/10 rounded-xl border border-red-500/20 flex items-start gap-4">
+                        <div class="mt-1 p-1 bg-red-500 rounded-full flex-shrink-0">
+                            <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <strong class="text-white block mb-1">High Overnight Gaps</strong>
+                            <span class="text-sm text-slate-300">Unpredictable, large overnight moves increase gap risk
+                                exponentially. Stand aside.</span>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-red-500/10 rounded-xl border border-red-500/20 flex items-start gap-4">
+                        <div class="mt-1 p-1 bg-red-500 rounded-full flex-shrink-0">
+                            <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <strong class="text-white block mb-1">Extreme Implied Volatility (IV)</strong>
+                            <span class="text-sm text-slate-300">High VIX environments suggest immediate, sharp
+                                directional moves are likely.</span>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-red-500/10 rounded-xl border border-red-500/20 flex items-start gap-4">
+                        <div class="mt-1 p-1 bg-red-500 rounded-full flex-shrink-0">
+                            <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <strong class="text-white block mb-1">Confirmed Event Risk</strong>
+                            <span class="text-sm text-slate-300">Avoid initiation before known, high-impact events
+                                (e.g., RBI decisions, major earnings).</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- SECTION 3: TRADE EXECUTION & METRICS -->
         <section class="mb-10">
-            <h2 class="text-3xl font-semibold section-header mb-4">
-                <i class="fas fa-calculator mr-2"></i> 3. Execution Parameters & Sizing
-            </h2>
+            <div class="glass-card p-8 rounded-2xl border-t-4 border-amber-500">
+                <h2 class="text-2xl font-bold mb-6 text-amber-400 flex items-center gap-2">
+                    <span class="bg-amber-500/20 p-1.5 rounded-lg text-sm">03</span> Execution Parameters & Sizing
+                </h2>
 
-            <h3 class="text-xl font-bold mt-6 mb-3 text-primary-accent">Entry Timing Protocol (7-Day Theta Cycle)</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm rounded-lg overflow-hidden border border-[#cccccc]">
-                    <thead>
-                        <tr class="table-header">
-                            <th class="p-3 text-left">Condition</th>
-                            <th class="p-3 text-left">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-t border-[#e0e0e0] bg-white table-row-hover">
-                            <td class="p-3 font-semibold">Market is Neutral or Uncertain</td>
-                            <td class="p-3">Execute the full Iron Condor on **Tuesday evening**, immediately after the current expiry closes (targeting next Tuesday).</td>
-                        </tr>
-                        <tr class="border-t border-[#e0e0e0] bg-white table-row-hover">
-                            <td class="p-3 font-semibold text-danger-red">Market shows clear Directional Bias</td>
-                            <td class="p-3">**CAUTION:** If entry is deemed necessary, execute the Directional Credit Spread on **Wednesday morning** with extreme sensitivity to adjustment.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                <div class="mb-8">
+                    <h3 class="text-lg font-bold mb-4 text-white">Entry Timing Protocol (7-Day Theta Cycle)</h3>
+                    <div class="overflow-hidden rounded-xl border border-slate-700">
+                        <table class="w-full text-sm text-left text-slate-300 strategy-table">
+                            <thead>
+                                <tr>
+                                    <th class="p-3">Condition</th>
+                                    <th class="p-3">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-slate-800/30">
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="p-3 font-semibold text-white">Market is Neutral or Uncertain</td>
+                                    <td class="p-3">Execute the full Iron Condor on <strong
+                                            class="text-emerald-400">Tuesday evening</strong>, immediately after the
+                                        current expiry closes (targeting next Tuesday).</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-400">Market shows clear Directional Bias</td>
+                                    <td class="p-3"><strong class="text-yellow-400">CAUTION:</strong> If entry is deemed
+                                        necessary, execute the Directional Credit Spread on <strong
+                                            class="text-emerald-400">Wednesday morning</strong> with extreme sensitivity
+                                        to adjustment.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-            <h3 class="text-xl font-bold mt-6 mb-3 text-primary-accent">Mandatory Trade Metrics</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm rounded-lg overflow-hidden border border-[#cccccc]">
-                    <thead>
-                        <tr class="table-header">
-                            <th class="p-3 text-left">Parameter</th>
-                            <th class="p-3 text-left">Requirement</th>
-                            <th class="p-3 text-left">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-t border-[#e0e0e0] bg-white table-row-hover">
-                            <td class="p-3 font-semibold">Initial Range (IC)</td>
-                            <td class="p-3 code-block">2% on both sides</td>
-                            <td class="p-3 text-gray-600">Set short strikes OTM by 2% of the underlying price.</td>
-                        </tr>
-                        <tr class="border-t border-[#e0e0e0] bg-white table-row-hover">
-                            <td class="p-3 font-semibold">Risk:Reward (R:R)</td>
-                            <td class="p-3 code-block">Min 1:5 (0.2)</td>
-                            <td class="p-3 text-gray-600">Targeting maximum loss 5x the credit received. This reflects an ultra-low probability strategy, sacrificing capital efficiency for safety.</td>
-                        </tr>
-                        <tr class="border-t border-[#e0e0e0] bg-white table-row-hover">
-                            <td class="p-3 font-semibold">Position Size</td>
-                            <td class="p-3 code-block">1L per lot</td>
-                            <td class="p-3 text-gray-600">Sizing must adhere to the **Progressive Exposure Model**. Do not exceed initial allocation limits.</td>
-                        </tr>
-                        <tr class="border-t border-[#e0e0e0] bg-white table-row-hover">
-                            <td class="p-3 font-semibold">Delta Status</td>
-                            <td class="p-3 code-block">Target Neutral</td>
-                            <td class="p-3 text-gray-600">Maintain aggregate delta close to zero (below +/- 5).</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div>
+                    <h3 class="text-lg font-bold mb-4 text-white">Mandatory Trade Metrics</h3>
+                    <div class="overflow-hidden rounded-xl border border-slate-700">
+                        <table class="w-full text-sm text-left text-slate-300 strategy-table">
+                            <thead>
+                                <tr>
+                                    <th class="p-3">Parameter</th>
+                                    <th class="p-3">Requirement</th>
+                                    <th class="p-3">Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-slate-800/30">
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="p-3 font-semibold text-white">Initial Range (IC)</td>
+                                    <td class="p-3 font-mono text-emerald-400">2% on both sides</td>
+                                    <td class="p-3 text-slate-400">Set short strikes OTM by 2% of the underlying price.
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="p-3 font-semibold text-white">Risk:Reward (R:R)</td>
+                                    <td class="p-3 font-mono text-emerald-400">Min 1:5 (0.2)</td>
+                                    <td class="p-3 text-slate-400">Targeting maximum loss 5x the credit received.
+                                        Ultra-low probability strategy.</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="p-3 font-semibold text-white">Position Size</td>
+                                    <td class="p-3 font-mono text-emerald-400">1L per lot</td>
+                                    <td class="p-3 text-slate-400">Sizing must adhere to the <strong
+                                            class="text-white">Progressive Exposure Model</strong>.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-white">Delta Status</td>
+                                    <td class="p-3 font-mono text-emerald-400">Target Neutral</td>
+                                    <td class="p-3 text-slate-400">Maintain aggregate delta close to zero (below +/- 5).
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- SECTION 4: EXIT MANAGEMENT -->
         <section class="mb-10">
-            <h2 class="text-3xl font-semibold section-header mb-4">
-                <i class="fas fa-door-open mr-2"></i> 4. Exit Protocol
-            </h2>
+            <div class="glass-card p-8 rounded-2xl border-t-4 border-emerald-500">
+                <h2 class="text-2xl font-bold mb-6 text-emerald-400 flex items-center gap-2">
+                    <span class="bg-emerald-500/20 p-1.5 rounded-lg text-sm">04</span> Exit Protocol
+                </h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Success Exit -->
-                <div class="p-6 rounded-lg bg-success-green/10 border-l-4 border-success-green">
-                    <h3 class="text-xl font-bold mb-3 text-success-green">SUCCESSFUL EXIT (Take Profit)</h3>
-                    <ul class="list-disc ml-5 space-y-2 text-gray-800">
-                        <li>**Profit Target:** Exit upon reaching a predefined percentage of maximum profit (e.g., 70-80% of credit received). *Timing is likely EOD Monday or early Tuesday morning before final gamma spike.*</li>
-                        <li>**On Expiry:** Hold for maximum credit realization if the position remains unthreatened and theta decay is robust.</li>
-                    </ul>
-                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Success Exit -->
+                    <div class="p-6 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                        <h3 class="text-xl font-bold mb-3 text-emerald-400">SUCCESSFUL EXIT (Take Profit)</h3>
+                        <ul class="list-disc ml-5 space-y-2 text-slate-300 text-sm">
+                            <li><strong class="text-white">Profit Target:</strong> Exit upon reaching a predefined
+                                percentage of maximum profit (e.g., 70-80% of credit received). *Timing is likely EOD
+                                Monday or early Tuesday morning.*</li>
+                            <li><strong class="text-white">On Expiry:</strong> Hold for maximum credit realization if
+                                the position remains unthreatened and theta decay is robust.</li>
+                        </ul>
+                    </div>
 
-                <!-- Failed Exit -->
-                <div class="p-6 rounded-lg bg-danger-red/10 border-l-4 border-danger-red">
-                    <h3 class="text-xl font-bold mb-3 text-danger-red">FAILED EXIT (Mandatory Stop)</h3>
-                    <ul class="list-disc ml-5 space-y-2 text-gray-800">
-                        <li>**Primary Hard Stop:** Exit the entire position if the loss hits **2X the credit received** (e.g., 100 credit, exit at 200 loss).</li>
-                        <li>**Structural Integrity Failure:** If the protective **buy legs are breached**, the max defined loss is imminent. **Immediate closure** of the entire spread is required as final safeguard.</li>
-                    </ul>
+                    <!-- Failed Exit -->
+                    <div class="p-6 rounded-xl bg-red-500/10 border border-red-500/20">
+                        <h3 class="text-xl font-bold mb-3 text-red-400">FAILED EXIT (Mandatory Stop)</h3>
+                        <ul class="list-disc ml-5 space-y-2 text-slate-300 text-sm">
+                            <li><strong class="text-white">Primary Hard Stop:</strong> Exit the entire position if the
+                                loss hits <strong class="text-red-400">2X the credit received</strong>.</li>
+                            <li><strong class="text-white">Structural Integrity Failure:</strong> If the protective
+                                <strong class="text-red-400">buy legs are breached</strong>, immediate closure of the
+                                entire spread is required.</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- SECTION 5: ADJUSTMENT MATRIX -->
         <section class="mb-10">
-            <h2 class="text-3xl font-semibold section-header mb-4">
-                <i class="fas fa-sliders-h mr-2"></i> 5. The Adjustment Matrix
-            </h2>
-            <p class="text-gray-600 mb-6">
-                Adjustments are critical risk defense measures. They are **never** for maximizing profit; they are for *preserving capital* and re-centering delta.
-            </p>
+            <div class="glass-card p-8 rounded-2xl border-t-4 border-purple-500">
+                <h2 class="text-2xl font-bold mb-4 text-purple-400 flex items-center gap-2">
+                    <span class="bg-purple-500/20 p-1.5 rounded-lg text-sm">05</span> The Adjustment Matrix
+                </h2>
+                <p class="text-slate-300 mb-6">
+                    Adjustments are critical risk defense measures. They are <strong class="text-white">never</strong>
+                    for maximizing profit; they are for *preserving capital* and re-centering delta.
+                </p>
 
-            <h3 class="text-xl font-bold mt-6 mb-3 text-primary-accent">Adjustment Timing</h3>
-            <ul class="list-disc ml-5 space-y-1 text-gray-600 mb-6">
-                <li>**After First Hour:** Wait for initial market consolidation.</li>
-                <li>**EOD (End of Day):** Final review and adjustment before close.</li>
-                <li>**Fast Market:** Adjust **15-30 minutes** after the market move is confirmed as furious/aggressive.</li>
-            </ul>
-
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm rounded-lg overflow-hidden border border-[#cccccc]">
-                    <thead>
-                        <tr class="table-header">
-                            <th class="p-3 text-left">Market Movement Scenario</th>
-                            <th class="p-3 text-left">Best Conservative Adjustment</th>
-                            <th class="p-3 text-left">Execution Timing</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-t border-[#e0e0e0] bg-white table-row-hover">
-                            <td class="p-3">Slow drift toward short strike</td>
-                            <td class="p-3">Wait & observe. Roll threatened short spread slightly OTM if trend is confirmed.</td>
-                            <td class="p-3">End of the day if trend is confirmed, or Early-week.</td>
-                        </tr>
-                        <tr class="border-t border-[#e0e0e0] bg-white table-row-hover">
-                            <td class="p-3">Slow drift near breakeven</td>
-                            <td class="p-3">Move the unthreatened side closer for extra credit (re-center).</td>
-                            <td class="p-3">Mid-week, only if price stabilizes near strike.</td>
-                        </tr>
-                        <tr class="border-t border-[#e0e0e0] bg-danger-red/10 table-row-hover">
-                            <td class="p-3 font-bold text-danger-red">Fast move toward short strike</td>
-                            <td class="p-3 font-bold">Exit the threatened spread OR add a futures/long option hedge to counter delta.</td>
-                            <td class="p-3 font-bold">As soon as the market moves aggressively.</td>
-                        </tr>
-                        <tr class="border-t border-[#e0e0e0] bg-danger-red/20 table-row-hover">
-                            <td class="p-3 font-bold text-danger-red">Fast move breaches breakeven</td>
-                            <td class="p-3 font-bold">Close losing spread (threatened leg). Roll the unthreatened side closer and reduce overall position size.</td>
-                            <td class="p-3 font-bold">Exit immediately if the breakeven point is violated.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <h3 class="text-xl font-bold mt-6 mb-3 text-primary-accent">Operational Tactics (Fast vs. Slow Market)</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                <div class="p-4 rounded-lg bg-danger-red/10 border-l-4 border-danger-red">
-                    <p class="font-bold text-lg mb-2 text-danger-red">FAST MARKET PROTOCOL</p>
-                    <ul class="list-disc ml-5 text-gray-800 text-sm">
-                        <li>**Priority:** Exit the most dangerous leg (threatened Put/Call) FIRST.</li>
-                        <li>Determine if a directional hedge is required for continuation.</li>
-                        <li>Only roll strikes if the momentum clearly slows after the initial breakout.</li>
-                        <li>If volatility is too high, **reduce position size** rather than attempting complicated defense rolls.</li>
+                <div class="mb-8">
+                    <h3 class="text-lg font-bold mb-3 text-white">Adjustment Timing</h3>
+                    <ul class="list-disc ml-5 space-y-1 text-slate-300 text-sm mb-6">
+                        <li><strong class="text-white">After First Hour:</strong> Wait for initial market consolidation.
+                        </li>
+                        <li><strong class="text-white">EOD (End of Day):</strong> Final review and adjustment before
+                            close.</li>
+                        <li><strong class="text-white">Fast Market:</strong> Adjust <strong
+                                class="text-yellow-400">15-30 minutes</strong> after the market move is confirmed as
+                            furious/aggressive.</li>
                     </ul>
+
+                    <div class="overflow-hidden rounded-xl border border-slate-700">
+                        <table class="w-full text-sm text-left text-slate-300 strategy-table">
+                            <thead>
+                                <tr>
+                                    <th class="p-3">Market Movement Scenario</th>
+                                    <th class="p-3">Best Conservative Adjustment</th>
+                                    <th class="p-3">Execution Timing</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-slate-800/30">
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="p-3">Slow drift toward short strike</td>
+                                    <td class="p-3">Wait & observe. Roll threatened short spread slightly OTM if trend
+                                        is confirmed.</td>
+                                    <td class="p-3">End of the day if trend is confirmed, or Early-week.</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="p-3">Slow drift near breakeven</td>
+                                    <td class="p-3">Move the unthreatened side closer for extra credit (re-center).</td>
+                                    <td class="p-3">Mid-week, only if price stabilizes near strike.</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50 bg-red-500/10">
+                                    <td class="p-3 font-bold text-red-400">Fast move toward short strike</td>
+                                    <td class="p-3 font-bold text-white">Exit the threatened spread OR add a
+                                        futures/long option hedge to counter delta.</td>
+                                    <td class="p-3 font-bold text-white">As soon as the market moves aggressively.</td>
+                                </tr>
+                                <tr class="bg-red-500/20">
+                                    <td class="p-3 font-bold text-red-400">Fast move breaches breakeven</td>
+                                    <td class="p-3 font-bold text-white">Close losing spread (threatened leg). Roll the
+                                        unthreatened side closer and reduce overall position size.</td>
+                                    <td class="p-3 font-bold text-white">Exit immediately if the breakeven point is
+                                        violated.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="p-4 rounded-lg bg-success-green/10 border-l-4 border-success-green">
-                    <p class="font-bold text-lg mb-2 text-success-green">SLOW MARKET PROTOCOL</p>
-                    <ul class="list-disc ml-5 text-gray-800 text-sm">
-                        <li>Wait for price action confirmation (Is it a fake move or consolidation?).</li>
-                        <li>Adjust only if the move persists. **Do not adjust too soon** on light volume.</li>
-                        <li>Roll strikes only slightly (micro-adjustments) instead of a full reposition.</li>
-                    </ul>
+
+                <div>
+                    <h3 class="text-lg font-bold mb-4 text-white">Operational Tactics (Fast vs. Slow Market)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="p-5 rounded-xl bg-red-500/10 border border-red-500/20">
+                            <p class="font-bold text-lg mb-3 text-red-400">FAST MARKET PROTOCOL</p>
+                            <ul class="list-disc ml-5 text-slate-300 text-sm space-y-2">
+                                <li><strong class="text-white">Priority:</strong> Exit the most dangerous leg
+                                    (threatened Put/Call) FIRST.</li>
+                                <li>Determine if a directional hedge is required for continuation.</li>
+                                <li>Only roll strikes if the momentum clearly slows after the initial breakout.</li>
+                                <li>If volatility is too high, <strong class="text-white">reduce position size</strong>
+                                    rather than attempting complicated defense rolls.</li>
+                            </ul>
+                        </div>
+                        <div class="p-5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                            <p class="font-bold text-lg mb-3 text-emerald-400">SLOW MARKET PROTOCOL</p>
+                            <ul class="list-disc ml-5 text-slate-300 text-sm space-y-2">
+                                <li>Wait for price action confirmation (Is it a fake move or consolidation?).</li>
+                                <li>Adjust only if the move persists. <strong class="text-white">Do not adjust too
+                                        soon</strong> on light volume.</li>
+                                <li>Roll strikes only slightly (micro-adjustments) instead of a full reposition.</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <footer class="mt-10 pt-4 border-t border-[#cccccc] text-center text-gray-500 text-xs">
-            &copy; Volatility Desk Protocol. Adherence to these rules is non-negotiable.
+        <footer class="mt-16 text-center text-slate-500 text-sm">
+            <p>&copy; Volatility Desk Protocol. Adherence to these rules is non-negotiable.</p>
         </footer>
 
     </div>
 </body>
+
 </html>

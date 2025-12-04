@@ -1,307 +1,404 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Directional Credit Spread — Trading Desk Manual</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0d1117; /* Dark background for professional look */
-            color: #c9d1d9;
-        }
-        .section-header {
-            border-left: 4px solid #38bdf8; /* Sky-blue accent */
-            padding-left: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        .card {
-            background-color: #161b22;
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
-            border: 1px solid #30363d;
-        }
-        .bullish { color: #34d399; } /* Green */
-        .bearish { color: #f87171; } /* Red */
-        .mandate { background-color: #232d3a; border-left: 4px solid #a855f7; } /* Purple accent */
-    </style>
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
-<body class="p-4 md:p-8">
 
-    <!-- Header & Dynamic Status Bar -->
-    <header class="mb-8">
-        <h1 class="text-4xl font-bold text-white mb-2">Directional Credit Spread Manual</h1>
-        <p class="text-lg text-gray-400">Nifty Weekly Options — Tuesday Expiry</p>
-        <div class="mt-4 p-3 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center mandate">
-            <div class="text-sm font-semibold">
-                <span class="text-gray-300">Vol Regime:</span>
-                <span class="text-yellow-400">Stable • Contango • Vol Controlled Trend (Preferred)</span>
-                <span class="text-xs text-gray-400 block md:inline-block md:ml-4">(ATR: Low • IVP: 32 • Skew: 1.6)</span>
+<body class="bg-slate-900 text-slate-200">
+
+    <!-- Navigation -->
+    <nav class="glass-panel sticky top-0 z-50 border-b border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../index.html" class="text-xl font-bold text-white flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Back to Home
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <span class="text-slate-400 text-sm">Directional Credit Spread Manual</span>
+                    </div>
+                </div>
             </div>
-            <div class="text-sm font-semibold mt-2 md:mt-0">
-                <span class="text-gray-300">Max Risk per Trade:</span> <span class="text-red-400 font-extrabold">≤ 0.5% Capital</span>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 animate-fade-in">
+
+        <!-- Header & Dynamic Status Bar -->
+        <header class="mb-12">
+            <h1 class="text-4xl sm:text-6xl font-extrabold mb-4 tracking-tight">
+                <span class="text-gradient">Directional</span> <span class="text-white">Credit Spread</span>
+            </h1>
+            <p class="text-xl text-slate-400 max-w-3xl font-light mb-8">
+                Nifty Weekly Options — Tuesday Expiry
+            </p>
+
+            <div
+                class="glass-panel p-6 rounded-xl border-l-4 border-purple-500 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="text-sm">
+                    <span class="text-slate-400 block mb-1">Vol Regime:</span>
+                    <span class="text-yellow-400 font-bold text-lg">Stable • Contango • Vol Controlled Trend
+                        (Preferred)</span>
+                    <span class="text-xs text-slate-500 block mt-1">(ATR: Low • IVP: 32 • Skew: 1.6)</span>
+                </div>
+                <div class="text-sm">
+                    <span class="text-slate-400 block mb-1">Max Risk per Trade:</span>
+                    <span class="text-red-400 font-extrabold text-lg">≤ 0.5% Capital</span>
+                </div>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <!-- Main Grid Layout -->
-    <main class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Main Grid Layout -->
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-        <!-- Column 1 & 2: Main Content -->
-        <div class="lg:col-span-2 space-y-6">
+            <!-- Column 1 & 2: Main Content -->
+            <div class="lg:col-span-2 space-y-8">
 
-            <!-- 1. Executive Summary -->
-            <section class="card">
-                <h2 class="text-2xl font-semibold section-header">1. Executive Summary</h2>
-                <p class="text-gray-400">A Directional Credit Spread (DCS) is a defined-risk short premium strategy that profits from time decay and disciplined directional bias. This manual documents desk-grade, step-by-step procedures for running Bull Put Credit Spreads (BPCS) and Bear Call Credit Spreads (BCCS) on Nifty weekly options that expire every Tuesday. It covers signal logic, strict volatility filters, trade construction, position sizing, exits, and adjustments.</p>
-            </section>
+                <!-- 1. Executive Summary -->
+                <section class="glass-card p-6 rounded-2xl border-t-4 border-blue-500">
+                    <h2 class="text-2xl font-bold mb-4 text-blue-400 flex items-center gap-2">
+                        <span class="bg-blue-500/20 p-1.5 rounded-lg text-sm">01</span> Executive Summary
+                    </h2>
+                    <p class="text-slate-300 leading-relaxed">A Directional Credit Spread (DCS) is a defined-risk short
+                        premium strategy that profits from time decay and disciplined directional bias. This manual
+                        documents desk-grade, step-by-step procedures for running Bull Put Credit Spreads (BPCS) and
+                        Bear Call Credit Spreads (BCCS) on Nifty weekly options that expire every Tuesday. It covers
+                        signal logic, strict volatility filters, trade construction, position sizing, exits, and
+                        adjustments.</p>
+                </section>
 
-            <!-- 2. Desk Philosophy & Mandates -->
-            <section class="card">
-                <h2 class="text-2xl font-semibold section-header">2. Desk Philosophy & Mandates</h2>
-                <ul class="list-none space-y-2 text-gray-400">
-                    <li class="mandate p-2 rounded-md"><span class="text-white font-medium">Direction first.</span> Enter credit spreads only when directional model and volatility regime align.</li>
-                    <li class="mandate p-2 rounded-md"><span class="text-white font-medium">Defined risk.</span> No naked positions.</li>
-                    <li class="mandate p-2 rounded-md"><span class="text-white font-medium">Risk per trade.</span> <span class="text-red-400 font-extrabold">≤ 0.5%</span> of desk capital (hard limit).</li>
-                    <li class="mandate p-2 rounded-md"><span class="text-white font-medium">Regime-aware.</span> Volatility regime hard filters must pass before any entry.</li>
-                    <li class="mandate p-2 rounded-md"><span class="text-white font-medium">Operational discipline.</span> All trades logged with reason codes and checklist completion.</li>
+                <!-- 2. Desk Philosophy & Mandates -->
+                <section class="glass-card p-6 rounded-2xl border-t-4 border-purple-500">
+                    <h2 class="text-2xl font-bold mb-4 text-purple-400 flex items-center gap-2">
+                        <span class="bg-purple-500/20 p-1.5 rounded-lg text-sm">02</span> Desk Philosophy & Mandates
+                    </h2>
+                    <ul class="space-y-3 text-sm text-slate-300">
+                        <li class="flex items-start gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                            <span class="text-purple-400 font-bold">01.</span>
+                            <div><span class="text-white font-medium">Direction first.</span> Enter credit spreads only
+                                when directional model and volatility regime align.</div>
+                        </li>
+                        <li class="flex items-start gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                            <span class="text-purple-400 font-bold">02.</span>
+                            <div><span class="text-white font-medium">Defined risk.</span> No naked positions.</div>
+                        </li>
+                        <li class="flex items-start gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                            <span class="text-purple-400 font-bold">03.</span>
+                            <div><span class="text-white font-medium">Risk per trade.</span> <span
+                                    class="text-red-400 font-extrabold">≤ 0.5%</span> of desk capital (hard limit).
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                            <span class="text-purple-400 font-bold">04.</span>
+                            <div><span class="text-white font-medium">Regime-aware.</span> Volatility regime hard
+                                filters must pass before any entry.</div>
+                        </li>
+                        <li class="flex items-start gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                            <span class="text-purple-400 font-bold">05.</span>
+                            <div><span class="text-white font-medium">Operational discipline.</span> All trades logged
+                                with reason codes and checklist completion.</div>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- 4. Direction Model (Bias Engine) -->
+                <section class="glass-card p-6 rounded-2xl border-t-4 border-amber-500">
+                    <h2 class="text-2xl font-bold mb-4 text-amber-400 flex items-center gap-2">
+                        <span class="bg-amber-500/20 p-1.5 rounded-lg text-sm">04</span> Direction Model (Bias Engine)
+                    </h2>
+                    <p class="text-slate-400 mb-6">Directional bias requires at least <span
+                            class="text-yellow-400 font-bold">2 out of 3 Primary signals</span> plus <span
+                            class="text-yellow-400 font-bold">1 Secondary</span> confirmation.</p>
+
+                    <div class="overflow-hidden rounded-xl border border-slate-700">
+                        <table class="w-full text-sm text-left text-slate-300 strategy-table">
+                            <thead>
+                                <tr>
+                                    <th class="px-4 py-3">Rule</th>
+                                    <th class="px-4 py-3">Bullish</th>
+                                    <th class="px-4 py-3">Bearish</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-slate-800/30">
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="px-4 py-3 font-medium">H1 RSI</td>
+                                    <td class="px-4 py-3 text-emerald-400">RSI &gt; 55</td>
+                                    <td class="px-4 py-3 text-red-400">RSI &lt; 45</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="px-4 py-3 font-medium">Daily EMA</td>
+                                    <td class="px-4 py-3 text-emerald-400">Price &gt; 20EMA & 50EMA</td>
+                                    <td class="px-4 py-3 text-red-400">Price &lt; 20EMA & 50EMA</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">SGX/Pre-open Futures</td>
+                                    <td class="px-4 py-3 text-emerald-400">Move &gt; +0.4%</td>
+                                    <td class="px-4 py-3 text-red-400">Move &lt; -0.4%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="mt-4 text-xs text-slate-500">Secondary signals: India VIX trajectory, 25&Delta; skew, ATR
+                        regime, macro calendar. Use for confirmation.</p>
+                </section>
+
+                <!-- 5. Volatility Regime Framework -->
+                <section class="glass-card p-6 rounded-2xl border-t-4 border-emerald-500">
+                    <h2 class="text-2xl font-bold mb-4 text-emerald-400 flex items-center gap-2">
+                        <span class="bg-emerald-500/20 p-1.5 rounded-lg text-sm">05</span> Volatility Regime Framework
+                    </h2>
+                    <p class="text-yellow-400 mb-6 font-semibold text-sm uppercase tracking-wide">ALL ENTRIES require
+                        hard volatility filters to pass.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="p-5 rounded-xl border border-emerald-500/30 bg-emerald-500/5">
+                            <h3 class="text-lg font-bold text-emerald-400 mb-3">Vol Controlled Trend (Preferred)</h3>
+                            <ul class="text-sm space-y-2 text-slate-300">
+                                <li><span class="text-slate-500">• Thresholds:</span> ATR 180–220 | IVP 30–50 | ATM IV
+                                    Stable.</li>
+                                <li><span class="text-slate-500">• Characteristics:</span> Directional trend intact with
+                                    controlled volatility.</li>
+                                <li><span class="text-emerald-400 font-bold">• Desk Action:</span> ✅ Trade (Full size).
+                                    Direction + Theta favor strategy.</li>
+                            </ul>
+                        </div>
+                        <div class="p-5 rounded-xl border border-blue-500/30 bg-blue-500/5">
+                            <h3 class="text-lg font-bold text-blue-400 mb-3">Vol Crush (Allowed)</h3>
+                            <ul class="text-sm space-y-2 text-slate-300">
+                                <li><span class="text-slate-500">• Thresholds:</span> IV collapses sharply (≥15% drop) |
+                                    IVP falling High → Mid.</li>
+                                <li><span class="text-slate-500">• Characteristics:</span> Event-driven IV collapse;
+                                    trend forming but not confirmed.</li>
+                                <li><span class="text-blue-400 font-bold">• Desk Action:</span> ✅ Trade (70% size).
+                                    Treat as Vol Controlled Trend upon confirmation.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 6. Trade Construction -->
+                <section class="glass-card p-6 rounded-2xl border-t-4 border-pink-500">
+                    <h2 class="text-2xl font-bold mb-4 text-pink-400 flex items-center gap-2">
+                        <span class="bg-pink-500/20 p-1.5 rounded-lg text-sm">06</span> Trade Construction
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="p-5 bg-slate-800/50 rounded-xl border border-slate-700/50">
+                            <h3 class="text-lg font-bold text-emerald-400 mb-3">6.1 Bull Put Credit Spread (BPCS)</h3>
+                            <ul class="list-disc list-inside text-sm space-y-2 text-slate-300">
+                                <li><span class="font-medium text-white">Sell:</span> Put ~10–12&Delta; (approx 1SD).
+                                </li>
+                                <li><span class="font-medium text-white">Buy:</span> Put 200–300 points lower
+                                    (protection).</li>
+                                <li><span class="font-medium text-white">Target Credit:</span> ₹15–₹25.</li>
+                                <li><span class="font-medium text-white">POP Target:</span> ~70–85%.</li>
+                            </ul>
+                        </div>
+                        <div class="p-5 bg-slate-800/50 rounded-xl border border-slate-700/50">
+                            <h3 class="text-lg font-bold text-red-400 mb-3">6.2 Bear Call Credit Spread (BCCS)</h3>
+                            <ul class="list-disc list-inside text-sm space-y-2 text-slate-300">
+                                <li><span class="font-medium text-white">Sell:</span> Call ~10–12&Delta;.</li>
+                                <li><span class="font-medium text-white">Buy:</span> Call 200–300 points higher.</li>
+                                <li><span class="font-medium text-white">Target Credit:</span> ₹15–₹25.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-red-500/10 rounded-xl border border-red-500/20">
+                        <h3 class="text-lg font-bold text-red-400 mb-1">6.3 Position Sizing</h3>
+                        <p class="text-sm text-slate-300">Max loss per trade = (wing width - credit received) &times;
+                            lot size. Ensure <span class="font-extrabold text-white">max loss ≤ 0.5%</span> of desk
+                            capital.</p>
+                    </div>
+                </section>
+
+                <!-- 7. Entry Checklist (Operational) -->
+                <section class="glass-card p-6 rounded-2xl border-t-4 border-green-500">
+                    <h2 class="text-2xl font-bold mb-4 text-green-400 flex items-center gap-2">
+                        <span class="bg-green-500/20 p-1.5 rounded-lg text-sm">07</span> Entry Checklist (Operational)
+                    </h2>
+                    <div class="overflow-hidden rounded-xl border border-slate-700">
+                        <table class="w-full text-sm text-left text-slate-300 strategy-table">
+                            <thead>
+                                <tr>
+                                    <th class="px-4 py-3">Condition</th>
+                                    <th class="px-4 py-3">Requirement</th>
+                                    <th class="px-4 py-3">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-slate-800/30">
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="px-4 py-3 font-medium">Direction Bias</td>
+                                    <td class="px-4 py-3">Model determined (2/3 primary + 1 secondary).</td>
+                                    <td class="px-4 py-3 text-emerald-400 font-bold">✅ PASS</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="px-4 py-3 font-medium">IV Trend</td>
+                                    <td class="px-4 py-3">Stable or falling.</td>
+                                    <td class="px-4 py-3 text-emerald-400 font-bold">✅ PASS</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="px-4 py-3 font-medium">IVP / ATR</td>
+                                    <td class="px-4 py-3">IVP &lt;40 preferred. ATR Low/Stable.</td>
+                                    <td class="px-4 py-3 text-emerald-400 font-bold">✅ PASS</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="px-4 py-3 font-medium">Term Structure</td>
+                                    <td class="px-4 py-3">Contango preferred.</td>
+                                    <td class="px-4 py-3 text-emerald-400 font-bold">✅ PASS</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">Event Risk</td>
+                                    <td class="px-4 py-3">No material macro/corporate events within 24 hrs.</td>
+                                    <td class="px-4 py-3 text-emerald-400 font-bold">✅ PASS</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="mt-4 text-sm text-slate-400">Entry Window: Monday to Tuesday morning. <span
+                            class="font-bold text-yellow-400">Hard Cut: No new trades after Tuesday 11:00 AM.</span></p>
+                </section>
+            </div>
+
+            <!-- Column 3: Exits, Adjustments, Quick Reference -->
+            <div class="lg:col-span-1 space-y-8">
+
+                <!-- 8. Exit Rules -->
+                <section class="glass-card p-6 rounded-2xl border-t-4 border-red-500">
+                    <h2 class="text-2xl font-bold mb-4 text-red-400 flex items-center gap-2">
+                        <span class="bg-red-500/20 p-1.5 rounded-lg text-sm">08</span> Exit Rules
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-emerald-500/10 rounded-xl border border-emerald-500/20">
+                            <h3 class="text-lg font-bold text-emerald-400 mb-2">8.1 Profit Booking</h3>
+                            <ul class="list-disc list-inside text-sm space-y-1 text-slate-300">
+                                <li>Exit when <span class="font-bold text-white">50–60% of initial credit</span> is
+                                    captured.</li>
+                                <li>Time-based exit: <span class="font-bold text-white">Monday 3:00 PM</span> (reduce or
+                                    hedge residual).</li>
+                            </ul>
+                        </div>
+                        <div class="p-4 bg-red-500/10 rounded-xl border border-red-500/20">
+                            <h3 class="text-lg font-bold text-red-400 mb-2">8.2 Stop Loss / Invalidation</h3>
+                            <ul class="list-disc list-inside text-sm space-y-1 text-slate-300">
+                                <li>Stop-loss = <span class="font-bold text-white">1.5&times; credit</span> or spread
+                                    reaches <span class="font-bold text-white">50% of max loss.</span></li>
+                                <li>Mandatory exit if directional signals invalidate (H1 RSI flip, price breaches EMA,
+                                    etc.).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 9. Adjustments -->
+                <section class="glass-card p-6 rounded-2xl border-t-4 border-blue-500">
+                    <h2 class="text-2xl font-bold mb-4 text-blue-400 flex items-center gap-2">
+                        <span class="bg-blue-500/20 p-1.5 rounded-lg text-sm">09</span> Adjustments
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-blue-500/10 rounded-xl border border-blue-500/20">
+                            <h3 class="text-lg font-bold text-blue-400 mb-2">Mild Adverse Move (Manage)</h3>
+                            <ul class="list-disc list-inside text-sm space-y-1 text-slate-300">
+                                <li><span class="font-medium text-white">Roll Away:</span> Buy back sold leg & sell
+                                    further OTM (maintain credit/POP).</li>
+                                <li><span class="font-medium text-white">Tighten Deltas:</span> Reduce net delta if
+                                    direction reverses intraday.</li>
+                            </ul>
+                        </div>
+                        <div class="p-4 bg-red-500/10 rounded-xl border border-red-500/20">
+                            <h3 class="text-lg font-bold text-red-400 mb-2">Strong Adverse Move (Fail)</h3>
+                            <ul class="list-disc list-inside text-sm space-y-1 text-slate-300">
+                                <li><span class="font-medium text-white">Cut & Flip:</span> Close losing spread and open
+                                    opposite direction if model flips.</li>
+                                <li><span class="font-medium text-white">Prohibited:</span> Do not add naked size to
+                                    losers. Averaging is prohibited.</li>
+                            </ul>
+                        </div>
+                        <div class="p-4 bg-yellow-500/10 rounded-xl border border-yellow-500/20">
+                            <h3 class="text-lg font-bold text-yellow-400 mb-2">IV Spike</h3>
+                            <ul class="list-disc list-inside text-sm space-y-1 text-slate-300">
+                                <li>Widen wings (200&rarr;300/400) to reduce Vega exposure if trend intact.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 15. Appendix — Quick Reference -->
+                <section class="glass-card p-6 rounded-2xl border-t-4 border-slate-500">
+                    <h2 class="text-2xl font-bold mb-4 text-slate-400 flex items-center gap-2">
+                        <span class="bg-slate-500/20 p-1.5 rounded-lg text-sm">15</span> Appendix — Quick Reference
+                    </h2>
+
+                    <h3 class="text-lg font-bold text-slate-300 mt-4 mb-2">Hard Regime Blocks</h3>
+                    <ul class="list-disc list-inside text-sm space-y-1 text-red-400">
+                        <li><span class="text-white font-medium">IVP &gt; 70</span> — Stop Entries</li>
+                        <li><span class="text-white font-medium">ATM IV trending up</span> — Avoid</li>
+                        <li><span class="text-white font-medium">Term backwardation</span> — Avoid</li>
+                        <li><span class="text-white font-medium">Major macro events</span> — Avoid 24 hrs</li>
+                    </ul>
+
+                    <h3 class="text-lg font-bold text-slate-300 mt-6 mb-2">Desk KPI & Quick Filters</h3>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex justify-between border-b border-slate-700/50 pb-1"><span
+                                class="text-emerald-400 font-bold">POP target:</span> <span>70–85%</span></li>
+                        <li class="flex justify-between border-b border-slate-700/50 pb-1"><span
+                                class="text-emerald-400 font-bold">Credit:</span> <span>₹15–₹25</span></li>
+                        <li class="flex justify-between border-b border-slate-700/50 pb-1"><span
+                                class="text-red-400 font-bold">Max loss:</span> <span>≤0.5% capital</span></li>
+                        <li class="flex justify-between"><span class="text-blue-400 font-bold">Expiry day:</span>
+                            <span>Tuesday</span></li>
+                    </ul>
+                </section>
+            </div>
+        </main>
+
+        <!-- 10. Weekly SOP (Checklist) & 11. Risk Management (Footer) -->
+        <footer class="mt-16 pt-8 border-t border-slate-700/50 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="glass-panel p-6 rounded-xl">
+                <h2 class="text-xl font-bold mb-4 text-white">10. Weekly SOP (Checklist)</h2>
+                <ul class="space-y-2 text-sm text-slate-300">
+                    <li class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50 flex gap-2">
+                        <span class="text-blue-400">Mon 08:30–10:00:</span> Run daily pre-open checks.
+                    </li>
+                    <li class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50 flex gap-2">
+                        <span class="text-blue-400">By 11:00:</span> Finalize bias & place trades (Last entry cut: Tue
+                        11:00 AM).
+                    </li>
+                    <li class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50 flex gap-2">
+                        <span class="text-blue-400">Daily:</span> Monitor P&L, delta drift, IV movement.
+                    </li>
+                    <li class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50 flex gap-2">
+                        <span class="text-blue-400">Mon 15:00:</span> Book winners >50% credit; reduce exposure.
+                    </li>
+                    <li class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50 flex gap-2">
+                        <span class="text-blue-400">Tue (Expiry):</span> Close residual risk before market close.
+                    </li>
                 </ul>
-            </section>
-
-            <!-- 4. Direction Model (Bias Engine) -->
-            <section class="card">
-                <h2 class="text-2xl font-semibold section-header">4. Direction Model (Bias Engine)</h2>
-                <p class="text-gray-400 mb-4">Directional bias requires at least <span class="text-yellow-400 font-bold">2 out of 3 Primary signals</span> plus <span class="text-yellow-400 font-bold">1 Secondary</span> confirmation.</p>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm text-left">
-                        <thead class="text-xs uppercase bg-gray-700/50">
-                            <tr>
-                                <th scope="col" class="px-4 py-3">Rule</th>
-                                <th scope="col" class="px-4 py-3">Bullish</th>
-                                <th scope="col" class="px-4 py-3">Bearish</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b border-gray-700/50">
-                                <td class="px-4 py-3 font-medium whitespace-nowrap">H1 RSI</td>
-                                <td class="px-4 py-3 bullish">RSI &gt; 55</td>
-                                <td class="px-4 py-3 bearish">RSI &lt; 45</td>
-                            </tr>
-                            <tr class="border-b border-gray-700/50">
-                                <td class="px-4 py-3 font-medium whitespace-nowrap">Daily EMA</td>
-                                <td class="px-4 py-3 bullish">Price &gt; 20EMA & 50EMA</td>
-                                <td class="px-4 py-3 bearish">Price &lt; 20EMA & 50EMA</td>
-                            </tr>
-                            <tr class="border-b border-gray-700/50">
-                                <td class="px-4 py-3 font-medium whitespace-nowrap">SGX/Pre-open Futures</td>
-                                <td class="px-4 py-3 bullish">Move &gt; +0.4%</td>
-                                <td class="px-4 py-3 bearish">Move &lt; -0.4%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p class="mt-4 text-xs text-gray-500">Secondary signals: India VIX trajectory, 25&Delta; skew, ATR regime, macro calendar. Use for confirmation.</p>
-            </section>
-
-            <!-- 5. Volatility Regime Framework -->
-            <section class="card">
-                <h2 class="text-2xl font-semibold section-header">5. Volatility Regime Framework</h2>
-                <p class="text-yellow-400 mb-4 font-semibold">ALL ENTRIES require hard volatility filters to pass.</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="p-4 rounded-md border border-green-700/50 bg-green-900/20">
-                        <h3 class="text-xl font-bold text-green-400 mb-2">Vol Controlled Trend (Preferred)</h3>
-                        <ul class="list-none text-sm space-y-1">
-                            <li><span class="text-gray-300">• Thresholds:</span> ATR 180–220 | IVP 30–50 | ATM IV Stable.</li>
-                            <li><span class="text-gray-300">• Characteristics:</span> Directional trend intact with controlled volatility.</li>
-                            <li><span class="text-green-400 font-bold">• Desk Action:</span> ✅ Trade (Full size). Direction + Theta favor strategy.</li>
-                        </ul>
-                    </div>
-                    <div class="p-4 rounded-md border border-sky-700/50 bg-sky-900/20">
-                        <h3 class="text-xl font-bold text-sky-400 mb-2">Vol Crush (Allowed)</h3>
-                        <ul class="list-none text-sm space-y-1">
-                            <li><span class="text-gray-300">• Thresholds:</span> IV collapses sharply (≥15% drop) | IVP falling High → Mid.</li>
-                            <li><span class="text-gray-300">• Characteristics:</span> Event-driven IV collapse; trend forming but not confirmed.</li>
-                            <li><span class="text-sky-400 font-bold">• Desk Action:</span> ✅ Trade (70% size). Treat as Vol Controlled Trend upon confirmation.</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 6. Trade Construction -->
-            <section class="card">
-                <h2 class="text-2xl font-semibold section-header">6. Trade Construction</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div class="p-4 bg-gray-700/30 rounded-md">
-                        <h3 class="text-xl font-bold text-green-300 mb-2">6.1 Bull Put Credit Spread (BPCS)</h3>
-                        <ul class="list-disc list-inside text-sm space-y-1">
-                            <li><span class="font-medium">Sell:</span> Put ~10–12&Delta; (approx 1SD).</li>
-                            <li><span class="font-medium">Buy:</span> Put 200–300 points lower (protection).</li>
-                            <li><span class="font-medium">Target Credit:</span> ₹15–₹25.</li>
-                            <li><span class="font-medium">POP Target:</span> ~70–85%.</li>
-                        </ul>
-                    </div>
-                    <div class="p-4 bg-gray-700/30 rounded-md">
-                        <h3 class="text-xl font-bold text-red-300 mb-2">6.2 Bear Call Credit Spread (BCCS)</h3>
-                        <ul class="list-disc list-inside text-sm space-y-1">
-                            <li><span class="font-medium">Sell:</span> Call ~10–12&Delta;.</li>
-                            <li><span class="font-medium">Buy:</span> Call 200–300 points higher.</li>
-                            <li><span class="font-medium">Target Credit:</span> ₹15–₹25.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="mt-4 p-3 bg-red-900/20 rounded-md border border-red-700/50">
-                    <h3 class="text-lg font-bold text-red-400">6.3 Position Sizing</h3>
-                    <p class="text-sm">Max loss per trade = (wing width - credit received) &times; lot size. Ensure <span class="font-extrabold">max loss ≤ 0.5%</span> of desk capital.</p>
-                </div>
-                <!-- Image for Visual Instruction -->
-                <p class="mt-4 text-center text-gray-500 text-sm">
-                    
-                </p>
-            </section>
-
-            <!-- 7. Entry Checklist (Operational) -->
-            <section class="card">
-                <h2 class="text-2xl font-semibold section-header">7. Entry Checklist (Operational)</h2>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm text-left">
-                        <thead class="text-xs uppercase bg-gray-700/50">
-                            <tr>
-                                <th scope="col" class="px-4 py-3">Condition</th>
-                                <th scope="col" class="px-4 py-3">Requirement</th>
-                                <th scope="col" class="px-4 py-3">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b border-gray-700/50">
-                                <td class="px-4 py-3 font-medium whitespace-nowrap">Direction Bias</td>
-                                <td class="px-4 py-3">Model determined (2/3 primary + 1 secondary).</td>
-                                <td class="px-4 py-3 text-green-400">✅ PASS</td>
-                            </tr>
-                            <tr class="border-b border-gray-700/50">
-                                <td class="px-4 py-3 font-medium whitespace-nowrap">IV Trend</td>
-                                <td class="px-4 py-3">Stable or falling.</td>
-                                <td class="px-4 py-3 text-green-400">✅ PASS</td>
-                            </tr>
-                            <tr class="border-b border-gray-700/50">
-                                <td class="px-4 py-3 font-medium whitespace-nowrap">IVP / ATR</td>
-                                <td class="px-4 py-3">IVP &lt;40 preferred. ATR Low/Stable.</td>
-                                <td class="px-4 py-3 text-green-400">✅ PASS</td>
-                            </tr>
-                            <tr class="border-b border-gray-700/50">
-                                <td class="px-4 py-3 font-medium whitespace-nowrap">Term Structure</td>
-                                <td class="px-4 py-3">Contango preferred.</td>
-                                <td class="px-4 py-3 text-green-400">✅ PASS</td>
-                            </tr>
-                            <tr class="border-b border-gray-700/50">
-                                <td class="px-4 py-3 font-medium whitespace-nowrap">Event Risk</td>
-                                <td class="px-4 py-3">No material macro/corporate events within 24 hrs.</td>
-                                <td class="px-4 py-3 text-green-400">✅ PASS</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p class="mt-4 text-sm text-gray-500">Entry Window: Monday to Tuesday morning. <span class="font-bold text-yellow-400">Hard Cut: No new trades after Tuesday 11:00 AM.</span></p>
-            </section>
-        </div>
-
-        <!-- Column 3: Exits, Adjustments, Quick Reference -->
-        <div class="lg:col-span-1 space-y-6">
-
-            <!-- 8. Exit Rules -->
-            <section class="card">
-                <h2 class="text-2xl font-semibold section-header">8. Exit Rules</h2>
-                <div class="space-y-3">
-                    <div class="p-3 bg-green-900/20 rounded-md border border-green-700/50">
-                        <h3 class="text-lg font-bold text-green-400">8.1 Profit Booking</h3>
-                        <ul class="list-disc list-inside text-sm space-y-1">
-                            <li>Exit when <span class="font-bold">50–60% of initial credit</span> is captured.</li>
-                            <li>Time-based exit: <span class="font-bold">Monday 3:00 PM</span> (reduce or hedge residual).</li>
-                        </ul>
-                    </div>
-                    <div class="p-3 bg-red-900/20 rounded-md border border-red-700/50">
-                        <h3 class="text-lg font-bold text-red-400">8.2 Stop Loss / Invalidation</h3>
-                        <ul class="list-disc list-inside text-sm space-y-1">
-                            <li>Stop-loss = <span class="font-bold">1.5&times; credit</span> or spread reaches <span class="font-bold">50% of max loss.</span></li>
-                            <li>Mandatory exit if directional signals invalidate (H1 RSI flip, price breaches EMA, etc.).</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 9. Adjustments -->
-            <section class="card">
-                <h2 class="text-2xl font-semibold section-header">9. Adjustments</h2>
-                <div class="space-y-3">
-                    <div class="p-3 bg-sky-900/20 rounded-md border border-sky-700/50">
-                        <h3 class="text-lg font-bold text-sky-400">Mild Adverse Move (Manage)</h3>
-                        <ul class="list-disc list-inside text-sm space-y-1">
-                            <li><span class="font-medium">Roll Away:</span> Buy back sold leg & sell further OTM (maintain credit/POP).</li>
-                            <li><span class="font-medium">Tighten Deltas:</span> Reduce net delta if direction reverses intraday.</li>
-                        </ul>
-                    </div>
-                    <div class="p-3 bg-red-900/20 rounded-md border border-red-700/50">
-                        <h3 class="text-lg font-bold text-red-400">Strong Adverse Move (Fail)</h3>
-                        <ul class="list-disc list-inside text-sm space-y-1">
-                            <li><span class="font-medium">Cut & Flip:</span> Close losing spread and open opposite direction if model flips.</li>
-                            <li><span class="font-medium">Prohibited:</span> Do not add naked size to losers. Averaging is prohibited.</li>
-                        </ul>
-                    </div>
-                    <div class="p-3 bg-yellow-900/20 rounded-md border border-yellow-700/50">
-                        <h3 class="text-lg font-bold text-yellow-400">IV Spike</h3>
-                        <ul class="list-disc list-inside text-sm space-y-1">
-                            <li>Widen wings (200&rarr;300/400) to reduce Vega exposure if trend intact.</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 15. Appendix — Quick Reference -->
-            <section class="card">
-                <h2 class="text-2xl font-semibold section-header">15. Appendix — Quick Reference</h2>
-
-                <h3 class="text-lg font-bold text-gray-300 mt-4 mb-2">Hard Regime Blocks</h3>
-                <ul class="list-disc list-inside text-sm space-y-1 text-red-400">
-                    <li><span class="text-white font-medium">IVP &gt; 70</span> — Stop Entries</li>
-                    <li><span class="text-white font-medium">ATM IV trending up</span> — Avoid</li>
-                    <li><span class="text-white font-medium">Term backwardation</span> — Avoid</li>
-                    <li><span class="text-white font-medium">Major macro events</span> — Avoid 24 hrs</li>
+            </div>
+            <div class="glass-panel p-6 rounded-xl">
+                <h2 class="text-xl font-bold mb-4 text-white">11. Risk Management & Governance</h2>
+                <ul class="list-disc list-inside text-sm space-y-3 text-slate-300">
+                    <li><span class="text-red-400 font-bold">Max Drawdown Trigger:</span> Stop trading if drawdown
+                        &gt;5% of capital; invoke review meeting.</li>
+                    <li><span class="text-white font-medium">Trade Logging:</span> Every trade must include reason
+                        codes, checklist snapshot, and regime metrics screenshots.</li>
+                    <li><span class="text-white font-medium">Expected Performance:</span> Target annualized returns:
+                        <span class="font-bold text-emerald-400">18–25%</span> in low-vol regimes.</li>
                 </ul>
+            </div>
+        </footer>
 
-                <h3 class="text-lg font-bold text-gray-300 mt-4 mb-2">Desk KPI & Quick Filters</h3>
-                <ul class="list-none text-sm space-y-1">
-                    <li><span class="text-green-400 font-bold">POP target:</span> 70–85%</li>
-                    <li><span class="text-green-400 font-bold">Credit:</span> ₹15–₹25</li>
-                    <li><span class="text-red-400 font-bold">Max loss:</span> ≤0.5% capital</li>
-                    <li><span class="text-blue-400 font-bold">Expiry day:</span> Tuesday</li>
-                </ul>
-            </section>
-        </div>
-    </main>
-
-    <!-- 10. Weekly SOP (Checklist) & 11. Risk Management (Footer) -->
-    <footer class="mt-8 pt-6 border-t border-gray-700 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="card">
-            <h2 class="text-xl font-semibold section-header">10. Weekly SOP (Checklist)</h2>
-            <ul class="list-none text-sm space-y-2">
-                <li class="p-2 bg-gray-700/30 rounded-md">Mon 08:30–10:00: Run daily pre-open checks.</li>
-                <li class="p-2 bg-gray-700/30 rounded-md">By 11:00: Finalize bias & place trades (Last entry cut: Tue 11:00 AM).</li>
-                <li class="p-2 bg-gray-700/30 rounded-md">Daily: Monitor P&L, delta drift, IV movement.</li>
-                <li class="p-2 bg-gray-700/30 rounded-md">Mon 15:00: Book winners >50% credit; reduce exposure.</li>
-                <li class="p-2 bg-gray-700/30 rounded-md">Tue (Expiry): Close residual risk before market close.</li>
-            </ul>
-        </div>
-        <div class="card">
-            <h2 class="text-xl font-semibold section-header">11. Risk Management & Governance</h2>
-            <ul class="list-disc list-inside text-sm space-y-2">
-                <li><span class="text-red-400 font-bold">Max Drawdown Trigger:</span> Stop trading if drawdown &gt;5% of capital; invoke review meeting.</li>
-                <li>Trade Logging: Every trade must include reason codes, checklist snapshot, and regime metrics screenshots.</li>
-                <li>Expected Performance: Target annualized returns: <span class="font-bold text-green-400">18–25%</span> in low-vol regimes.</li>
-            </ul>
-        </div>
-    </footer>
-
+    </div>
 </body>
+
 </html>

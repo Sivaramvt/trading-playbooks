@@ -1,290 +1,384 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IC-14 Professional Trading Manual</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --color-primary: #1e3a8a; /* Dark Blue */
-            --color-accent: #3b82f6; /* Blue 500 */
-            --color-success: #10b981; /* Emerald 500 */
-            --color-danger: #ef4444; /* Red 500 */
-            --color-warning: #f59e0b; /* Amber 500 */
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #111827; /* Dark Gray / Black */
-            color: #d1d5db; /* Light Gray text */
-        }
-        .card {
-            background-color: #1f2937; /* Darker card background */
-            border: 1px solid #374151;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .metric-value {
-            color: var(--color-success);
-        }
-        .risk-warning {
-            border-left: 4px solid var(--color-danger);
-            background-color: #451a1a;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
-<body class="p-4 sm:p-8">
 
-    <header class="text-center mb-8 sm:mb-12">
-        <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-            DIC-14 <span class="text-blue-500">Daily Iron Condor</span>
-        </h1>
-        <p class="text-lg text-gray-400 mt-2">Professional Trading Manual — Version 1.0</p>
-    </header>
+<body class="bg-slate-900 text-slate-200">
 
-    <main class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-        <!-- CORE STRATEGY & PHILOSOPHY -->
-        <div class="lg:col-span-1 space-y-6">
-            <div class="card p-6 rounded-xl">
-                <h2 class="text-2xl font-bold mb-4 text-blue-400 border-b border-gray-700 pb-2">1. Strategy Core</h2>
-                <ul class="space-y-3 text-sm">
-                    <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"></path></svg>
-                        <strong class="font-semibold">Time:</strong> Short-dated (1-DTE). Sell Far OTM in the last 30 mins (2:45–3:15 PM).
-                    </li>
-                    <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path></svg>
-                        <strong class="font-semibold">Objective:</strong> Generate consistent daily theta income.
-                    </li>
-                    <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 1h6v4H7V6z" clip-rule="evenodd"></path></svg>
-                        <strong class="font-semibold">Instrument:</strong> NIFTY Weekly Options (1-DTE).
-                    </li>
-                    <li class="flex items-start"><svg class="w-5 h-5 mr-2 mt-1 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-7-9a1 1 0 000 2h14a1 1 0 100-2H3z" clip-rule="evenodd"></path></svg>
-                        <strong class="font-semibold">Nature:</strong> Market-neutral, Short-Delta, Defined-Risk.
-                    </li>
-                </ul>
-            </div>
-            
-            <div class="card p-6 rounded-xl">
-                <h2 class="text-2xl font-bold mb-4 text-blue-400 border-b border-gray-700 pb-2">2. Desk Philosophy</h2>
-                <ul class="space-y-2 text-sm">
-                    <li class="p-2 bg-gray-700 rounded-md">1. <strong class="text-red-400">Risk-First Trading:</strong> No trade is worth uncontrolled tail risk.</li>
-                    <li class="p-2 bg-gray-700 rounded-md">2. <strong class="text-yellow-400">Defined Risk:</strong> Wings are mandatory; naked positions prohibited.</li>
-                    <li class="p-2 bg-gray-700 rounded-md">3. <strong class="text-green-400">Consistency:</strong> Modest daily profit → large annual compounding.</li>
-                    <li class="p-2 bg-gray-700 rounded-md">4. <strong class="text-blue-400">Mechanical Execution:</strong> Rules > intuition. Execute the plan.</li>
-                </ul>
-            </div>
-            
-            <div class="card p-6 rounded-xl risk-warning">
-                <h2 class="text-2xl font-bold mb-4 text-red-400">3. Regime Exclusion</h2>
-                <p class="mb-3 text-sm font-semibold">AVOID trading the DIC-14 on days with major known volatility events:</p>
-                <ul class="list-disc list-inside space-y-1 text-sm pl-4">
-                    <li>Budget Day & RBI Policy Meetings</li>
-                    <li>Election Results</li>
-                    <li>Major Geopolitical Events</li>
-                    <li>US CPI / FOMC (Optional Filter)</li>
-                </ul>
-                <p class="mt-3 text-xs text-red-300">Applicable Regimes: VIX 11–25. Avoid VIX backwardation > 1%.</p>
+    <!-- Navigation -->
+    <nav class="glass-panel sticky top-0 z-50 border-b border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../index.html" class="text-xl font-bold text-white flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Back to Home
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <span class="text-slate-400 text-sm">Daily Iron Condor (IC-14)</span>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <!-- CONSTRUCTION & EXECUTION -->
-        <div class="lg:col-span-2 space-y-6">
-            <div class="card p-6 rounded-xl">
-                <h2 class="text-2xl font-bold mb-4 text-blue-400 border-b border-gray-700 pb-2">4. Trade Construction & Entry Rules</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    
-                    <!-- Construction Details -->
-                    <div>
-                        <h3 class="text-xl font-semibold mb-3 text-gray-300">4.1 Strike Selection (1-DTE)</h3>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-sm text-left rounded-lg overflow-hidden">
-                                <thead class="text-xs uppercase bg-gray-700 text-gray-400">
-                                    <tr>
-                                        <th scope="col" class="px-3 py-2">Leg</th>
-                                        <th scope="col" class="px-3 py-2">Delta Target</th>
-                                        <th scope="col" class="px-3 py-2">Distance (Approx)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="border-b bg-gray-800 border-gray-700">
-                                        <td class="px-3 py-2 text-green-300 font-semibold">Sell Call</td>
-                                        <td class="px-3 py-2">14Δ</td>
-                                        <td class="px-3 py-2">350–450 pts OTM</td>
-                                    </tr>
-                                    <tr class="border-b bg-gray-800 border-gray-700">
-                                        <td class="px-3 py-2 text-green-300 font-semibold">Sell Put</td>
-                                        <td class="px-3 py-2">14Δ</td>
-                                        <td class="px-3 py-2">350–450 pts OTM</td>
-                                    </tr>
-                                    <tr class="border-b bg-gray-900 border-gray-700">
-                                        <td class="px-3 py-2 text-red-300">Buy Wings</td>
-                                        <td class="px-3 py-2">N/A</td>
-                                        <td class="px-3 py-2">300–350 pts from short strike</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 animate-fade-in">
+
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl sm:text-6xl font-extrabold mb-4 tracking-tight">
+                <span class="text-gradient">DIC-14</span> <span class="text-white">Daily Iron Condor</span>
+            </h1>
+            <p class="text-xl text-slate-400 max-w-3xl mx-auto font-light">
+                Professional Trading Manual — Version 1.0
+            </p>
+        </header>
+
+        <!-- Main Grid -->
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <!-- CORE STRATEGY & PHILOSOPHY -->
+            <div class="lg:col-span-1 space-y-8">
+                <div class="glass-card p-6 rounded-2xl border-t-4 border-blue-500">
+                    <h2 class="text-2xl font-bold mb-4 text-blue-400 flex items-center gap-2">
+                        <span class="bg-blue-500/20 p-1.5 rounded-lg text-sm">01</span> Strategy Core
+                    </h2>
+                    <ul class="space-y-4 text-sm text-slate-300">
+                        <li class="flex items-start gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                            <svg class="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z">
+                                </path>
+                            </svg>
+                            <div><strong class="font-semibold text-white block mb-1">Time:</strong> Short-dated (1-DTE).
+                                Sell Far OTM in the last 30 mins (2:45–3:15 PM).</div>
+                        </li>
+                        <li class="flex items-start gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                            <svg class="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <div><strong class="font-semibold text-white block mb-1">Objective:</strong> Generate
+                                consistent daily theta income.</div>
+                        </li>
+                        <li class="flex items-start gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                            <svg class="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                                <path fill-rule="evenodd"
+                                    d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 1h6v4H7V6z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <div><strong class="font-semibold text-white block mb-1">Instrument:</strong> NIFTY Weekly
+                                Options (1-DTE).</div>
+                        </li>
+                        <li class="flex items-start gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                            <svg class="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm-7-9a1 1 0 000 2h14a1 1 0 100-2H3z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <div><strong class="font-semibold text-white block mb-1">Nature:</strong> Market-neutral,
+                                Short-Delta, Defined-Risk.</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl border-t-4 border-purple-500">
+                    <h2 class="text-2xl font-bold mb-4 text-purple-400 flex items-center gap-2">
+                        <span class="bg-purple-500/20 p-1.5 rounded-lg text-sm">02</span> Desk Philosophy
+                    </h2>
+                    <ul class="space-y-3 text-sm text-slate-300">
+                        <li class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                            <strong class="text-red-400 block mb-1">1. Risk-First Trading:</strong> No trade is worth
+                            uncontrolled tail risk.
+                        </li>
+                        <li class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                            <strong class="text-yellow-400 block mb-1">2. Defined Risk:</strong> Wings are mandatory;
+                            naked positions prohibited.
+                        </li>
+                        <li class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                            <strong class="text-emerald-400 block mb-1">3. Consistency:</strong> Modest daily profit →
+                            large annual compounding.
+                        </li>
+                        <li class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                            <strong class="text-blue-400 block mb-1">4. Mechanical Execution:</strong> Rules >
+                            intuition. Execute the plan.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl border-t-4 border-red-500 bg-red-500/5">
+                    <h2 class="text-2xl font-bold mb-4 text-red-400 flex items-center gap-2">
+                        <span class="bg-red-500/20 p-1.5 rounded-lg text-sm">03</span> Regime Exclusion
+                    </h2>
+                    <p class="mb-3 text-sm font-semibold text-white">AVOID trading the DIC-14 on days with major known
+                        volatility events:</p>
+                    <ul class="list-disc list-inside space-y-1 text-sm pl-4 text-slate-300">
+                        <li>Budget Day & RBI Policy Meetings</li>
+                        <li>Election Results</li>
+                        <li>Major Geopolitical Events</li>
+                        <li>US CPI / FOMC (Optional Filter)</li>
+                    </ul>
+                    <p class="mt-4 text-xs text-red-300 font-medium bg-red-500/10 p-2 rounded border border-red-500/20">
+                        Applicable Regimes: VIX 11–25. Avoid VIX backwardation > 1%.</p>
+                </div>
+            </div>
+
+            <!-- CONSTRUCTION & EXECUTION -->
+            <div class="lg:col-span-2 space-y-8">
+                <div class="glass-card p-6 rounded-2xl border-t-4 border-amber-500">
+                    <h2 class="text-2xl font-bold mb-6 text-amber-400 flex items-center gap-2">
+                        <span class="bg-amber-500/20 p-1.5 rounded-lg text-sm">04</span> Trade Construction & Entry
+                    </h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                        <!-- Construction Details -->
+                        <div>
+                            <h3 class="text-lg font-bold mb-4 text-white">4.1 Strike Selection (1-DTE)</h3>
+                            <div class="overflow-hidden rounded-xl border border-slate-700">
+                                <table class="w-full text-sm text-left text-slate-300 strategy-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="px-3 py-2">Leg</th>
+                                            <th class="px-3 py-2">Delta Target</th>
+                                            <th class="px-3 py-2">Distance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-slate-800/30">
+                                        <tr class="border-b border-slate-700/50">
+                                            <td class="px-3 py-2 text-emerald-400 font-semibold">Sell Call</td>
+                                            <td class="px-3 py-2">14Δ</td>
+                                            <td class="px-3 py-2">350–450 pts OTM</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-700/50">
+                                            <td class="px-3 py-2 text-emerald-400 font-semibold">Sell Put</td>
+                                            <td class="px-3 py-2">14Δ</td>
+                                            <td class="px-3 py-2">350–450 pts OTM</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2 text-red-400">Buy Wings</td>
+                                            <td class="px-3 py-2">N/A</td>
+                                            <td class="px-3 py-2">300–350 pts from short</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p
+                                class="mt-3 text-xs text-slate-400 italic bg-slate-800/50 p-2 rounded border border-slate-700/50 inline-block">
+                                Target Credit: Minimum ₹40. Ideal: ₹45–₹75.</p>
                         </div>
-                        <p class="mt-3 text-xs text-gray-400 italic">Target Credit: Minimum ₹40. Ideal: ₹45–₹75.</p>
+
+                        <!-- Entry Rules -->
+                        <div>
+                            <h3 class="text-lg font-bold mb-4 text-white">5. Entry Rules (Mechanical)</h3>
+                            <ul class="space-y-3 text-sm text-slate-300">
+                                <li class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                                    <strong class="text-yellow-400 block mb-1">Time Window:</strong> 2:45 PM – 3:15 PM.
+                                    <p class="text-xs text-slate-400">Maximizes overnight theta and captures late-day IV
+                                        elevation.</p>
+                                </li>
+                                <li class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                                    <strong class="text-yellow-400 block mb-1">Order Type:</strong> Single combined Iron
+                                    Condor order.
+                                    <p class="text-xs text-slate-400">NEVER manually leg into the position.</p>
+                                </li>
+                                <li class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                                    <strong class="text-yellow-400 block mb-1">Sizing Cap:</strong> Max Loss per IC ≤
+                                    0.35% of capital.
+                                    <p class="text-xs text-slate-400">Max total portfolio exposure ≤ 1.0% of capital.
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                    
-                    <!-- Entry Rules -->
-                    <div>
-                        <h3 class="text-xl font-semibold mb-3 text-gray-300">5. Entry Rules (Mechanical)</h3>
-                        <ul class="space-y-3">
-                            <li class="p-3 bg-gray-700 rounded-lg">
-                                <strong class="text-lg font-bold text-yellow-400">Time Window:</strong> 2:45 PM – 3:15 PM.
-                                <p class="text-xs mt-1 text-gray-400">Maximizes overnight theta and captures late-day IV elevation.</p>
-                            </li>
-                            <li class="p-3 bg-gray-700 rounded-lg">
-                                <strong class="text-lg font-bold text-yellow-400">Order Type:</strong> Single combined Iron Condor order.
-                                <p class="text-xs mt-1 text-gray-400">NEVER manually leg into the position.</p>
-                            </li>
-                            <li class="p-3 bg-gray-700 rounded-lg">
-                                <strong class="text-lg font-bold text-yellow-400">Sizing Cap:</strong> Max Loss per IC ≤ 0.35% of capital.
-                                <p class="text-xs mt-1 text-gray-400">Max total portfolio exposure ≤ 1.0% of capital.</p>
-                            </li>
-                        </ul>
+                </div>
+
+                <!-- EXIT AND RISK MANAGEMENT -->
+                <div class="glass-card p-6 rounded-2xl border-t-4 border-emerald-500">
+                    <h2 class="text-2xl font-bold mb-6 text-emerald-400 flex items-center gap-2">
+                        <span class="bg-emerald-500/20 p-1.5 rounded-lg text-sm">06</span> Exit & Risk Management
+                    </h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+
+                        <!-- Profit Booking -->
+                        <div class="p-4 bg-emerald-500/10 rounded-xl border border-emerald-500/20">
+                            <h3 class="text-lg font-bold text-emerald-400 mb-2">6.1 Profit Booking</h3>
+                            <p class="text-sm font-bold text-white mb-2">Window: 9:20 AM – 9:35 AM</p>
+                            <ul class="list-disc list-inside text-sm text-slate-300 space-y-1">
+                                <li>Target: <strong class="text-white">40–50%</strong> of credit captured.</li>
+                                <li>Hard Exit: Time exit at 9:35 AM if target not met.</li>
+                                <li>Exit immediately on IV crush profit.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Stop-Loss Triggers -->
+                        <div class="md:col-span-2 p-4 bg-red-500/10 rounded-xl border border-red-500/20">
+                            <h3 class="text-lg font-bold text-red-400 mb-2">6.2 Stop-Loss Triggers (Mechanical)</h3>
+                            <p class="text-sm font-bold text-white mb-2">Rule: ALWAYS exit the ENTIRE IC. NEVER leg out.
+                            </p>
+                            <ul class="list-disc list-inside text-sm text-slate-300 space-y-2">
+                                <li><strong class="text-red-300">A. Side-Specific SL:</strong> If one side reaches <span
+                                        class="bg-red-500/20 px-1 rounded font-mono text-red-300">1.3 × Credit</span>
+                                    (e.g., option price is 1.3x the full credit received).</li>
+                                <li><strong class="text-red-300">B. Overall IC SL:</strong> Max absolute loss for the IC
+                                    is <span class="bg-red-500/20 px-1 rounded font-mono text-red-300">2 ×
+                                        Credit</span>.</li>
+                                <li><strong class="text-red-300">C. Hard Daily Stop:</strong> Stop new IC trading if
+                                    total daily loss <span class="bg-red-500/20 px-1 rounded font-mono text-red-300">>
+                                        0.7%</span> of capital.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-slate-700/50">
+                        <h3 class="text-lg font-bold mb-3 text-white">7. Risk Control Summary</h3>
+                        <div class="flex flex-wrap gap-4 text-sm">
+                            <span class="bg-blue-500/10 border border-blue-500/20 p-2 rounded-lg text-slate-300"><strong
+                                    class="text-blue-400">Tail Protection:</strong> Wings limit Max Loss.</span>
+                            <span class="bg-blue-500/10 border border-blue-500/20 p-2 rounded-lg text-slate-300"><strong
+                                    class="text-blue-400">Gamma Control:</strong> 14Δ strikes keep position safe
+                                overnight.</span>
+                            <span class="bg-blue-500/10 border border-blue-500/20 p-2 rounded-lg text-slate-300"><strong
+                                    class="text-blue-400">Gap Management:</strong> Max loss capped regardless of gap
+                                size.</span>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- EXIT AND RISK MANAGEMENT -->
-            <div class="card p-6 rounded-xl">
-                <h2 class="text-2xl font-bold mb-4 text-blue-400 border-b border-gray-700 pb-2">6. Exit & Risk Management</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    
-                    <!-- Profit Booking -->
-                    <div class="p-4 bg-gray-700 rounded-lg">
-                        <h3 class="text-lg font-semibold text-green-400 mb-2">6.1 Profit Booking</h3>
-                        <p class="text-sm font-bold">Window: 9:20 AM – 9:35 AM</p>
-                        <ul class="list-disc list-inside text-sm mt-2">
-                            <li>Target: <strong class="text-green-300">40–50%</strong> of credit captured.</li>
-                            <li>Hard Exit: Time exit at 9:35 AM if target not met.</li>
-                            <li>Exit immediately on IV crush profit.</li>
-                        </ul>
+
+            <!-- PERFORMANCE & SOP -->
+            <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                <!-- Performance Metrics -->
+                <div class="glass-card p-6 rounded-2xl md:col-span-2 border-t-4 border-slate-500">
+                    <h2 class="text-2xl font-bold mb-6 text-slate-400 flex items-center gap-2">
+                        <span class="bg-slate-500/20 p-1.5 rounded-lg text-sm">09</span> Performance Expectations
+                    </h2>
+                    <div class="overflow-hidden rounded-xl border border-slate-700">
+                        <table class="w-full text-sm text-left text-slate-300 strategy-table">
+                            <thead>
+                                <tr>
+                                    <th class="px-4 py-2">Metric</th>
+                                    <th class="px-4 py-2">Value</th>
+                                    <th class="px-4 py-2">Comment</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-slate-800/30">
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="px-4 py-2 font-medium">Win-Rate</td>
+                                    <td class="px-4 py-2 text-emerald-400 font-bold">72–80%</td>
+                                    <td class="px-4 py-2">High POP due to 14Δ selection.</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="px-4 py-2 font-medium">Average Credit</td>
+                                    <td class="px-4 py-2 text-emerald-400 font-bold">₹45–₹75</td>
+                                    <td class="px-4 py-2">Minimum acceptable is ₹40.</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="px-4 py-2 font-medium">Avg Daily ROI</td>
+                                    <td class="px-4 py-2 text-emerald-400 font-bold">0.05–0.1%</td>
+                                    <td class="px-4 py-2">Focus on consistency.</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50 bg-yellow-500/5">
+                                    <td class="px-4 py-2 text-yellow-400 font-bold">Annual ROI (Target)</td>
+                                    <td class="px-4 py-2 text-yellow-400 font-bold">40–60%</td>
+                                    <td class="px-4 py-2">Compounding is key.</td>
+                                </tr>
+                                <tr class="bg-red-500/5">
+                                    <td class="px-4 py-2 text-red-400 font-bold">Max Drawdown</td>
+                                    <td class="px-4 py-2 text-red-400 font-bold">5–12%</td>
+                                    <td class="px-4 py-2">Recovery time: 2–5 trading days.</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    
-                    <!-- Stop-Loss Triggers -->
-                    <div class="md:col-span-2 p-4 bg-red-900/50 rounded-lg border border-red-700">
-                        <h3 class="text-lg font-semibold text-red-400 mb-2">6.2 Stop-Loss Triggers (Mechanical)</h3>
-                        <p class="text-sm font-bold text-red-300">Rule: ALWAYS exit the ENTIRE IC. NEVER leg out.</p>
-                        <ul class="list-disc list-inside text-sm mt-2 space-y-1">
-                            <li><strong class="text-red-300">A. Side-Specific SL:</strong> If one side reaches <span class="bg-red-700 px-1 rounded font-mono">1.3 × Credit</span> (e.g., option price is 1.3x the full credit received).</li>
-                            <li><strong class="text-red-300">B. Overall IC SL:</strong> Max absolute loss for the IC is <span class="bg-red-700 px-1 rounded font-mono">2 × Credit</span>.</li>
-                            <li><strong class="text-red-300">C. Hard Daily Stop:</strong> Stop new IC trading if total daily loss <span class="bg-red-700 px-1 rounded font-mono">> 0.7%</span> of capital.</li>
-                        </ul>
-                    </div>
                 </div>
-                
-                <h3 class="text-xl font-semibold mt-6 mb-3 text-gray-300 border-t border-gray-700 pt-4">7. Risk Control Summary</h3>
-                <div class="flex flex-wrap gap-4 text-sm">
-                    <span class="bg-blue-800/50 p-2 rounded-lg"><strong class="text-blue-300">Tail Protection:</strong> Wings limit Max Loss.</span>
-                    <span class="bg-blue-800/50 p-2 rounded-lg"><strong class="text-blue-300">Gamma Control:</strong> 14Δ strikes keep position safe overnight.</span>
-                    <span class="bg-blue-800/50 p-2 rounded-lg"><strong class="text-blue-300">Gap Management:</strong> Max loss capped regardless of gap size.</span>
+
+                <!-- Daily SOP Checklist -->
+                <div class="glass-card p-6 rounded-2xl md:col-span-1 border-t-4 border-green-500">
+                    <h2 class="text-2xl font-bold mb-6 text-green-400 flex items-center gap-2">
+                        <span class="bg-green-500/20 p-1.5 rounded-lg text-sm">10</span> Daily SOP
+                    </h2>
+
+                    <ol class="space-y-4 text-sm text-slate-300">
+                        <li class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                            <h4 class="font-bold text-white mb-2">Pre-Entry (2:30 PM)</h4>
+                            <ul class="list-disc list-inside ml-2 text-slate-400 space-y-1">
+                                <li>Verify event calendar.</li>
+                                <li>Check VIX stability (> 10).</li>
+                                <li>Confirm term structure.</li>
+                            </ul>
+                        </li>
+                        <li class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                            <h4 class="font-bold text-white mb-2">Entry (2:45–3:15 PM)</h4>
+                            <ul class="list-disc list-inside ml-2 text-slate-400 space-y-1">
+                                <li>Execute IC (Sell 14Δ).</li>
+                                <li>Verify credit <strong class="text-emerald-400">≥ ₹40</strong>.</li>
+                                <li>Confirm sizing rule.</li>
+                            </ul>
+                        </li>
+                        <li class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                            <h4 class="font-bold text-white mb-2">Exit (Next Morning)</h4>
+                            <ul class="list-disc list-inside ml-2 text-slate-400 space-y-1">
+                                <li>Exit 9:20–9:35 AM on <strong class="text-emerald-400">40–50% profit</strong>.</li>
+                                <li>If SL hit: Exit entire IC.</li>
+                            </ul>
+                        </li>
+                    </ol>
                 </div>
+
             </div>
 
-        </div>
+            <!-- Summary and Audit -->
+            <div class="lg:col-span-3 space-y-8 mt-4">
+                <div class="glass-panel p-8 rounded-2xl border-l-4 border-blue-500 bg-blue-500/5">
+                    <h2 class="text-2xl font-bold mb-4 text-blue-400">12. Strategy Summary</h2>
+                    <p class="text-lg italic text-slate-300 leading-relaxed">
+                        "DIC-14 is a safe, daily, market-neutral, defined-risk theta engine that produces 40–60% annual
+                        ROI without blowing up during gaps, because wings + disciplined sizing + time exits eliminate
+                        tail risk."
+                    </p>
+                </div>
 
-        <!-- PERFORMANCE & SOP -->
-        <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
-
-            <!-- Performance Metrics -->
-            <div class="card p-6 rounded-xl md:col-span-2">
-                <h2 class="text-2xl font-bold mb-4 text-blue-400 border-b border-gray-700 pb-2">9. Performance Expectations</h2>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm text-left">
-                        <thead class="text-xs uppercase bg-gray-700 text-gray-400">
-                            <tr>
-                                <th scope="col" class="px-4 py-2">Metric</th>
-                                <th scope="col" class="px-4 py-2">Value</th>
-                                <th scope="col" class="px-4 py-2">Comment</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b bg-gray-800 border-gray-700">
-                                <td class="px-4 py-2">Win-Rate</td>
-                                <td class="px-4 py-2 metric-value">72–80%</td>
-                                <td class="px-4 py-2">High POP due to 14Δ selection.</td>
-                            </tr>
-                            <tr class="border-b bg-gray-900 border-gray-700">
-                                <td class="px-4 py-2">Average Credit</td>
-                                <td class="px-4 py-2 metric-value">₹45–₹75</td>
-                                <td class="px-4 py-2">Minimum acceptable is ₹40.</td>
-                            </tr>
-                            <tr class="border-b bg-gray-800 border-gray-700">
-                                <td class="px-4 py-2">Avg Daily ROI</td>
-                                <td class="px-4 py-2 metric-value">0.05–0.1%</td>
-                                <td class="px-4 py-2">Focus on consistency.</td>
-                            </tr>
-                            <tr class="border-b bg-gray-900 border-gray-700">
-                                <td class="px-4 py-2 text-yellow-400 font-semibold">Annual ROI (Target)</td>
-                                <td class="px-4 py-2 text-yellow-400 font-semibold">40–60%</td>
-                                <td class="px-4 py-2">Compounding is key.</td>
-                            </tr>
-                            <tr class="bg-gray-800">
-                                <td class="px-4 py-2 text-red-400">Max Drawdown (Expected)</td>
-                                <td class="px-4 py-2 text-red-400">5–12%</td>
-                                <td class="px-4 py-2">Recovery time: 2–5 trading days.</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="glass-card p-6 rounded-2xl border-t-4 border-slate-500">
+                    <h2 class="text-2xl font-bold mb-4 text-slate-400 flex items-center gap-2">
+                        <span class="bg-slate-500/20 p-1.5 rounded-lg text-sm">11</span> Audit, Logging & Compliance
+                    </h2>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        <span class="text-red-400 font-bold">MANDATORY:</span> Every trade must log Date, Strikes,
+                        Credit, SL Levels, VIX/Regime, Entry/Exit Screenshots, Reason-code (Normal/SL/Event), and P&L.
+                        Weekly review of Win/Loss cluster ratio and DD boundaries is required.
+                    </p>
                 </div>
             </div>
 
-            <!-- Daily SOP Checklist -->
-            <div class="card p-6 rounded-xl md:col-span-1">
-                <h2 class="text-2xl font-bold mb-4 text-blue-400 border-b border-gray-700 pb-2">10. Daily SOP (Checklist)</h2>
-                
-                <ol class="space-y-4 text-sm">
-                    <li class="p-3 bg-gray-700 rounded-lg">
-                        <h4 class="font-bold text-gray-200">Pre-Entry (2:30 PM)</h4>
-                        <ul class="list-disc list-inside ml-4 text-gray-400">
-                            <li>Verify event calendar (Avoidance list).</li>
-                            <li>Check VIX stability (Must be > 10).</li>
-                            <li>Confirm term structure is stable.</li>
-                        </ul>
-                    </li>
-                    <li class="p-3 bg-gray-700 rounded-lg">
-                        <h4 class="font-bold text-gray-200">Entry (2:45–3:15 PM)</h4>
-                        <ul class="list-disc list-inside ml-4 text-gray-400">
-                            <li>Execute IC (Sell 14Δ / Buy wings 300–350 pts away).</li>
-                            <li>Verify filled credit is <strong class="text-green-300">≥ ₹40</strong>.</li>
-                            <li>Confirm position sizing rule is honored.</li>
-                        </ul>
-                    </li>
-                    <li class="p-3 bg-gray-700 rounded-lg">
-                        <h4 class="font-bold text-gray-200">Exit (Next Day Morning)</h4>
-                        <ul class="list-disc list-inside ml-4 text-gray-400">
-                            <li>Exit 9:20–9:35 AM on <strong class="text-green-300">40–50% profit</strong> or time.</li>
-                            <li>If SL is hit: Exit entire IC immediately, log cause, honor Daily Stop.</li>
-                        </ul>
-                    </li>
-                </ol>
-            </div>
-            
-        </div>
-        
-        <!-- Summary and Audit -->
-        <div class="lg:col-span-3 space-y-6 mt-6">
-            <div class="card p-6 rounded-xl border-t-4 border-blue-500">
-                 <h2 class="text-2xl font-bold mb-4 text-blue-400">12. Strategy Summary</h2>
-                 <p class="text-lg italic text-gray-300">
-                    "DIC-14 is a safe, daily, market-neutral, defined-risk theta engine that produces 40–60% annual ROI without blowing up during gaps, because wings + disciplined sizing + time exits eliminate tail risk."
-                 </p>
-            </div>
-            
-            <div class="card p-6 rounded-xl">
-                 <h2 class="text-2xl font-bold mb-4 text-blue-400 border-b border-gray-700 pb-2">11. Audit, Logging & Compliance</h2>
-                 <p class="text-sm text-gray-400">
-                    MANDATORY: Every trade must log Date, Strikes, Credit, SL Levels, VIX/Regime, Entry/Exit Screenshots, Reason-code (Normal/SL/Event), and P&L. Weekly review of Win/Loss cluster ratio and DD boundaries is required.
-                 </p>
-            </div>
-        </div>
+        </main>
 
-    </main>
-    
+        <footer class="mt-16 text-center text-slate-500 text-sm">
+            <p>&copy; 2024 Trading Playbooks. All rights reserved.</p>
+        </footer>
+
+    </div>
 </body>
+
 </html>

@@ -1,239 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIRECTIONAL THETA DIAGONAL (DTD) RULEBOOK</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Directional Theta Diagonal (DTD) Rulebook</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'primary-500': '#1e40af', // Darker Blue
-                        'secondary-500': '#60a5fa', // Lighter, more visible Blue
-                        'accent-300': '#fcd34d', // Amber (Lighter)
-                        'background-800': '#1f2937', // Dark Grey/Blue
-                        'card-bg': '#374151', // Slightly lighter card background
-                        'text-100': '#f3f4f6',
-                        'danger-500': '#f87171',
-                        'success-500': '#4ade80'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        /* Custom styles for dark theme aesthetics */
-        body {
-            background-color: #1f2937; /* Dark background */
-            color: #f3f4f6; /* Light text */
-        }
-        .card {
-            background-color: #374151;
-            border-left: 4px solid #60a5fa;
-            transition: transform 0.2s, box-shadow 0.2s;
-            /* Ensure cards take full height within their container for visual consistency */
-            height: 100%;
-        }
-        .section-header {
-            color: #fcd34d;
-            border-bottom: 2px solid #4b5563;
-        }
-        /* Removed margin-bottom here to rely on grid gap for clean spacing */
-        .rule-block {
-            background-color: #4b5563; /* Slightly darker background for separation */
-            border-radius: 8px;
-            padding: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 
-<body class="font-sans px-2 py-4 md:px-4 md:py-8 min-h-screen">
+<body class="bg-slate-900 text-slate-200">
 
-    <header class="text-center mb-4">
-        <h1 class="text-3xl md:text-4xl font-extrabold text-secondary-500 mb-1">
-            DIRECTIONAL THETA DIAGONAL (DTD) RULEBOOK
-        </h1>
-        <p class="text-lg text-text-100/75">DTD Strategy: ATR-Based Directional Carry</p>
-    </header>
-
-    <!-- Switched to a responsive 3-column grid for maximum space efficiency -->
-    <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-
-        <!-- Column 1: Core Principles (Card I) - High priority, defined risk -->
-        <div class="space-y-6">
-            <div class="card p-6 rounded-lg shadow-xl">
-                <h2 class="section-header text-xl font-semibold pb-3 mb-4">I. Core Principles & Credit Mandate</h2>
-                
-                <p class="text-sm text-text-100/80 mb-4">
-                    The strategy provides **Theta** (from short leg) and **Convexity/Protection** (from long leg). Designed for high probability and smooth MTM with defined risk.
-                </p>
-
-                <div class="bg-card-bg p-3 rounded-lg border border-gray-600 mb-4">
-                    <h3 class="text-lg font-medium mb-2 text-secondary-500">Regime Rules</h3>
-                    <div class="grid grid-cols-2 gap-3 text-center text-xs">
-                        <div class="bg-success-500/20 p-2 rounded-lg border border-success-500/50">
-                            <p class="font-bold text-success-500">✔️ Works Best In:</p>
-                            <p class="text-text-100/70">Low/Normal Volatility, Controlled Trend, Vol Creep.</p>
-                        </div>
-                        <div class="bg-danger-500/20 p-2 rounded-lg border border-danger-500/50">
-                            <p class="font-bold text-danger-500">❌ Avoid During:</p>
-                            <p class="text-text-100/70">Sharp Vol Crush, Sudden IV collapse, Major news gaps.</p>
-                        </div>
+    <!-- Navigation -->
+    <nav class="glass-panel sticky top-0 z-50 border-b border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../index.html" class="text-xl font-bold text-white flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Back to Home
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <span class="text-slate-400 text-sm">Directional Theta Diagonal (DTD)</span>
                     </div>
                 </div>
+            </div>
+        </div>
+    </nav>
 
-                <div class="p-4 rounded-lg border border-accent-300 bg-accent-300/10">
-                    <h3 class="text-lg font-bold mb-1 text-accent-300">Net Premium Rule: MANDATORY CREDIT</h3>
-                    <p class="text-xs text-text-100/80">
-                        **Enter only for small Credit or zero Debit (strict).** Debit entry increases Vega exposure and reduces Theta edge.
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 animate-fade-in">
+
+        <!-- Header -->
+        <header class="mb-12 text-center">
+            <h1 class="text-4xl sm:text-6xl font-extrabold mb-4 tracking-tight">
+                <span class="text-gradient">DTD</span> <span class="text-white">Rulebook</span>
+            </h1>
+            <p class="text-xl text-slate-400 max-w-3xl mx-auto font-light">
+                Directional Theta Diagonal: ATR-Based Directional Carry Strategy
+            </p>
+        </header>
+
+        <!-- Main Grid -->
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <!-- Column 1: Core Principles -->
+            <div class="space-y-8">
+                <div class="glass-card p-6 rounded-2xl border-t-4 border-blue-500 h-full">
+                    <h2 class="text-2xl font-bold mb-4 text-blue-400 flex items-center gap-2">
+                        <span class="bg-blue-500/20 p-1.5 rounded-lg text-sm">01</span> Core Principles
+                    </h2>
+
+                    <p class="text-slate-300 mb-6 leading-relaxed text-sm">
+                        The strategy provides <span class="text-white font-bold">Theta</span> (from short leg) and <span
+                            class="text-white font-bold">Convexity/Protection</span> (from long leg). Designed for high
+                        probability and smooth MTM with defined risk.
                     </p>
-                </div>
-            </div>
-        </div>
 
-        <!-- Column 2: Calculator (Card II) -->
-        <div class="space-y-6">
-            <!-- Card 2: Dynamic Strike Calculator (CRITICAL) -->
-            <div class="card p-6 rounded-lg shadow-xl">
-                <h2 class="section-header text-xl font-semibold pb-3 mb-4">II. Dynamic Strike Selection (1.0-1.5x ATR)</h2>
-                
-                <p class="text-sm text-text-100/80 mb-4">
-                    Long leg protection is set based on current market volatility (Weekly ATR or SD).
-                </p>
-
-                <div class="bg-card-bg p-4 rounded-lg border border-secondary-500/50 space-y-3">
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label for="weeklyATR" class="block text-xs font-medium text-text-100 mb-1">Weekly ATR (Points)</label>
-                            <input type="number" id="weeklyATR" value="180" min="50" max="500" class="w-full p-2 text-sm rounded-md bg-gray-700 border border-gray-600 text-text-100 focus:ring-secondary-500 focus:border-secondary-500">
-                        </div>
-                        <div>
-                            <label for="atrMultiplier" class="block text-xs font-medium text-text-100 mb-1">ATR Multiplier (1.0 to 1.5)</label>
-                            <select id="atrMultiplier" class="w-full p-2 text-sm rounded-md bg-gray-700 border border-gray-600 text-text-100 focus:ring-secondary-500 focus:border-secondary-500">
-                                <option value="1.0">1.0 x ATR</option>
-                                <option value="1.25">1.25 x ATR</option>
-                                <option value="1.5" selected>1.5 x ATR</option>
-                            </select>
+                    <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700/50 mb-6">
+                        <h3 class="text-lg font-bold mb-3 text-blue-300">Regime Rules</h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="bg-emerald-500/10 p-3 rounded-lg border border-emerald-500/20">
+                                <p class="font-bold text-emerald-400 mb-1">✔️ Works Best In:</p>
+                                <p class="text-slate-400">Low/Normal Volatility, Controlled Trend, Vol Creep.</p>
+                            </div>
+                            <div class="bg-red-500/10 p-3 rounded-lg border border-red-500/20">
+                                <p class="font-bold text-red-400 mb-1">❌ Avoid During:</p>
+                                <p class="text-slate-400">Sharp Vol Crush, Sudden IV collapse, Major news gaps.</p>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="pt-3 border-t border-gray-600">
-                        <h4 class="text-sm font-bold text-accent-300">Required Long Strike Distance:</h4>
-                        <p id="strikeResult" class="text-2xl font-extrabold mt-1 text-secondary-500">-- Points</p>
-                        <p id="feedback" class="text-xs mt-1 text-text-100/80"></p>
-                    </div>
-                </div>
-
-                <div class="mt-4">
-                    <h3 class="text-sm font-medium mb-1 text-secondary-500">Spread Structure</h3>
-                    <p class="text-xs text-text-100/80">SELL ATM/OTM (This Week) + BUY OTM (Next Week)</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Column 3: Detailed Operational Protocol (Card III) -->
-        <div class="space-y-6">
-            <div class="p-6 rounded-lg shadow-xl bg-card-bg">
-                <h2 class="section-header text-xl font-semibold pb-3 mb-4">III. Operational Protocol (5-10)</h2>
-
-                <!-- Responsive 2x2 grid for rules -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    
-                    <!-- Rule 5: Entry Rules -->
-                    <div class="rule-block">
-                        <h3 class="text-lg font-bold text-accent-300 mb-1">5. ENTRY RULES</h3>
-                        <ul class="list-disc pl-5 space-y-1 text-xs text-text-100/80">
-                            <li>**Prerequisites:** Mild bias, trend detected, ATM short + OTM long.</li>
-                            <li>**Execution:** Prefer **Fri–Mon**, 9:20 AM – 2:30 PM.</li>
-                            <li>**IV Check:** Stable (VIX change **< 3 pts**).</li>
-                        </ul>
-                    </div>
-
-                    <!-- Rule 6: Exit Rules -->
-                    <div class="rule-block">
-                        <h3 class="text-lg font-bold text-accent-300 mb-1">6. EXIT RULES</h3>
-                        <h4 class="font-bold text-secondary-500 text-xs mb-1">Time-Based Exit:</h4>
-                        <p class="text-xs text-danger-500 font-extrabold mb-2">
-                            MANDATORY: Exit short leg by **Monday EOD** (Avoid Tuesday Gamma).
+                    <div class="p-4 rounded-xl border border-yellow-500/30 bg-yellow-500/5">
+                        <h3 class="text-lg font-bold mb-1 text-yellow-400">Net Premium Rule</h3>
+                        <p class="text-xs text-slate-300">
+                            <span class="font-bold text-white">Enter only for small Credit or zero Debit
+                                (strict).</span> Debit entry increases Vega exposure and reduces Theta edge.
                         </p>
-                        <h4 class="font-bold text-secondary-500 text-xs mb-1">Conditions:</h4>
-                        <ul class="list-disc pl-5 space-y-1 text-xs text-text-100/80">
-                            <li>**Trend Breakout** or Spread value increases **30–50%**.</li>
-                            <li>Credit fully harvested (Slow Grind).</li>
-                            <li>**Wrong Direction** (past short strike) or sharp IV drop.</li>
-                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 2: Calculator -->
+            <div class="space-y-8">
+                <div class="glass-card p-6 rounded-2xl border-t-4 border-purple-500 h-full">
+                    <h2 class="text-2xl font-bold mb-4 text-purple-400 flex items-center gap-2">
+                        <span class="bg-purple-500/20 p-1.5 rounded-lg text-sm">02</span> Strike Selection
+                    </h2>
+
+                    <p class="text-slate-300 mb-6 text-sm">
+                        Long leg protection is set based on current market volatility (Weekly ATR or SD).
+                    </p>
+
+                    <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700/50 space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="weeklyATR" class="block text-xs font-medium text-slate-400 mb-1">Weekly ATR
+                                    (Points)</label>
+                                <input type="number" id="weeklyATR" value="180" min="50" max="500"
+                                    class="w-full p-2.5 text-sm rounded-lg bg-slate-900 border border-slate-700 text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all">
+                            </div>
+                            <div>
+                                <label for="atrMultiplier" class="block text-xs font-medium text-slate-400 mb-1">ATR
+                                    Multiplier</label>
+                                <select id="atrMultiplier"
+                                    class="w-full p-2.5 text-sm rounded-lg bg-slate-900 border border-slate-700 text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all">
+                                    <option value="1.0">1.0 x ATR</option>
+                                    <option value="1.25">1.25 x ATR</option>
+                                    <option value="1.5" selected>1.5 x ATR</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-700/50">
+                            <h4 class="text-sm font-bold text-yellow-400">Required Long Strike Distance:</h4>
+                            <p id="strikeResult" class="text-3xl font-extrabold mt-2 text-white tracking-tight">--
+                                Points</p>
+                            <p id="feedback" class="text-xs mt-2 text-slate-400 leading-relaxed"></p>
+                        </div>
                     </div>
 
-                    <!-- Rule 7: Stop Loss Rules -->
-                    <div class="rule-block">
-                        <h3 class="text-lg font-bold text-accent-300 mb-1">7. STOP LOSS (SL) RULES</h3>
-                        <h4 class="font-bold text-secondary-500 text-xs mb-1">Hard SL:</h4>
-                        <ul class="list-disc pl-5 space-y-1 text-xs text-text-100/80">
-                            <li>1× initial credit/small debit OR **₹2,500–₹4,000** per diagonal.</li>
-                        </ul>
-                        <h4 class="font-bold text-secondary-500 mt-2 text-xs mb-1">Soft SL:</h4>
-                        <ul class="list-disc pl-5 space-y-1 text-xs text-text-100/80">
-                            <li>Market stalls at short strike.</li>
-                            <li>Trend reversal signals.</li>
-                            <li>Unexpected IV collapse (> 3 VIX points intraday).</li>
+                    <div class="mt-6 p-4 bg-purple-500/10 rounded-xl border border-purple-500/20">
+                        <h3 class="text-sm font-bold mb-1 text-purple-300">Spread Structure</h3>
+                        <p class="text-xs text-slate-300">SELL ATM/OTM (This Week) + BUY OTM (Next Week)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 3: Operational Protocol -->
+            <div class="space-y-8">
+                <div class="glass-card p-6 rounded-2xl border-t-4 border-emerald-500 h-full">
+                    <h2 class="text-2xl font-bold mb-4 text-emerald-400 flex items-center gap-2">
+                        <span class="bg-emerald-500/20 p-1.5 rounded-lg text-sm">03</span> Operational Protocol
+                    </h2>
+
+                    <div class="space-y-4">
+                        <!-- Entry Rules -->
+                        <div class="p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
+                            <h3 class="text-sm font-bold text-yellow-400 mb-2 uppercase tracking-wide">Entry Rules</h3>
+                            <ul class="list-disc pl-4 space-y-1 text-xs text-slate-300">
+                                <li><span class="font-bold text-white">Prerequisites:</span> Mild bias, trend detected,
+                                    ATM short + OTM long.</li>
+                                <li><span class="font-bold text-white">Execution:</span> Prefer <span
+                                        class="text-emerald-400">Fri–Mon</span>, 9:20 AM – 2:30 PM.</li>
+                                <li><span class="font-bold text-white">IV Check:</span> Stable (VIX change <span
+                                        class="text-emerald-400">
+                                        < 3 pts</span>).</li>
+                            </ul>
+                        </div>
+
+                        <!-- Exit Rules -->
+                        <div class="p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
+                            <h3 class="text-sm font-bold text-blue-400 mb-2 uppercase tracking-wide">Exit Rules</h3>
+                            <div class="mb-2">
+                                <span class="text-xs font-bold text-red-400 block mb-1">MANDATORY Time-Based
+                                    Exit:</span>
+                                <span class="text-xs text-slate-300">Exit short leg by <span
+                                        class="font-bold text-white">Monday EOD</span> (Avoid Tuesday Gamma).</span>
+                            </div>
+                            <ul class="list-disc pl-4 space-y-1 text-xs text-slate-300">
+                                <li><span class="font-bold text-white">Trend Breakout</span> or Spread value increases
+                                    30–50%.</li>
+                                <li>Credit fully harvested (Slow Grind).</li>
+                                <li><span class="font-bold text-white">Wrong Direction</span> or sharp IV drop.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Stop Loss -->
+                        <div class="p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
+                            <h3 class="text-sm font-bold text-red-400 mb-2 uppercase tracking-wide">Stop Loss (SL)</h3>
+                            <ul class="list-disc pl-4 space-y-1 text-xs text-slate-300">
+                                <li><span class="font-bold text-white">Hard SL:</span> 1× initial credit/small debit OR
+                                    ₹2,500–₹4,000 per diagonal.</li>
+                                <li><span class="font-bold text-white">Soft SL:</span> Market stalls at short strike,
+                                    trend reversal, or IV collapse.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Checklist Summary -->
+        <section class="mt-8">
+            <div class="glass-panel p-8 rounded-2xl border-l-4 border-yellow-500">
+                <h2 class="text-2xl font-bold mb-6 text-white">Trader Checklist Summary</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
+                    <div>
+                        <h3 class="font-bold text-yellow-400 mb-3 uppercase tracking-wide text-xs">Before Entry</h3>
+                        <ul class="space-y-2 text-slate-300">
+                            <li class="flex items-center gap-2"><span class="text-emerald-500">✓</span> Direction &
+                                Trend clear?</li>
+                            <li class="flex items-center gap-2"><span class="text-emerald-500">✓</span> <span
+                                    class="text-white font-medium">ATR-based</span> strike distance calculated?</li>
+                            <li class="flex items-center gap-2"><span class="text-emerald-500">✓</span> Credit accepted?
+                                (No Debit)</li>
+                            <li class="flex items-center gap-2"><span class="text-emerald-500">✓</span> IV stable (< 3
+                                    VIX points)?</li>
                         </ul>
                     </div>
-
-                    <!-- Rule 8/9/10: Adjustments, Do-Nots, Sizing -->
-                     <div class="rule-block">
-                        <h3 class="text-lg font-bold text-accent-300 mb-1">8/9/10. Adjustments & Do-Nots</h3>
-                        <h4 class="font-bold text-secondary-500 text-xs mb-1">Sizing:</h4>
-                        <ul class="list-disc pl-5 space-y-1 text-xs text-text-100/80">
-                            <li>Max **1× size** per entry. Up to **3 layers** only on trend confirmation.</li>
-                        </ul>
-                        <h4 class="font-bold text-danger-500 mt-2 text-xs mb-1">Do-Nots:</h4>
-                        <ul class="list-disc pl-5 space-y-1 text-xs font-bold text-danger-500">
-                            <li>Do not trade during sudden IV crashes.</li>
-                            <li>Never add more shorts.</li>
-                            <li>Do not remove long protection.</li>
+                    <div>
+                        <h3 class="font-bold text-blue-400 mb-3 uppercase tracking-wide text-xs">During Trade</h3>
+                        <ul class="space-y-2 text-slate-300">
+                            <li class="flex items-center gap-2"><span class="text-blue-500">➜</span> Monitoring trend
+                                continuation?</li>
+                            <li class="flex items-center gap-2"><span class="text-blue-500">➜</span> IV behaviour
+                                stable?</li>
+                            <li class="flex items-center gap-2"><span class="text-blue-500">➜</span> <span
+                                    class="text-white font-medium">Exit by Monday EOD</span> planned?</li>
                         </ul>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
+        </section>
 
-    <!-- Trader Checklist (Card IV) - Full Width -->
-    <section class="mt-4">
-        <div class="p-6 rounded-lg shadow-xl bg-card-bg border-l-4 border-accent-300">
-            <h2 class="section-header text-xl font-semibold pb-3 mb-4">IV. Trader Checklist Summary</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-xs">
-                <div>
-                    <h3 class="font-bold text-accent-300 mb-2">Before Entry:</h3>
-                    <ul class="list-disc pl-5 space-y-1 text-text-100/80">
-                        <li>Direction & Trend clear?</li>
-                        <li>**ATR-based** strike distance calculated?</li>
-                        <li>Credit accepted? (No Debit)</li>
-                        <li>IV stable (< 3 VIX points)?</li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="font-bold text-accent-300 mb-2">During Trade:</h3>
-                    <ul class="list-disc pl-5 space-y-1 text-text-100/80">
-                        <li>Monitoring trend continuation?</li>
-                        <li>IV behaviour stable?</li>
-                        <li>**Exit by Monday EOD** planned?</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
+        <footer class="text-center mt-12 text-slate-500 text-sm">
+            <p>Discipline is key. Follow the rules for stable directional carry.</p>
+        </footer>
 
-    <footer class="text-center mt-4 pt-3 border-t border-gray-700">
-        <p class="text-xs text-text-100/50">Discipline is key. Follow the rules for stable directional carry.</p>
-    </footer>
+    </div>
 
     <script>
         // --- Dynamic Strike Calculation Logic ---
@@ -249,6 +240,7 @@
             if (isNaN(atr) || atr <= 0) {
                 resultElement.textContent = "Invalid ATR";
                 feedbackElement.textContent = "Please enter a valid Weekly ATR (e.g., 180).";
+                feedbackElement.className = "text-xs mt-2 text-red-400";
                 return;
             }
 
@@ -258,13 +250,13 @@
             let feedbackText = `Your long protective strike must be placed ${strikeDistance} points away from the short strike.`;
 
             if (strikeDistance < 150) {
-                feedbackElement.className = "text-xs mt-1 text-danger-500 font-bold";
+                feedbackElement.className = "text-xs mt-2 text-red-400 font-bold";
                 feedbackText += ` WARNING: Market is in LOW VOLATILITY. Ensure the trade is initiated for a CREDIT.`;
             } else if (strikeDistance > 250) {
-                feedbackElement.className = "text-xs mt-1 text-secondary-500 font-bold";
+                feedbackElement.className = "text-xs mt-2 text-yellow-400 font-bold";
                 feedbackText += ` ALERT: High volatility confirmed. Old static rule would have provided INSUFFICIENT protection.`;
             } else {
-                feedbackElement.className = "text-xs mt-1 text-text-100/80";
+                feedbackElement.className = "text-xs mt-2 text-emerald-400";
                 feedbackText += ` Value is within the static range, indicating normal volatility.`;
             }
 
@@ -278,10 +270,11 @@
 
             atrInput.addEventListener('input', updateStrikeCalculation);
             multiplierSelect.addEventListener('change', updateStrikeCalculation);
-            
+
             // Initial calculation on load
             updateStrikeCalculation();
         });
     </script>
 </body>
+
 </html>

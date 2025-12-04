@@ -1,151 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trading Playbooks</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-            overflow: hidden;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 2rem;
-            height: fit-content;
-        }
-        
-        h1 {
-            color: #667eea;
-            margin-bottom: 0.5rem;
-            font-size: 2rem;
-            text-align: center;
-        }
-        
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 2rem;
-            font-size: 1rem;
-        }
-        
-        .playbooks-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-        
-        .playbooks-section {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .section-title {
-            font-size: 1.3rem;
-            color: #667eea;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #667eea;
-            font-weight: 600;
-            text-align: center;
-        }
-        
-        .playbooks-list {
-            list-style: none;
-            flex: 1;
-        }
-        
-        .playbooks-list li {
-            margin-bottom: 0.75rem;
-        }
-        
-        .playbooks-list a {
-            display: block;
-            padding: 0.875rem 1rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: 500;
-            font-size: 1rem;
-            text-align: center;
-        }
-        
-        .playbooks-list a:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
-        }
-        
-        .playbooks-list a:active {
-            transform: translateY(0);
-        }
-        
-        @media (max-width: 900px) {
-            .playbooks-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            
-            body {
-                overflow: auto;
-                height: auto;
-                min-height: 100vh;
-            }
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
-    <div class="container">
-        <h1>📊 Trading Playbooks</h1>
-        <p class="subtitle">Your comprehensive guide to options trading strategies</p>
-        
-        <div class="playbooks-grid">
-            <div class="playbooks-section">
-                <h2 class="section-title">⚡ Intraday</h2>
-                <ul class="playbooks-list">
-                    <li><a href="playbooks/idcs.html">IDCS</a></li>
+
+<body
+    class="min-h-screen flex flex-col items-center justify-center p-4 sm:p-8 bg-[url('https://images.unsplash.com/photo-1611974765270-ca12586343bb?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center bg-no-repeat bg-fixed relative">
+
+    <!-- Dark Overlay -->
+    <div class="absolute inset-0 bg-slate-900/90 z-0"></div>
+
+    <div class="relative z-10 w-full max-w-6xl animate-fade-in">
+
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-5xl sm:text-7xl font-extrabold mb-4 tracking-tight">
+                <span class="text-gradient">Trading</span> <span class="text-white">Playbooks</span>
+            </h1>
+            <p class="text-xl text-slate-400 max-w-2xl mx-auto font-light">
+                Master the markets with precision strategies for every volatility regime.
+            </p>
+        </header>
+
+        <!-- Main Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <!-- Intraday Section -->
+            <div class="glass-panel rounded-2xl p-6 md:p-8 flex flex-col h-full border-t-4 border-blue-500">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="p-3 bg-blue-500/20 rounded-lg text-blue-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-white">Intraday</h2>
+                </div>
+                <ul class="space-y-4 flex-1">
+                    <li>
+                        <a href="playbooks/idcs.html" class="glass-card block p-4 rounded-xl group">
+                            <div class="flex justify-between items-center">
+                                <span
+                                    class="font-semibold text-slate-200 group-hover:text-white transition-colors">IDCS</span>
+                                <span
+                                    class="text-xs px-2 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">Directional</span>
+                            </div>
+                            <p class="text-sm text-slate-400 mt-1 group-hover:text-slate-300">Intraday Directional
+                                Credit Spread</p>
+                        </a>
+                    </li>
                 </ul>
             </div>
-            
-            <div class="playbooks-section">
-                <h2 class="section-title">📈 Directional Carry</h2>
-                <ul class="playbooks-list">
-                    <li><a href="playbooks/credit-spread.html">Credit Spread - 1 DTE</a></li>
-                    <li><a href="playbooks/dtd.html">Directional Theta Diagonal (DTD) - 5-3 DTE</a></li>
+
+            <!-- Directional Carry Section -->
+            <div class="glass-panel rounded-2xl p-6 md:p-8 flex flex-col h-full border-t-4 border-emerald-500">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="p-3 bg-emerald-500/20 rounded-lg text-emerald-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-white">Directional Carry</h2>
+                </div>
+                <ul class="space-y-4 flex-1">
+                    <li>
+                        <a href="playbooks/credit-spread.html" class="glass-card block p-4 rounded-xl group">
+                            <div class="flex justify-between items-center">
+                                <span
+                                    class="font-semibold text-slate-200 group-hover:text-white transition-colors">Credit
+                                    Spread</span>
+                                <span
+                                    class="text-xs px-2 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">1
+                                    DTE</span>
+                            </div>
+                            <p class="text-sm text-slate-400 mt-1 group-hover:text-slate-300">Overnight Directional
+                                Income</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="playbooks/dtd.html" class="glass-card block p-4 rounded-xl group">
+                            <div class="flex justify-between items-center">
+                                <span
+                                    class="font-semibold text-slate-200 group-hover:text-white transition-colors">DTD</span>
+                                <span
+                                    class="text-xs px-2 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">5-3
+                                    DTE</span>
+                            </div>
+                            <p class="text-sm text-slate-400 mt-1 group-hover:text-slate-300">Directional Theta Diagonal
+                            </p>
+                        </a>
+                    </li>
                 </ul>
             </div>
-            
-            <div class="playbooks-section">
-                <h2 class="section-title">🔄 Non-directional Carry</h2>
-                <ul class="playbooks-list">
-                    <li><a href="playbooks/rif.html">RIF - 5-3 DTE</a></li>
-                    <li><a href="playbooks/ic14.html">IC14 - 1 DTE</a></li>
-                    <li><a href="playbooks/iron-condor.html">Iron Condor - 7 DTE</a></li>
+
+            <!-- Non-directional Carry Section -->
+            <div class="glass-panel rounded-2xl p-6 md:p-8 flex flex-col h-full border-t-4 border-purple-500">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="p-3 bg-purple-500/20 rounded-lg text-purple-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-white">Non-directional Carry</h2>
+                </div>
+                <ul class="space-y-4 flex-1">
+                    <li>
+                        <a href="playbooks/rif.html" class="glass-card block p-4 rounded-xl group">
+                            <div class="flex justify-between items-center">
+                                <span
+                                    class="font-semibold text-slate-200 group-hover:text-white transition-colors">RIF</span>
+                                <span
+                                    class="text-xs px-2 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">5-3
+                                    DTE</span>
+                            </div>
+                            <p class="text-sm text-slate-400 mt-1 group-hover:text-slate-300">Range Income Fly</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="playbooks/ic14.html" class="glass-card block p-4 rounded-xl group">
+                            <div class="flex justify-between items-center">
+                                <span
+                                    class="font-semibold text-slate-200 group-hover:text-white transition-colors">IC14</span>
+                                <span
+                                    class="text-xs px-2 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">1
+                                    DTE</span>
+                            </div>
+                            <p class="text-sm text-slate-400 mt-1 group-hover:text-slate-300">Iron Condor 14</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="playbooks/iron-condor.html" class="glass-card block p-4 rounded-xl group">
+                            <div class="flex justify-between items-center">
+                                <span class="font-semibold text-slate-200 group-hover:text-white transition-colors">Iron
+                                    Condor</span>
+                                <span
+                                    class="text-xs px-2 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">7
+                                    DTE</span>
+                            </div>
+                            <p class="text-sm text-slate-400 mt-1 group-hover:text-slate-300">Classic Iron Condor</p>
+                        </a>
+                    </li>
                 </ul>
             </div>
-            
-          
+
         </div>
+
+        <footer class="mt-16 text-center text-slate-500 text-sm">
+            <p>&copy; 2025 Trading Playbooks. All rights reserved.</p>
+        </footer>
     </div>
 </body>
+
 </html>

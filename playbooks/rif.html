@@ -1,251 +1,388 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RIF Automation Dashboard Manual</title>
-    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Use a professional font -->
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0d1117; /* Dark background color */
-            color: #e5e7eb; /* Light text color */
-        }
-        /* Custom scrollbar for aesthetics */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #374151;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #1f2937;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
-<body class="min-h-screen p-4 md:p-8">
 
-    <!-- Header & Title -->
-    <header class="mb-10 border-b border-gray-700 pb-4">
-        <h1 class="text-4xl font-bold text-teal-400 mb-2">RIF Automation Dashboard Manual</h1>
-        <p class="text-gray-400 text-lg">A comprehensive guide to the Ratio Iron Fly (RIF) strategy structure, entry criteria, and automated exit rules.</p>
-    </header>
+<body class="bg-slate-900 text-slate-200">
 
-    <!-- Main Content Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-
-        <!-- Sidebar / Table of Contents (Sticky on Desktop) -->
-        <aside class="lg:col-span-1">
-            <nav class="sticky top-8 p-4 bg-[#161b22] rounded-xl shadow-lg border border-gray-700">
-                <h3 class="text-xl font-semibold mb-4 text-white">Table of Contents</h3>
-                <ul class="space-y-2 text-gray-400">
-                    <li><a href="#section-overview" class="hover:text-teal-400 transition duration-150 block p-1 rounded-md">1. Strategy Principles</a></li>
-                    <li><a href="#section-metrics" class="hover:text-teal-400 transition duration-150 block p-1 rounded-md">2. Greek Profile & Objectives</a></li>
-                    <li><a href="#section-payoff" class="hover:text-teal-400 transition duration-150 block p-1 rounded-md">3. Position Structure & Payoff</a></li>
-                    <li><a href="#section-vol-regimes" class="hover:text-teal-400 transition duration-150 block p-1 rounded-md">4. Volatility Regime Applicability</a></li>
-                    <li><a href="#section-conditions" class="hover:text-teal-400 transition duration-150 block p-1 rounded-md">5. Entry Conditions & Rules</a></li>
-                    <li><a href="#section-exit" class="hover:text-teal-400 transition duration-150 block p-1 rounded-md">6. Exit Management & Protocol</a></li>
-                </ul>
-            </nav>
-        </aside>
-
-        <!-- Content Area -->
-        <main class="lg:col-span-3 space-y-12">
-
-            <!-- Section 1: Strategy Principles -->
-            <section id="section-overview" class="bg-[#161b22] p-6 rounded-xl border border-gray-700 shadow-xl">
-                <h2 class="text-3xl font-bold text-teal-300 mb-4 border-b border-gray-700 pb-2">1. Strategy Principles</h2>
-                <p class="mb-4 text-gray-400">The RIF (Ratio Iron Fly) is a highly automated, non-directional carry strategy focused on theta capture over a short duration.</p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                    <div class="p-4 bg-gray-800 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block text-green-500 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2-3-.895-3-2 1.343-2 3-2z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                        <p class="text-sm font-semibold text-green-400">Primary Goal: Theta Carry</p>
-                    </div>
-                    <div class="p-4 bg-gray-800 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block text-blue-500 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                        <p class="text-sm font-semibold text-blue-400">Holding Period: 3–5 DTE</p>
-                    </div>
-                    <div class="p-4 bg-gray-800 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block text-red-500 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                        <p class="text-sm font-semibold text-red-400">Policy: Minimal Adjustments (Exit Only)</p>
+    <!-- Navigation -->
+    <nav class="glass-panel sticky top-0 z-50 border-b border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../index.html" class="text-xl font-bold text-white flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Back to Home
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <span class="text-slate-400 text-sm">Ratio Iron Fly (RIF)</span>
                     </div>
                 </div>
-            </section>
+            </div>
+        </div>
+    </nav>
 
-            <!-- Section 2: Greek Profile & Objectives -->
-            <section id="section-metrics" class="bg-[#161b22] p-6 rounded-xl border border-gray-700 shadow-xl">
-                <h2 class="text-3xl font-bold text-teal-300 mb-4 border-b border-gray-700 pb-2">2. Greek Profile & Objectives</h2>
-                <p class="mb-4">The ratio wing structure dictates a specific Greek profile optimized for stable P&L over multiple days.</p>
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 animate-fade-in">
 
-                <div class="space-y-6">
-                    <!-- Metric Card: Theta -->
-                    <div class="flex items-center p-4 bg-gray-800 rounded-lg">
-                        <span class="text-3xl font-mono mr-4 text-green-500">Θ</span>
-                        <div>
-                            <h4 class="text-xl font-semibold">Theta (Time Decay) - Strongly Positive</h4>
-                            <p class="text-gray-400">The structure maximizes decay capture. The objective is to exit when **40–60%** of the ATM straddle decay is realized.</p>
-                        </div>
-                    </div>
-                    <!-- Metric Card: Gamma -->
-                    <div class="flex items-center p-4 bg-gray-800 rounded-lg">
-                        <span class="text-3xl font-mono mr-4 text-blue-500">Γ</span>
-                        <div>
-                            <h4 class="text-xl font-semibold">Gamma (Acceleration) - Low</h4>
-                            <p class="text-gray-400">The ratio wings dramatically reduce net Gamma, ensuring stable MTM and survival during slow trending markets.</p>
-                        </div>
-                    </div>
-                    <!-- Metric Card: Vega -->
-                    <div class="flex items-center p-4 bg-gray-800 rounded-lg">
-                        <span class="text-3xl font-mono mr-4 text-yellow-500">V</span>
-                        <div>
-                            <h4 class="text-xl font-semibold">Vega (Volatility Risk) - Near-Neutral</h4>
-                            <p class="text-gray-400">The structure is designed for **resilience to IV cooling**. Theta is expected to dominate, providing profit even if the net Vega is slightly long.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Section 3: Position Structure & Payoff -->
-            <section id="section-payoff" class="bg-[#161b22] p-6 rounded-xl border border-gray-700 shadow-xl">
-                <h2 class="text-3xl font-bold text-teal-300 mb-4 border-b border-gray-700 pb-2">3. Position Structure & Payoff</h2>
-                <p class="mb-4 text-gray-400">The RIF uses a scalable whole-lot structure to achieve 1.5× wing coverage and wider breakevens.</p>
-                
-                <h3 class="text-2xl font-semibold text-white mb-3">Standard 2:3 RIF Configuration</h3>
-                <code class="block bg-gray-900 p-4 rounded text-sm text-teal-300 whitespace-pre-wrap">
-Sell 2× ATM CE
-Sell 2× ATM PE
-Buy 3× OTM CE (0.8% to 1.3% away)
-Buy 3× OTM PE (0.8% to 1.3% away)
-                </code>
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl sm:text-6xl font-extrabold mb-4 tracking-tight">
+                <span class="text-gradient">RIF</span> <span class="text-white">Automation Manual</span>
+            </h1>
+            <p class="text-xl text-slate-400 max-w-3xl mx-auto font-light">
+                Comprehensive guide to the Ratio Iron Fly strategy structure, entry criteria, and automated exit rules.
+            </p>
+        </header>
 
-                <h3 class="text-2xl font-semibold text-white mt-6 mb-3">Payoff Characteristics</h3>
-                <div class="text-center p-4 bg-gray-800 rounded-lg">
-                    <!-- Image of Ratio Iron Fly Option Payoff Diagram -->
-                    
-                </div>
+        <!-- Main Grid -->
+        <main class="grid grid-cols-1 lg:grid-cols-4 gap-8">
 
-                <ul class="list-disc list-inside space-y-2 mt-4 text-gray-400">
-                    <li>**Max Profit:** Occurs at the ATM short strikes.</li>
-                    <li>**Breakevens:** Extended by the ratio structure, providing a larger profit zone.</li>
-                    <li>**Controlled Loss:** Max loss is defined and occurs outside the long wings.</li>
-                </ul>
-            </section>
-            
-            <!-- Section 4: Volatility Regime Applicability (NEW SECTION) -->
-            <section id="section-vol-regimes" class="bg-[#161b22] p-6 rounded-xl border border-gray-700 shadow-xl">
-                <h2 class="text-3xl font-bold text-teal-300 mb-4 border-b border-gray-700 pb-2">4. Volatility Regime Applicability</h2>
-                <p class="mb-4 text-gray-400">The choice of wing distance and overall RIF performance are heavily dependent on the current Implied Volatility Percentile (IVP) and VIX levels.</p>
-
-                <div class="space-y-6">
-                    <!-- Low IV -->
-                    <div class="p-4 bg-gray-800 rounded-lg border-l-4 border-green-500">
-                        <h4 class="text-xl font-semibold text-white">Low IV Regime <span class="text-gray-400">(VIX 10–13, IVP &lt; 20)</span></h4>
-                        <p class="text-sm text-gray-400 mt-1">Stable MTM and low gamma environment. Theta is moderate, but cheap, protective wings (0.7–0.9%) make the RIF reliably profitable for conservative carry (Ratio 2:3).</p>
-                    </div>
-                    <!-- Normal IV -->
-                    <div class="p-4 bg-gray-800 rounded-lg border-l-4 border-teal-500">
-                        <h4 class="text-xl font-semibold text-white">Normal IV Regime <span class="text-gray-400">(VIX 13–16, IVP 20–60)</span></h4>
-                        <p class="text-sm text-gray-400 mt-1">Optimal regime. Strong theta decay and low-to-medium vega impact. Allows for 2–3 day target hits. Use 0.8–1.1% wings (Ratio 2:3).</p>
-                    </div>
-                    <!-- Elevated IV -->
-                    <div class="p-4 bg-gray-800 rounded-lg border-l-4 border-yellow-500">
-                        <h4 class="text-xl font-semibold text-white">Elevated IV Regime <span class="text-gray-400">(VIX 16–20, IVP 60–85)</span></h4>
-                        <p class="text-sm text-gray-400 mt-1">High theta but increased gamma sensitivity. Requires farther wings (1.0–1.3%) and a stronger ratio (1:2 or 2:4). Best used when IV is stabilizing. Avoid strong trending markets.</p>
-                    </div>
-                    <!-- High IV -->
-                    <div class="p-4 bg-gray-800 rounded-lg border-l-4 border-red-500">
-                        <h4 class="text-xl font-semibold text-white">High IV Regime <span class="text-gray-400">(VIX &gt; 20, IVP &gt; 85)</span></h4>
-                        <p class="text-sm text-gray-400 mt-1">Not suitable for RIF. Gamma/vega risk dominates, leading to unpredictable MTM volatility. Avoid multi-day carry in this zone; prefer aggressive directional or calendar strategies.</p>
-                    </div>
-                    <!-- Vol Crush -->
-                    <div class="p-4 bg-gray-800 rounded-lg border-l-4 border-purple-500">
-                        <h4 class="text-xl font-semibold text-white">Vol Crush Regime <span class="text-gray-400">(Post-event IV drop)</span></h4>
-                        <p class="text-sm text-gray-400 mt-1">Most profitable environment. ATM straddle collapses fast (rapid decay capture). The wings retain value early, leading to convex gains.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Section 5: Entry Conditions & Rules (Renumbered from 4) -->
-            <section id="section-conditions" class="bg-[#161b22] p-6 rounded-xl border border-gray-700 shadow-xl">
-                <h2 class="text-3xl font-bold text-teal-300 mb-4 border-b border-gray-700 pb-2">5. Entry Conditions & Rules</h2>
-                <p class="mb-4 text-gray-400">All conditions must be met simultaneously for the automation logic to permit entry.</p>
-
-                <div class="space-y-4">
-                    <h3 class="text-2xl font-semibold text-white">Entry Condition Requirements</h3>
-                    <ul class="space-y-2 p-4 bg-gray-800 rounded-lg list-none">
-                        <li class="flex items-center"><span class="w-2 h-2 rounded-full bg-teal-400 mr-3"></span>**DTE Window:** Between 3 and 5 days.</li>
-                        <li class="flex items-center"><span class="w-2 h-2 rounded-full bg-teal-400 mr-3"></span>**IV/Volatility:** IVP between 20 and 70, AND VIX &lt; 16.</li>
-                        <li class="flex items-center"><span class="w-2 h-2 rounded-full bg-teal-400 mr-3"></span>**Trend Neutrality:** RSI(1H) between 40 and 60, AND ADX &lt; 22.</li>
-                        <li class="flex items-center"><span class="w-2 h-2 rounded-full bg-teal-400 mr-3"></span>**Time Filter:** Entry only between 10:30 AM – 2:00 PM (Avoid first 30 mins).</li>
-                        <li class="flex items-center"><span class="w-2 h-2 rounded-full bg-teal-400 mr-3"></span>**Event Avoidance:** Avoid entry within 24 hours of major macro announcements (RBI, Fed, Budget, etc.).</li>
+            <!-- Sidebar Navigation -->
+            <aside class="lg:col-span-1">
+                <nav class="sticky top-24 glass-panel p-6 rounded-2xl border-l-4 border-teal-500">
+                    <h3 class="text-xl font-bold mb-6 text-white">Table of Contents</h3>
+                    <ul class="space-y-3 text-slate-400 text-sm">
+                        <li><a href="#section-overview"
+                                class="hover:text-teal-400 transition-colors flex items-center gap-2"><span
+                                    class="text-teal-500/50">01.</span> Strategy Principles</a></li>
+                        <li><a href="#section-metrics"
+                                class="hover:text-teal-400 transition-colors flex items-center gap-2"><span
+                                    class="text-teal-500/50">02.</span> Greek Profile</a></li>
+                        <li><a href="#section-payoff"
+                                class="hover:text-teal-400 transition-colors flex items-center gap-2"><span
+                                    class="text-teal-500/50">03.</span> Position Structure</a></li>
+                        <li><a href="#section-vol-regimes"
+                                class="hover:text-teal-400 transition-colors flex items-center gap-2"><span
+                                    class="text-teal-500/50">04.</span> Volatility Regimes</a></li>
+                        <li><a href="#section-conditions"
+                                class="hover:text-teal-400 transition-colors flex items-center gap-2"><span
+                                    class="text-teal-500/50">05.</span> Entry Conditions</a></li>
+                        <li><a href="#section-exit"
+                                class="hover:text-teal-400 transition-colors flex items-center gap-2"><span
+                                    class="text-teal-500/50">06.</span> Exit Protocol</a></li>
                     </ul>
+                </nav>
+            </aside>
 
-                    <h3 class="text-2xl font-semibold text-white pt-4">Wing Distance Selection Rule</h3>
-                    <div class="bg-gray-800 p-4 rounded-lg text-sm">
-                        <table class="w-full text-left">
-                            <thead>
-                                <tr class="text-gray-400 border-b border-gray-700">
-                                    <th class="py-2">IVP Range</th>
-                                    <th class="py-2">Wing Distance (OTM)</th>
-                                    <th class="py-2">Ratio</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>Low (&lt;25)</td><td>0.7–0.9%</td><td>2:3</td></tr>
-                                <tr class="bg-gray-700/50"><td>Normal (25–60)</td><td>0.8–1.1%</td><td>2:3</td></tr>
-                                <tr><td>Elevated (60–85)</td><td>1.0–1.3%</td><td>1:2 or 2:4</td></tr>
-                                <tr class="bg-gray-700/50"><td>High (&gt;85)</td><td>1.2–1.5%</td><td>1:2</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
+            <!-- Content Area -->
+            <div class="lg:col-span-3 space-y-12">
 
-            <!-- Section 6: Exit Management & Protocol (Renumbered from 5) -->
-            <section id="section-exit" class="bg-[#161b22] p-6 rounded-xl border border-gray-700 shadow-xl">
-                <h2 class="text-3xl font-bold text-teal-300 mb-4 border-b border-gray-700 pb-2">6. Exit Management & Protocol</h2>
-                <p class="mb-4 text-red-400 font-semibold">CRITICAL: The strategy uses fixed stop-losses and targets. **No Manual Adjustments are allowed** for directional drift or IV shock. All non-profit exits are treated as closures.</p>
+                <!-- Section 1: Strategy Principles -->
+                <section id="section-overview" class="glass-card p-8 rounded-2xl border-t-4 border-teal-500">
+                    <h2 class="text-2xl font-bold mb-6 text-teal-400 flex items-center gap-2">
+                        <span class="bg-teal-500/20 p-1.5 rounded-lg text-sm">01</span> Strategy Principles
+                    </h2>
+                    <p class="mb-6 text-slate-300 leading-relaxed">The RIF (Ratio Iron Fly) is a highly automated,
+                        non-directional carry strategy focused on theta capture over a short duration.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-4 bg-slate-800/50 rounded-xl border border-slate-700/50 text-center">
+                            <div class="text-emerald-400 mb-2 flex justify-center">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2-3-.895-3-2 1.343-2 3-2z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <p class="text-sm font-bold text-white">Theta Carry</p>
+                            <p class="text-xs text-slate-400 mt-1">Primary Goal</p>
+                        </div>
+                        <div class="p-4 bg-slate-800/50 rounded-xl border border-slate-700/50 text-center">
+                            <div class="text-blue-400 mb-2 flex justify-center">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <p class="text-sm font-bold text-white">3–5 DTE</p>
+                            <p class="text-xs text-slate-400 mt-1">Holding Period</p>
+                        </div>
+                        <div class="p-4 bg-slate-800/50 rounded-xl border border-slate-700/50 text-center">
+                            <div class="text-red-400 mb-2 flex justify-center">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                </svg>
+                            </div>
+                            <p class="text-sm font-bold text-white">Exit Only</p>
+                            <p class="text-xs text-slate-400 mt-1">Minimal Adjustments</p>
+                        </div>
+                    </div>
+                </section>
 
-                <h3 class="text-2xl font-semibold text-white mb-3">Automated Exit Thresholds</h3>
-                <div class="space-y-3">
-                    <div class="p-3 rounded-lg bg-green-900/50 border border-green-700">
-                        <span class="font-semibold text-green-400">Profit Target Exit:</span> Exit when **40–60%** of ATM straddle decay is captured.
-                    </div>
-                    <div class="p-3 rounded-lg bg-red-900/50 border border-red-700">
-                        <span class="font-semibold text-red-400">MTM Stop-Loss Exit:</span> Exit if MTM loss reaches **−1.0% to −1.5%** of margin deployed.
-                    </div>
-                    <div class="p-3 rounded-lg bg-red-900/50 border border-red-700">
-                        <span class="font-semibold text-red-400">Drift Exit:</span> If directional drift exceeds **1.0%**, the position must be closed.
-                    </div>
-                    <div class="p-3 rounded-lg bg-yellow-900/50 border border-yellow-700">
-                        <span class="font-semibold text-yellow-400">Volatility Exit:</span> Exit if VIX rises **+10% intraday** or **+15% across 2 days**.
-                    </div>
-                    <div class="p-3 rounded-lg bg-red-900/50 border border-red-700">
-                        <span class="font-semibold text-red-400">Wing Breach Exit:</span> Exit if spot **crosses or closes beyond** a long wing.
-                    </div>
-                    <div class="p-3 rounded-lg bg-gray-900/50 border border-gray-700">
-                        <span class="font-semibold text-gray-400">Time Exit:</span> Exit when DTE **&lt; 1.5 days** (two days before expiry).
-                    </div>
-                </div>
+                <!-- Section 2: Greek Profile -->
+                <section id="section-metrics" class="glass-card p-8 rounded-2xl border-t-4 border-blue-500">
+                    <h2 class="text-2xl font-bold mb-6 text-blue-400 flex items-center gap-2">
+                        <span class="bg-blue-500/20 p-1.5 rounded-lg text-sm">02</span> Greek Profile & Objectives
+                    </h2>
+                    <p class="mb-6 text-slate-300">The ratio wing structure dictates a specific Greek profile optimized
+                        for stable P&L over multiple days.</p>
 
-                <h3 class="text-2xl font-semibold text-white mt-8 mb-3">Emergency Actions</h3>
-                <p class="text-sm text-gray-500">Manual intervention should only be used to correct system failures or for immediate, decisive exit.</p>
-                <ul class="list-disc list-inside space-y-2 mt-4 text-gray-400">
-                    <li>**Force MTM Stop Exit:** Use to immediately close the position if MTM hits SL but the automation fails to trigger.</li>
-                    <li>**Manual Close Position:** Use to manually book profit or loss in urgent situations where the automation is compromised.</li>
-                </ul>
-            </section>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4 p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
+                            <div class="text-2xl font-mono text-emerald-400 bg-emerald-500/10 p-2 rounded-lg">Θ</div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white mb-1">Theta (Time Decay) - Strongly Positive
+                                </h4>
+                                <p class="text-sm text-slate-400">The structure maximizes decay capture. The objective
+                                    is to exit when <strong class="text-emerald-400">40–60%</strong> of the ATM straddle
+                                    decay is realized.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
+                            <div class="text-2xl font-mono text-blue-400 bg-blue-500/10 p-2 rounded-lg">Γ</div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white mb-1">Gamma (Acceleration) - Low</h4>
+                                <p class="text-sm text-slate-400">The ratio wings dramatically reduce net Gamma,
+                                    ensuring stable MTM and survival during slow trending markets.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
+                            <div class="text-2xl font-mono text-yellow-400 bg-yellow-500/10 p-2 rounded-lg">V</div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white mb-1">Vega (Volatility Risk) - Near-Neutral</h4>
+                                <p class="text-sm text-slate-400">The structure is designed for <strong
+                                        class="text-yellow-400">resilience to IV cooling</strong>. Theta is expected to
+                                    dominate, providing profit even if the net Vega is slightly long.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 3: Position Structure -->
+                <section id="section-payoff" class="glass-card p-8 rounded-2xl border-t-4 border-purple-500">
+                    <h2 class="text-2xl font-bold mb-6 text-purple-400 flex items-center gap-2">
+                        <span class="bg-purple-500/20 p-1.5 rounded-lg text-sm">03</span> Position Structure & Payoff
+                    </h2>
+                    <p class="mb-6 text-slate-300">The RIF uses a scalable whole-lot structure to achieve 1.5× wing
+                        coverage and wider breakevens.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-3">Standard 2:3 RIF Configuration</h3>
+                            <div
+                                class="bg-slate-900 p-4 rounded-xl border border-slate-700 font-mono text-sm text-teal-300 leading-relaxed">
+                                <div class="flex justify-between border-b border-slate-800 pb-2 mb-2">
+                                    <span class="text-red-400">Sell 2× ATM CE</span>
+                                    <span class="text-slate-500">Short Straddle</span>
+                                </div>
+                                <div class="flex justify-between border-b border-slate-800 pb-2 mb-2">
+                                    <span class="text-red-400">Sell 2× ATM PE</span>
+                                    <span class="text-slate-500">Short Straddle</span>
+                                </div>
+                                <div class="flex justify-between border-b border-slate-800 pb-2 mb-2">
+                                    <span class="text-emerald-400">Buy 3× OTM CE</span>
+                                    <span class="text-slate-500">0.8% - 1.3% away</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-emerald-400">Buy 3× OTM PE</span>
+                                    <span class="text-slate-500">0.8% - 1.3% away</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-3">Payoff Characteristics</h3>
+                            <ul class="space-y-3 text-sm text-slate-300">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-emerald-400 mt-1">➜</span>
+                                    <div><strong class="text-white">Max Profit:</strong> Occurs at the ATM short
+                                        strikes.</div>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-emerald-400 mt-1">➜</span>
+                                    <div><strong class="text-white">Breakevens:</strong> Extended by the ratio
+                                        structure, providing a larger profit zone.</div>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-emerald-400 mt-1">➜</span>
+                                    <div><strong class="text-white">Controlled Loss:</strong> Max loss is defined and
+                                        occurs outside the long wings.</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 4: Volatility Regimes -->
+                <section id="section-vol-regimes" class="glass-card p-8 rounded-2xl border-t-4 border-amber-500">
+                    <h2 class="text-2xl font-bold mb-6 text-amber-400 flex items-center gap-2">
+                        <span class="bg-amber-500/20 p-1.5 rounded-lg text-sm">04</span> Volatility Regime Applicability
+                    </h2>
+                    <p class="mb-6 text-slate-300">The choice of wing distance and overall RIF performance are heavily
+                        dependent on the current Implied Volatility Percentile (IVP) and VIX levels.</p>
+
+                    <div class="grid gap-4">
+                        <div class="p-4 bg-emerald-500/10 rounded-xl border border-emerald-500/20">
+                            <h4 class="text-lg font-bold text-emerald-400 mb-1">Low IV Regime <span
+                                    class="text-xs text-slate-400 font-normal ml-2">(VIX 10–13, IVP &lt; 20)</span></h4>
+                            <p class="text-sm text-slate-300">Stable MTM and low gamma environment. Theta is moderate,
+                                but cheap, protective wings (0.7–0.9%) make the RIF reliably profitable for conservative
+                                carry (Ratio 2:3).</p>
+                        </div>
+                        <div class="p-4 bg-teal-500/10 rounded-xl border border-teal-500/20">
+                            <h4 class="text-lg font-bold text-teal-400 mb-1">Normal IV Regime <span
+                                    class="text-xs text-slate-400 font-normal ml-2">(VIX 13–16, IVP 20–60)</span></h4>
+                            <p class="text-sm text-slate-300">Optimal regime. Strong theta decay and low-to-medium vega
+                                impact. Allows for 2–3 day target hits. Use 0.8–1.1% wings (Ratio 2:3).</p>
+                        </div>
+                        <div class="p-4 bg-yellow-500/10 rounded-xl border border-yellow-500/20">
+                            <h4 class="text-lg font-bold text-yellow-400 mb-1">Elevated IV Regime <span
+                                    class="text-xs text-slate-400 font-normal ml-2">(VIX 16–20, IVP 60–85)</span></h4>
+                            <p class="text-sm text-slate-300">High theta but increased gamma sensitivity. Requires
+                                farther wings (1.0–1.3%) and a stronger ratio (1:2 or 2:4). Best used when IV is
+                                stabilizing. Avoid strong trending markets.</p>
+                        </div>
+                        <div class="p-4 bg-red-500/10 rounded-xl border border-red-500/20">
+                            <h4 class="text-lg font-bold text-red-400 mb-1">High IV Regime <span
+                                    class="text-xs text-slate-400 font-normal ml-2">(VIX &gt; 20, IVP &gt; 85)</span>
+                            </h4>
+                            <p class="text-sm text-slate-300">Not suitable for RIF. Gamma/vega risk dominates, leading
+                                to unpredictable MTM volatility. Avoid multi-day carry in this zone.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 5: Entry Conditions -->
+                <section id="section-conditions" class="glass-card p-8 rounded-2xl border-t-4 border-emerald-500">
+                    <h2 class="text-2xl font-bold mb-6 text-emerald-400 flex items-center gap-2">
+                        <span class="bg-emerald-500/20 p-1.5 rounded-lg text-sm">05</span> Entry Conditions & Rules
+                    </h2>
+                    <p class="mb-6 text-slate-300">All conditions must be met simultaneously for the automation logic to
+                        permit entry.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-4">Entry Requirements</h3>
+                            <ul class="space-y-3 text-sm text-slate-300">
+                                <li
+                                    class="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                                    <span class="w-2 h-2 rounded-full bg-teal-400"></span>
+                                    <span><strong class="text-white">DTE Window:</strong> Between 3 and 5 days.</span>
+                                </li>
+                                <li
+                                    class="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                                    <span class="w-2 h-2 rounded-full bg-teal-400"></span>
+                                    <span><strong class="text-white">IV/Volatility:</strong> IVP 20-70, VIX &lt;
+                                        16.</span>
+                                </li>
+                                <li
+                                    class="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                                    <span class="w-2 h-2 rounded-full bg-teal-400"></span>
+                                    <span><strong class="text-white">Trend Neutrality:</strong> RSI(1H) 40-60, ADX &lt;
+                                        22.</span>
+                                </li>
+                                <li
+                                    class="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                                    <span class="w-2 h-2 rounded-full bg-teal-400"></span>
+                                    <span><strong class="text-white">Time Filter:</strong> 10:30 AM – 2:00 PM.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-4">Wing Distance Selection</h3>
+                            <div class="overflow-hidden rounded-xl border border-slate-700">
+                                <table class="w-full text-sm text-left text-slate-300 strategy-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="p-3">IVP Range</th>
+                                            <th class="p-3">Wing Distance</th>
+                                            <th class="p-3">Ratio</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-slate-800/30">
+                                        <tr class="border-b border-slate-700/50">
+                                            <td class="p-3">Low (&lt;25)</td>
+                                            <td class="p-3">0.7–0.9%</td>
+                                            <td class="p-3">2:3</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-700/50">
+                                            <td class="p-3">Normal (25–60)</td>
+                                            <td class="p-3">0.8–1.1%</td>
+                                            <td class="p-3">2:3</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-700/50">
+                                            <td class="p-3">Elevated (60–85)</td>
+                                            <td class="p-3">1.0–1.3%</td>
+                                            <td class="p-3">1:2</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-3 text-red-400">High (&gt;85)</td>
+                                            <td class="p-3 text-red-400">1.2–1.5%</td>
+                                            <td class="p-3 text-red-400">1:2</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 6: Exit Management -->
+                <section id="section-exit" class="glass-card p-8 rounded-2xl border-t-4 border-red-500">
+                    <h2 class="text-2xl font-bold mb-6 text-red-400 flex items-center gap-2">
+                        <span class="bg-red-500/20 p-1.5 rounded-lg text-sm">06</span> Exit Management & Protocol
+                    </h2>
+                    <p class="mb-6 text-red-300 font-semibold bg-red-500/10 p-4 rounded-xl border border-red-500/20">
+                        CRITICAL: The strategy uses fixed stop-losses and targets. <span class="text-white font-bold">No
+                            Manual Adjustments are allowed</span> for directional drift or IV shock. All non-profit
+                        exits are treated as closures.
+                    </p>
+
+                    <h3 class="text-lg font-bold text-white mb-4">Automated Exit Thresholds</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <div class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                            <span class="font-bold text-emerald-400 block mb-1">Profit Target Exit</span>
+                            <span class="text-sm text-slate-300">Exit when <strong class="text-white">40–60%</strong> of
+                                ATM straddle decay is captured.</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-red-500/10 border border-red-500/20">
+                            <span class="font-bold text-red-400 block mb-1">MTM Stop-Loss Exit</span>
+                            <span class="text-sm text-slate-300">Exit if MTM loss reaches <strong
+                                    class="text-white">−1.0% to −1.5%</strong> of margin deployed.</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-red-500/10 border border-red-500/20">
+                            <span class="font-bold text-red-400 block mb-1">Drift Exit</span>
+                            <span class="text-sm text-slate-300">If directional drift exceeds <strong
+                                    class="text-white">1.0%</strong>, the position must be closed.</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/20">
+                            <span class="font-bold text-yellow-400 block mb-1">Volatility Exit</span>
+                            <span class="text-sm text-slate-300">Exit if VIX rises <strong class="text-white">+10%
+                                    intraday</strong> or +15% across 2 days.</span>
+                        </div>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-white mb-3">Emergency Actions</h3>
+                    <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700/50">
+                        <ul class="list-disc list-inside space-y-2 text-sm text-slate-400">
+                            <li><strong class="text-white">Force MTM Stop Exit:</strong> Use to immediately close the
+                                position if MTM hits SL but the automation fails to trigger.</li>
+                            <li><strong class="text-white">Manual Close Position:</strong> Use to manually book profit
+                                or loss in urgent situations where the automation is compromised.</li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
         </main>
+
+        <footer class="mt-16 text-center text-slate-500 text-sm">
+            <p>&copy; 2025 RIF Strategy Manual. Trade with discipline. All rights reserved.</p>
+        </footer>
+
     </div>
-
-    <!-- Footer -->
-    <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500">
-        <p>&copy; 2025 RIF Strategy Manual. Trade with discipline. All rights reserved.</p>
-    </footer>
-
 </body>
+
 </html>
