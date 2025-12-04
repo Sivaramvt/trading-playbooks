@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITE Strategy Rulebook</title>
+
+    <!-- React & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            /* Slate 950 */
+            color: #e2e8f0;
+        }
+
+        .mono-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="glass-panel sticky top-0 z-50 border-b border-slate-700/50 mb-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../index.html" class="text-xl font-bold text-white flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Back to Home
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <span class="text-slate-400 text-sm">ITE Strategy Rulebook</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Icon component wrapper: Manually renders SVG using Lucide's API via a ref
+        const Icon = ({ name, size = 20, className = "" }) => {
+            const ref = useRef(null);
+            const lucide = window.lucide;
+
+            useEffect(() => {
+                if (ref.current && lucide && lucide.icons[name]) {
+                    // 1. Clear previous content (critical for React compatibility)
+                    ref.current.innerHTML = '';
+
+                    // 2. Generate the SVG string, passing size and class
+                    const svgString = lucide.icons[name].toSvg({
+                        width: size,
+                        height: size,
+                        class: className || '',
+                        'data-testid': name
+                    });
+
+                    // 3. Insert the SVG string into the controlled ref element
+                    ref.current.innerHTML = svgString;
+                }
+            }, [name, size, className, lucide]);
+
+            // Render a simple wrapper div managed by React.
+            return <div ref={ref} className="inline-block flex-shrink-0" />;
+        };
+
+        const Card = ({ title, children, className = "", accentColor = "border-slate-700" }) => (
+            <div className={`glass-panel rounded-xl p-5 border-l-4 ${accentColor} shadow-lg ${className}`}>
+                {title && <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-2">{title}</h3>}
+                <div>{children}</div>
+            </div>
+        );
+
+        const SectionHeader = ({ title, icon }) => (
+            <div className="flex items-center gap-3 mb-6 mt-8 border-b border-slate-700 pb-2">
+                <span className="text-emerald-400">{icon}</span>
+                <h2 className="text-xl font-bold text-white tracking-tight">{title}</h2>
+            </div>
+        );
+
+        const GlossaryItem = ({ term, definition, className = "" }) => (
+            <div className={`p-4 bg-slate-800 rounded-lg ${className}`}>
+                <h4 className="text-base font-semibold text-indigo-400 mono-font mb-1">{term}</h4>
+                <p className="text-slate-300 text-sm">{definition}</p>
+            </div>
+        );
+
+
+        const App = () => {
+            const [checklist, setChecklist] = useState({
+                monthly: false,
+                weekly: false,
+                atr: false,
+                vix: false,
+                fii: false,
+                ob: false,
+                wave3: false,
+                rs: false
+            });
+
+            const toggleCheck = (key) => {
+                setChecklist(prev => ({ ...prev, [key]: !prev[key] }));
+            };
+
+            const allChecked = Object.values(checklist).every(Boolean);
+            const smartMoneyCheckedCount = (checklist.fii ? 1 : 0) + (checklist.ob ? 1 : 0) + (checklist.wave3 ? 1 : 0);
+            const smartMoneyValid = smartMoneyCheckedCount >= 2;
+
+
+            return (
+                <div className="min-h-screen p-4 md:p-8 max-w-7xl mx-auto">
+
+                    {/* Header Section */}
+                    <header className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-800 pb-6">
+                        <div>
+                            <div className="flex items-center gap-3">
+                                <div className="h-3 w-3 rounded-full bg-indigo-500 animate-pulse"></div>
+                                <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">ITE Rulebook</h1>
+                            </div>
+                            <p className="text-slate-400 mt-2 text-sm md:text-base max-w-2xl">
+                                **Institutional Trend Expansion (ITE).** A satellite strategy capturing rare, high-conviction institutional impulsive trends (Wave 3).
+                            </p>
+                        </div>
+
+                        <div className="flex gap-4">
+                            <div className="text-right">
+                                <div className="text-xs text-slate-500 uppercase font-semibold">Win Rate</div>
+                                <div className="text-xl font-bold text-emerald-400 mono-font">30–40%</div>
+                            </div>
+                            <div className="w-px bg-slate-800 h-10"></div>
+                            <div className="text-right">
+                                <div className="text-xs text-slate-500 uppercase font-semibold">Avg R</div>
+                                <div className="text-xl font-bold text-blue-400 mono-font">3–7R</div>
+                            </div>
+                            <div className="w-px bg-slate-800 h-10"></div>
+                            <div className="text-right">
+                                <div className="text-xs text-slate-500 uppercase font-semibold">Freq</div>
+                                <div className="text-xl font-bold text-purple-400 mono-font">2–6/Yr</div>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Top Grid: Objective & Instruments */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <Card title="Strategy Objective" accentColor="border-indigo-500" className="md:col-span-2">
+                            <p className="text-slate-300 leading-relaxed text-sm">
+                                Capture large, sustained directional moves in index futures with low trade frequency and high conviction, leveraging directional drift and regime alignment.
+                            </p>
+                            <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded text-yellow-200 text-xs">
+                                <span className="font-bold">⚠ Note:</span> This is not a classical “carry trade.” Futures MTM benefit is incidental; directional trend is the primary edge.
+                            </div>
+                        </Card>
+
+                        <Card title="Instruments & Rotation" accentColor="border-orange-500">
+                            <ul className="space-y-3 text-sm">
+                                <li className="flex justify-between items-center border-b border-slate-700 pb-2">
+                                    <span>Index Futures</span>
+                                    <span className="mono-font text-slate-400">Nifty, BankNifty, Sensex</span>
+                                </li>
+                                <li>
+                                    <span className="font-semibold text-orange-400 block mb-1">Sector Rotation Rule (Mandatory)</span>
+                                    <span className="text-slate-400 text-xs leading-tight">
+                                        Take trade in Sector Future if <span className="text-white bg-slate-700 px-1 rounded">Sector RS &gt; Index RS</span> for 3 consecutive weeks.
+                                    </span>
+                                </li>
+                            </ul>
+                        </Card>
+                    </div>
+
+                    {/* Section: Edge Components & Preconditions */}
+                    <SectionHeader title="Edge Components & Preconditions (All Must Be Met)" icon={<Icon name="layers" />} />
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+
+                        {/* A. Trend Structure */}
+                        <Card title="A. Trend Structure & Confirmation" accentColor="border-emerald-500">
+                            <div className="space-y-4 text-sm">
+                                <div>
+                                    <div className="text-xs font-bold text-emerald-500 mb-1">MONTHLY FRAME (Macro Trend)</div>
+                                    <ul className="list-disc list-inside text-slate-300 space-y-1">
+                                        <li>Wave 3 likely, price &gt; 10MEMA.</li>
+                                        <li>Institutional displacement must be present.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <div className="text-xs font-bold text-emerald-500 mb-1">WEEKLY FRAME (Primary Trend)</div>
+                                    <ul className="list-disc list-inside text-slate-300 space-y-1">
+                                        <li>Price &gt; 20WEMA. Breakout or sustained trend.</li>
+                                        <li>Weekly Order Block (OB) respected.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <div className="text-xs font-bold text-emerald-500 mb-1">DAILY FRAME (Precision/Timing)</div>
+                                    <ul className="list-disc list-inside text-slate-300 space-y-1">
+                                        <li>Pullback into Daily OB / FVG.</li>
+                                        <li>RS strong, no failed breakout, clean price behavior.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Card>
+
+                        {/* B. Volatility Structure */}
+                        <Card title="B. Volatility Structure" accentColor="border-blue-500">
+                            <div className="space-y-3">
+                                <div className="flex justify-between items-center p-2 bg-slate-800 rounded">
+                                    <span className="text-sm">VIX Limit</span>
+                                    <span className="mono-font text-blue-300 font-bold">&lt; 14–16</span>
+                                </div>
+                                <div className="flex justify-between items-center p-2 bg-slate-800 rounded">
+                                    <span className="text-sm">IV Rank</span>
+                                    <span className="mono-font text-blue-300 font-bold">&lt; 40%</span>
+                                </div>
+                                <div className="text-xs text-slate-400 mt-2">
+                                    *ATR must be rising on Weekly (Trend Quality) and stable/low on Daily (Precision).
+                                </div>
+                                <div className="mt-4 p-2 border border-red-900/50 bg-red-900/10 rounded text-red-300 text-xs">
+                                    <span className="font-bold">AVOID:</span> High IV &gt; 20 or expanding Volatility.
+                                </div>
+                            </div>
+                        </Card>
+
+                        {/* C. Smart Money Structure (New Filter) */}
+                        <Card title="C. Smart Money Confirmation (2/3)" accentColor="border-purple-500">
+                            <p className="text-xs text-slate-400 mb-3">Trade only when <strong className="text-white">2 of 3</strong> Smart Money signals align.</p>
+                            <div className="space-y-3 text-sm">
+                                <div className={`p-2 rounded border ${checklist.fii ? 'bg-emerald-900/20 border-emerald-500/50' : 'bg-slate-800/50 border-slate-700'}`}>
+                                    <div className="font-semibold text-slate-200">FII Buying Confirmation</div>
+                                    <div className={`text-xs ${checklist.fii ? 'text-emerald-400' : 'text-slate-500'}`}>3 or 5-day cumulative positive flows.</div>
+                                </div>
+
+                                <div className={`p-2 rounded border ${checklist.ob ? 'bg-emerald-900/20 border-emerald-500/50' : 'bg-slate-800/50 border-slate-700'}`}>
+                                    <div className="font-semibold text-slate-200">Order Block (OB) Validity</div>
+                                    <div className={`text-xs ${checklist.ob ? 'text-emerald-400' : 'text-slate-500'}`}>Weekly/Daily OB respected (no candle close below origin for longs).</div>
+                                </div>
+
+                                <div className={`p-2 rounded border ${checklist.wave3 ? 'bg-emerald-900/20 border-emerald-500/50' : 'bg-slate-800/50 border-slate-700'}`}>
+                                    <div className="font-semibold text-slate-200">Wave 3 Impulse Confirmation</div>
+                                    <div className={`text-xs ${checklist.wave3 ? 'text-emerald-400' : 'text-slate-500'}`}>Strong impulsive expansion leg with shallow retracement.</div>
+                                </div>
+                            </div>
+                            <div className={`mt-4 p-2 rounded text-center font-bold text-xs ${smartMoneyValid ? 'bg-emerald-600/30 text-emerald-200' : 'bg-rose-600/30 text-rose-200'}`}>
+                                ALIGNMENT: {smartMoneyCheckedCount} / 3 Signals
+                            </div>
+                        </Card>
+                    </div>
+
+                    {/* Section: Execution Engine */}
+                    <SectionHeader title="Execution Engine: Entry, Sizing & Risk" icon={<Icon name="crosshair" />} />
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        {/* Entry Logic */}
+                        <div className="space-y-6">
+                            <Card title="Entry Conditions" accentColor="border-emerald-400">
+                                <div className="flex flex-col gap-4">
+                                    <div className="relative pl-4 border-l-2 border-slate-600">
+                                        <div className="text-xs font-bold text-slate-500 uppercase">Primary Structural Trigger (Weekly)</div>
+                                        <div className="text-white font-medium">Weekly Breakout Close <span className="text-slate-500">OR</span> Weekly VCP Breakout with volume.</div>
+                                    </div>
+
+                                    <div className="text-center text-slate-500 text-xs py-1">⬇ DAILY PRECISION REQUIRED ⬇</div>
+
+                                    <div className="relative pl-4 border-l-2 border-emerald-500 bg-emerald-900/10 p-2 rounded-r">
+                                        <div className="text-xs font-bold text-emerald-500 uppercase">Secondary Precision Trigger (Daily)</div>
+                                        <ul className="list-disc list-inside text-sm text-slate-300 mt-1 space-y-1">
+                                            <li>Inside-Bar Breakout</li>
+                                            <li>Retest of Weekly OB / Breakout zone</li>
+                                            <li>Bullish Reversal from OB or Fair Value Gap (FVG)</li>
+                                            <li>Tight contraction ranges (VCP behaviour)</li>
+                                            <li>No contradictory daily RS shift</li>
+                                        </ul>
+                                    </div>
+
+                                    <div className="bg-slate-800 p-3 rounded border border-slate-600">
+                                        <span className="text-xs font-bold text-slate-400 block">ENTRY ORDER</span>
+                                        <span className="text-emerald-400 font-mono text-sm">Buy 1 Lot Futures @ Next Day Open OR on a Clean Daily Retest.</span>
+                                    </div>
+                                </div>
+                            </Card>
+                        </div>
+
+                        {/* Position Sizing & Risk */}
+                        <div className="space-y-6">
+                            <Card title="Position Sizing & Scaling" accentColor="border-yellow-400">
+                                <div className="grid grid-cols-2 gap-4 text-center">
+                                    <div className="bg-slate-800 p-3 rounded">
+                                        <div className="text-xs text-slate-500 uppercase">Base Unit</div>
+                                        <div className="text-xl font-bold text-white mono-font">1 Lot</div>
+                                    </div>
+                                    <div className="bg-slate-800 p-3 rounded">
+                                        <div className="text-xs text-slate-500 uppercase">Max Size</div>
+                                        <div className="text-xl font-bold text-white mono-font">2 Lots</div>
+                                    </div>
+                                </div>
+                                <div className="mt-4 text-sm bg-yellow-900/20 border border-yellow-700 p-3 rounded">
+                                    <strong className="text-yellow-400 block mb-1">The Scaling Rule:</strong>
+                                    Add +1 Lot <strong>only on a NEW Structural Breakout</strong> (Daily flag break, VCP break). <br />
+                                    <div className="text-xs text-slate-400 mt-1 italic">Rationale: Structural continuation establishes a new technical floor, reducing risk.</div>
+                                </div>
+                            </Card>
+
+                            <Card title="Risk & Exit Management" accentColor="border-rose-500">
+                                <ul className="space-y-3 text-sm">
+                                    <li className="flex gap-2">
+                                        <span className="text-rose-400 font-bold min-w-[60px]">Init SL:</span>
+                                        <span className="text-slate-300">Below weekly swing low <span className="text-slate-500">OR</span> 2&times; ATR(14). (Allows for 3-4% index swings).</span>
+                                    </li>
+                                    <li className="flex gap-2">
+                                        <span className="text-blue-400 font-bold min-w-[60px]">Trail:</span>
+                                        <span className="text-slate-300">Weekly frame only, after higher low or scaling in. Max Risk: ~1.5R when scaled.</span>
+                                    </li>
+                                    <li className="flex gap-2 bg-rose-900/20 p-2 rounded border border-rose-900/50">
+                                        <span className="text-rose-400 font-bold min-w-[60px]">Climax:</span>
+                                        <span className="text-slate-200">If price extends &gt;3&times; Weekly ATR above 20WEMA (Parabolic), <span className="font-bold underline decoration-rose-500">TRIM 50%</span> immediately.</span>
+                                    </li>
+                                    <li className="flex gap-2">
+                                        <span className="text-slate-500 font-bold min-w-[60px]">Hard Exit:</span>
+                                        <span className="text-slate-300">Weekly trend breaks (LL, close &lt; 20WEMA), VIX spike &gt; 12-15%, OR Breakdown of smart-money structure (OB violation, FII selling).</span>
+                                    </li>
+                                    <li className="flex gap-2">
+                                        <span className="text-emerald-400 font-bold min-w-[60px]">Profit:</span>
+                                        <span className="text-slate-300">Min 2R, Normal 3-5R, Exceptional 7-10R.</span>
+                                    </li>
+                                </ul>
+                            </Card>
+                        </div>
+                    </div>
+
+                    {/* Section: Weekly Routine */}
+                    <SectionHeader title="Weekly Review Routine & Avoid Conditions" icon={<Icon name="clipboard-check" />} />
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <Card title="Weekly Checklist" accentColor={allChecked ? "border-emerald-500" : "border-slate-500"}>
+                            <p className="text-xs text-slate-400 mb-4">Click to confirm. **Exit if 4 or more fail.**</p>
+                            <div className="space-y-2">
+                                {[
+                                    { id: 'monthly', label: 'Monthly Trend Intact (Wave 3 / >10MEMA)?' },
+                                    { id: 'weekly', label: 'Weekly HH/HL Structure Holding?' },
+                                    { id: 'atr', label: 'ATR Expanding / Stable?' },
+                                    { id: 'vix', label: 'VIX Stable / Compressing (< 16)?' },
+                                    { id: 'rs', label: 'Relative Strength Holding?' },
+                                    { id: 'fii', label: 'FII Net Buying (3+ sessions)?' },
+                                    { id: 'ob', label: 'Weekly/Daily OB Respected?' },
+                                    { id: 'wave3', label: 'Wave 3 Impulse Conditions Present?' },
+                                ].map(item => (
+                                    <div
+                                        key={item.id}
+                                        onClick={() => toggleCheck(item.id)}
+                                        className={`flex items-center p-3 rounded cursor-pointer transition-all border ${checklist[item.id]
+                                                ? 'bg-emerald-900/20 border-emerald-500/50 text-emerald-200'
+                                                : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-750'
+                                            }`}
+                                    >
+                                        <div className={`w-5 h-5 rounded border mr-3 flex items-center justify-center ${checklist[item.id] ? 'bg-emerald-500 border-emerald-500' : 'border-slate-500'
+                                            }`}>
+                                            {checklist[item.id] && <Icon name="check" size={14} className="text-white" />}
+                                        </div>
+                                        <span className="text-sm font-medium">{item.label}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </Card>
+
+                        <div className="flex flex-col gap-4">
+                            <Card title="Avoid Conditions" accentColor="border-rose-700">
+                                <ul className="list-disc list-inside text-sm text-slate-300 space-y-2">
+                                    <li>High IV &gt; 20 (Volatility expansion).</li>
+                                    <li>Sideways weekly structures (Consolidation).</li>
+                                    <li>Major event windows (Unless fully aligned).</li>
+                                </ul>
+                            </Card>
+
+                            <div className="glass-panel p-6 rounded-xl border border-slate-700 bg-gradient-to-br from-slate-900 to-slate-800 flex-grow">
+                                <h3 className="text-lg font-bold text-white mb-2">Framework Fit</h3>
+                                <p className="text-slate-400 text-sm mb-4">
+                                    The ITE strategy complements intraday gamma and weekly theta systems. It serves as the <strong>Wealth Accelerator</strong> bucket, focused on capturing rare, high-impulse moves.
+                                </p>
+                                <div className="grid grid-cols-2 gap-4 mt-auto">
+                                    <div className="p-3 bg-black/30 rounded border border-slate-700">
+                                        <div className="text-xs text-slate-500">Holding Period</div>
+                                        <div className="font-mono text-white">3w – 3mo</div>
+                                    </div>
+                                    <div className="p-3 bg-black/30 rounded border border-slate-700">
+                                        <div className="text-xs text-slate-500">Profile</div>
+                                        <div className="font-mono text-white">Flat &rarr; Spike</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Section: Glossary */}
+                    <SectionHeader title="Smart Money Glossary" icon={<Icon name="book-open" />} />
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                        <GlossaryItem
+                            term="Order Block (OB)"
+                            definition="A price zone where institutional flow caused a strong displacement move. Valid OBs must hold (no close below origin for longs)."
+                        />
+                        <GlossaryItem
+                            term="Fair Value Gap (FVG)"
+                            definition="A 3-candle imbalance showing inefficient pricing. Acts as a magnet and an entry refinement zone."
+                        />
+                        <GlossaryItem
+                            term="Displacement Candle"
+                            definition="A large impulsive candle with strong body and volume indicating institutional aggression (often signals Wave 3)."
+                        />
+                        <GlossaryItem
+                            term="Wave 3 Confirmation"
+                            definition="The impulsive leg characterized by wide-range candles, volume expansion, shallow pullbacks, and strong Relative Strength (RS)."
+                        />
+                        <GlossaryItem
+                            term="BOS / CHOCH"
+                            definition="Break of Structure (BOS) confirms trend continuation; Change of Character (CHOCH) signals a potential reversal or shift in market structure."
+                            className="lg:col-span-2"
+                        />
+                    </div>
+
+
+                    <footer className="mt-12 border-t border-slate-800 pt-6 text-center text-slate-600 text-xs">
+                        <p>ITE Rulebook v2.1 | Institutional Trend Expansion</p>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>
