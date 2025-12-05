@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Trading Playbooks</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/auth.js"></script>
+</head>
+
+<body
+    class="min-h-screen flex flex-col items-center justify-center p-4 sm:p-8 bg-[url('https://images.unsplash.com/photo-1611974765270-ca12586343bb?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center bg-no-repeat bg-fixed relative">
+
+    <!-- Dark Overlay -->
+    <div class="absolute inset-0 bg-slate-900/90 z-0"></div>
+
+    <div class="relative z-10 w-full max-w-md animate-fade-in">
+
+        <div class="glass-panel rounded-2xl p-8 border-t-4 border-blue-500 shadow-2xl">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-white mb-2">Access Control</h1>
+                <p class="text-slate-400 text-sm">Please enter the access code to view the playbooks.</p>
+            </div>
+
+            <form onsubmit="attemptLogin(event)" class="space-y-6">
+                <div>
+                    <label for="password" class="block text-sm font-medium text-slate-300 mb-2">Access Code</label>
+                    <input type="password" id="password" required
+                        class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        placeholder="Enter code...">
+                    <p id="error-message" class="hidden text-red-400 text-xs mt-2">Incorrect access code. Please try
+                        again.</p>
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-blue-500/25">
+                    Unlock Playbooks
+                </button>
+            </form>
+
+            <div class="mt-6 text-center">
+                <p class="text-xs text-slate-500">Restricted Access Area</p>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
