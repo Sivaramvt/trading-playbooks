@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCC Strategy Rulebook</title>
+
+    <!-- React & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Auth Protection -->
+    <script src="../js/auth.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            /* Slate 950 */
+            color: #e2e8f0;
+        }
+
+        .mono-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="glass-panel sticky top-0 z-50 border-b border-slate-700/50 mb-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../index.html" class="text-xl font-bold text-white flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Back to Home
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <span class="text-slate-400 text-sm">CCC Strategy Rulebook</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Icon component wrapper
+        const Icon = ({ name, size = 20, className = "" }) => {
+            const ref = useRef(null);
+            const lucide = window.lucide;
+
+            useEffect(() => {
+                if (ref.current && lucide && lucide.icons[name]) {
+                    ref.current.innerHTML = '';
+                    const svgString = lucide.icons[name].toSvg({
+                        width: size,
+                        height: size,
+                        class: className || '',
+                        'data-testid': name
+                    });
+                    ref.current.innerHTML = svgString;
+                }
+            }, [name, size, className, lucide]);
+
+            return <div ref={ref} className="inline-block flex-shrink-0" />;
+        };
+
+        const Card = ({ title, children, className = "", accentColor = "border-slate-700" }) => (
+            <div className={`glass-panel rounded-xl p-5 border-l-4 ${accentColor} shadow-lg ${className}`}>
+                {title && <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-2">{title}</h3>}
+                <div>{children}</div>
+            </div>
+        );
+
+        const SectionHeader = ({ title, icon }) => (
+            <div className="flex items-center gap-3 mb-6 mt-8 border-b border-slate-700 pb-2">
+                <span className="text-purple-400">{icon}</span>
+                <h2 className="text-xl font-bold text-white tracking-tight">{title}</h2>
+            </div>
+        );
+
+        const App = () => {
+            return (
+                <div className="min-h-screen p-4 md:p-8 max-w-7xl mx-auto">
+
+                    {/* Header Section */}
+                    <header className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-800 pb-6">
+                        <div>
+                            <div className="flex items-center gap-3">
+                                <div className="h-3 w-3 rounded-full bg-purple-500 animate-pulse"></div>
+                                <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">Convex Carry Condor (CCC)</h1>
+                            </div>
+                            <p className="text-slate-400 mt-2 text-sm md:text-base max-w-2xl">
+                                **Institutional Convex Iron Condor.** A wide-tent, multi-day neutral carry engine engineered for theta harvesting with convex MTM protection.
+                            </p>
+                        </div>
+
+                        <div className="flex gap-4">
+                            <div className="text-right">
+                                <div className="text-xs text-slate-500 uppercase font-semibold">Win Rate</div>
+                                <div className="text-xl font-bold text-emerald-400 mono-font">65–80%</div>
+                            </div>
+                            <div className="w-px bg-slate-800 h-10"></div>
+                            <div className="text-right">
+                                <div className="text-xs text-slate-500 uppercase font-semibold">Return</div>
+                                <div className="text-xl font-bold text-blue-400 mono-font">0.6–1.2%</div>
+                            </div>
+                            <div className="w-px bg-slate-800 h-10"></div>
+                            <div className="text-right">
+                                <div className="text-xs text-slate-500 uppercase font-semibold">Hold</div>
+                                <div className="text-xl font-bold text-purple-400 mono-font">1 Day</div>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Top Grid: Objective & Overview */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <Card title="Strategy Objective" accentColor="border-purple-500" className="md:col-span-2">
+                            <p className="text-slate-300 leading-relaxed text-sm mb-4">
+                                Solve key limitations of traditional centered strategies by removing ATM gamma and introducing convexity via ratio wings.
+                                Achieve a wide, stable MTM zone suitable for carry while maintaining high POP.
+                            </p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="bg-slate-800 p-3 rounded border border-slate-700">
+                                    <div className="text-xs text-slate-500 uppercase">Tent Width</div>
+                                    <div className="font-mono text-white">±1.2% to ±1.8%</div>
+                                </div>
+                                <div className="bg-slate-800 p-3 rounded border border-slate-700">
+                                    <div className="text-xs text-slate-500 uppercase">Breakevens</div>
+                                    <div className="font-mono text-white">±2.3% to ±2.5%</div>
+                                </div>
+                            </div>
+                        </Card>
+
+                        <Card title="Why CCC Works" accentColor="border-blue-500">
+                            <ul className="space-y-2 text-sm text-slate-300">
+                                <li className="flex items-start gap-2">
+                                    <Icon name="check-circle" size={14} className="mt-1 text-emerald-400" />
+                                    <span>Removes ATM Gamma risk</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <Icon name="check-circle" size={14} className="mt-1 text-emerald-400" />
+                                    <span>Wide tent handles real-world drift</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <Icon name="check-circle" size={14} className="mt-1 text-emerald-400" />
+                                    <span>Convex wings provide tail protection</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <Icon name="check-circle" size={14} className="mt-1 text-emerald-400" />
+                                    <span>Works in all volatility regimes</span>
+                                </li>
+                            </ul>
+                        </Card>
+                    </div>
+
+                    {/* Section: Structure & Strikes */}
+                    <SectionHeader title="Position Structure & Template" icon={<Icon name="layers" />} />
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <Card title="Structure Per Side (1x1 Ratio)" accentColor="border-indigo-500">
+                            <div className="space-y-4">
+                                <div className="flex items-center justify-between bg-slate-800 p-3 rounded">
+                                    <span className="text-sm font-semibold text-rose-400">1. Sell Inner Spread (Put/Call)</span>
+                                    <span className="mono-font text-xs text-slate-400">~0.8% OTM (200pt width)</span>
+                                </div>
+                                <div className="flex justify-center">
+                                    <Icon name="plus" size={20} className="text-slate-600" />
+                                </div>
+                                <div className="flex items-center justify-between bg-slate-800 p-3 rounded">
+                                    <span className="text-sm font-semibold text-emerald-400">2. Buy Far OTM Wing</span>
+                                    <span className="mono-font text-xs text-slate-400">~2.0% OTM (Convexity)</span>
+                                </div>
+                                <p className="text-xs text-slate-400 mt-2 italic">
+                                    Results in a 6-leg convex Iron Condor (Short Put Spread + Extra Wing | Short Call Spread + Extra Wing).
+                                </p>
+                            </div>
+                        </Card>
+
+                        <Card title="Example Strikes (NIFTY @ 25,840)" accentColor="border-indigo-400">
+                            <div className="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <div className="text-xs font-bold text-rose-300 mb-2 uppercase border-b border-rose-900/50 pb-1">Put Side</div>
+                                    <ul className="space-y-2 mono-font">
+                                        <li className="text-rose-400">Sell 25,650 PE x1</li>
+                                        <li className="text-emerald-400">Buy 25,450 PE x1</li>
+                                        <li className="text-emerald-300">Buy 25,300 PE x1 <span className="text-xs font-sans text-slate-500 ml-1">(Wing)</span></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <div className="text-xs font-bold text-blue-300 mb-2 uppercase border-b border-blue-900/50 pb-1">Call Side</div>
+                                    <ul className="space-y-2 mono-font">
+                                        <li className="text-rose-400">Sell 26,000 CE x1</li>
+                                        <li className="text-emerald-400">Buy 26,200 CE x1</li>
+                                        <li className="text-emerald-300">Buy 26,400 CE x1 <span className="text-xs font-sans text-slate-500 ml-1">(Wing)</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="mt-4 p-2 border border-slate-600 bg-slate-800/50 rounded text-slate-300 text-xs">
+                                <span className="font-bold text-yellow-400">SENSEX Note:</span> Use Limit Orders Only. Liquidity at 2% OTM can be thin. Execute legs individually if needed.
+                            </div>
+                        </Card>
+                    </div>
+
+                    {/* Section: Entry & Exit Rules */}
+                    <SectionHeader title="Execution Rules" icon={<Icon name="play-circle" />} />
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <Card title="Entry Rules (3 DTE)" accentColor="border-emerald-500">
+                            <div className="space-y-4 text-sm">
+                                <div>
+                                    <div className="font-semibold text-white mb-1">Timing</div>
+                                    <div className="grid grid-cols-2 gap-2 text-xs">
+                                        <div className="bg-slate-800 p-2 rounded">
+                                            <span className="block text-slate-400">NIFTY (Tue Exp)</span>
+                                            <span className="text-emerald-300">Fri 11:30 AM – 2:30 PM</span>
+                                        </div>
+                                        <div className="bg-slate-800 p-2 rounded">
+                                            <span className="block text-slate-400">SENSEX (Thu Exp)</span>
+                                            <span className="text-emerald-300">Mon 11 AM – 2 PM</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="p-3 bg-emerald-900/10 border border-emerald-500/30 rounded">
+                                    <div className="text-xs font-bold text-emerald-400 uppercase mb-1">Mandatory Credit Check</div>
+                                    <p className="text-slate-300 text-xs">Target Min Credit: <strong className="text-white">10–15% of width</strong> (e.g., 20-30pts on 200w). Do NOT enter for debit unless negligible.</p>
+                                </div>
+
+                                <div className="text-xs text-slate-400">
+                                    * Avoid first 30 mins trading. <br />
+                                    * Neutralize Delta (±2 to ±5). <br />
+                                    * Check no major macro events within 24hrs.
+                                </div>
+                            </div>
+                        </Card>
+
+                        <Card title="Exit Rules (2 DTE)" accentColor="border-rose-500">
+                            <div className="space-y-4 text-sm">
+                                <div>
+                                    <div className="font-semibold text-white mb-1">Schedule</div>
+                                    <div className="grid grid-cols-2 gap-2 text-xs">
+                                        <div className="bg-slate-800 p-2 rounded">
+                                            <span className="block text-slate-400">NIFTY</span>
+                                            <span className="text-rose-300">Mon 2 PM – 3:20 PM</span>
+                                        </div>
+                                        <div className="bg-slate-800 p-2 rounded">
+                                            <span className="block text-slate-400">SENSEX</span>
+                                            <span className="text-rose-300">Wed 2 PM – 3:20 PM</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <div className="text-xs font-bold text-slate-400 uppercase">Triggers</div>
+                                    <div className="flex justify-between items-center border-b border-slate-700 pb-1">
+                                        <span>Profit Target</span>
+                                        <span className="text-emerald-400 mono-font">40–60% decay</span>
+                                    </div>
+                                    <div className="flex justify-between items-center border-b border-slate-700 pb-1">
+                                        <span>MTM Stop Loss</span>
+                                        <span className="text-rose-400 mono-font">-1% Capital</span>
+                                    </div>
+                                    <div className="flex justify-between items-center bg-rose-900/20 p-2 rounded border border-rose-900/50">
+                                        <span className="font-bold text-rose-300">Short Breach Exit</span>
+                                        <span className="text-slate-200 text-right text-xs">Exit if Spot &gt; Short Strike + 0.2%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </Card>
+                    </div>
+
+                    {/* Section: Risk & Optimization */}
+                    <SectionHeader title="Optimization & Risk Management" icon={<Icon name="sliders" />} />
+
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                        <Card title="Strike Optimization (By IVP)" accentColor="border-orange-500" className="lg:col-span-2">
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left border-collapse text-sm">
+                                    <thead>
+                                        <tr className="text-slate-400 border-b border-slate-700 text-xs uppercase">
+                                            <th className="py-2">IVP Range</th>
+                                            <th className="py-2">Short Spread Width</th>
+                                            <th className="py-2">convex Wing Dist</th>
+                                            <th className="py-2">Tent Width</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="text-slate-300">
+                                        <tr className="border-b border-slate-800">
+                                            <td className="py-2 font-mono text-blue-300">&lt; 20 (Low)</td>
+                                            <td className="py-2">0.6% – 0.8%</td>
+                                            <td className="py-2">1.4% – 1.8%</td>
+                                            <td className="py-2">±1.0%</td>
+                                        </tr>
+                                        <tr className="border-b border-slate-800 bg-slate-800/30">
+                                            <td className="py-2 font-mono text-emerald-300">20–60 (Norm)</td>
+                                            <td className="py-2 font-bold text-white">0.7% – 1.0%</td>
+                                            <td className="py-2 font-bold text-white">1.6% – 2.2%</td>
+                                            <td className="py-2">±1.4%</td>
+                                        </tr>
+                                        <tr className="border-b border-slate-800">
+                                            <td className="py-2 font-mono text-rose-300">60–80 (High)</td>
+                                            <td className="py-2">1.0% – 1.2%</td>
+                                            <td className="py-2">2.0% – 2.4%</td>
+                                            <td className="py-2">±1.8%</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="py-2 font-mono text-rose-500">&gt; 80 (Extreme)</td>
+                                            <td className="py-2">1.2% – 1.5%</td>
+                                            <td className="py-2">2.2% – 2.6%</td>
+                                            <td className="py-2">±2.0%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div className="mt-3 text-xs text-slate-500 italic">
+                                * As IV increases, widen both legs to maintain POP and MTM behavior.
+                            </div>
+                        </Card>
+
+                        <div className="space-y-6">
+                            <Card title="Risk Zones" accentColor="border-rose-400">
+                                <div className="space-y-3">
+                                    <div className="p-2 border border-rose-900/30 bg-rose-900/10 rounded">
+                                        <div className="text-xs font-bold text-rose-400 uppercase mb-1">Valley of Death</div>
+                                        <p className="text-xs text-slate-300">
+                                            Zone between Short Strike (0.8%) and Wing (1.6%). Short spreads lose value, but wings haven't kicked in.
+                                            <br />
+                                            <span className="font-bold text-white block mt-1">mitigation: Short Strike Breach Exit.</span>
+                                        </p>
+                                    </div>
+                                    <div className="p-2 border border-blue-900/30 bg-blue-900/10 rounded">
+                                        <div className="text-xs font-bold text-blue-400 uppercase mb-1">Vol Spike Response</div>
+                                        <p className="text-xs text-slate-300">
+                                            If VIX spikes &gt;10%, exit immediately. Do not hold through macro shocks.
+                                        </p>
+                                    </div>
+                                </div>
+                            </Card>
+
+                            <Card title="Adjustments" accentColor="border-yellow-500">
+                                <div className="text-sm space-y-2">
+                                    <p className="text-slate-300">
+                                        <strong className="text-white">Desk Mandate:</strong> Do NOT encourage adjustments.
+                                    </p>
+                                    <ul className="list-disc list-inside text-xs text-slate-400">
+                                        <li>Wings expensive during panic.</li>
+                                        <li>Adjustments increase gamma risk.</li>
+                                    </ul>
+                                    <div className="mt-2 p-2 bg-slate-800 rounded">
+                                        <span className="block text-xs text-emerald-400 font-bold">Preferred:</span>
+                                        <span className="text-xs text-slate-300">Exit & Re-enter next cycle.</span>
+                                    </div>
+                                </div>
+                            </Card>
+                        </div>
+                    </div>
+
+                    {/* Section: Scenario Playbook */}
+                    <SectionHeader title="Scenario Playbook" icon={<Icon name="clipboard" />} />
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+                        {[
+                            { title: 'Sideways', desc: 'Best scenario. Decay is linear. Expect 40-60% decay by 2 DTE.', color: 'emerald' },
+                            { title: 'Slow Trend', desc: 'MTM stable due to wide tent. Do not adjust; let theta work.', color: 'blue' },
+                            { title: 'Sharp Trend', desc: 'Exit if Short Strike breached by > 0.2%. Do not wait for wing.', color: 'rose' },
+                            { title: 'IV Crush', desc: 'Strong profit acceleration. Consider early exit at 30-40% capture.', color: 'purple' },
+                            { title: 'IV Spike', desc: 'Downside wings absorb hit. Exit on >10% VIX spike.', color: 'orange' },
+                            { title: 'Gaps', desc: 'Convex structure protects. Reassess only if gap challenges wing.', color: 'slate' },
+                        ].map((item, idx) => (
+                            <div key={idx} className={`glass-panel p-4 rounded-xl border-t-2 border-${item.color}-500`}>
+                                <h4 className={`text-sm font-bold text-${item.color}-400 mb-2`}>{item.title}</h4>
+                                <p className="text-xs text-slate-300 leading-relaxed">{item.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+
+
+                    <footer className="mt-12 border-t border-slate-800 pt-6 text-center text-slate-600 text-xs">
+                        <p>CCC Manual v1.0 | Convex Carry Condor Strategy</p>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>
