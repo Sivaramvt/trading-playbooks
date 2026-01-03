@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carry Trade Cadence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="../js/auth.js"></script>
+</head>
+
+<body class="bg-slate-900 text-slate-200">
+
+    <!-- Navigation -->
+    <nav class="glass-panel sticky top-0 z-50 border-b border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../index.html" class="text-xl font-bold text-white flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Back to Home
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <span class="text-slate-400 text-sm">Execution Schedule</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="max-w-5xl mx-auto p-4 sm:p-6 lg:p-8 animate-fade-in">
+
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl sm:text-6xl font-extrabold mb-4 tracking-tight">
+                <span class="text-gradient">Carry Trade</span> <span class="text-white">Cadence</span>
+            </h1>
+            <p class="text-xl text-slate-400 max-w-2xl mx-auto font-light">
+                Weekly execution schedule for systematic carry trades.
+            </p>
+        </header>
+
+        <!-- Timeline Container -->
+        <div class="relative">
+            <!-- Vertical Line (Desktop) -->
+            <div
+                class="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-slate-800 rounded-full">
+            </div>
+
+            <!-- Monday -->
+            <div class="relative mb-12 md:mb-24 group">
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <!-- Day Marker -->
+                    <div
+                        class="absolute left-1/2 transform -translate-x-1/2 -top-4 md:top-1/2 md:-translate-y-1/2 z-10">
+                        <div
+                            class="w-12 h-12 bg-slate-900 border-4 border-slate-700 rounded-full flex items-center justify-center shadow-xl group-hover:border-blue-500 transition-colors">
+                            <span class="text-xs font-bold text-slate-400">MON</span>
+                        </div>
+                    </div>
+
+                    <!-- Content Left (Morning) -->
+                    <div class="md:w-5/12 order-2 md:order-1 text-center md:text-right mt-8 md:mt-0">
+                        <a href="rif.html"
+                            class="glass-card block p-6 rounded-2xl border-r-4 md:border-r-0 md:border-l-4 border-blue-500 hover:bg-slate-800/50 transition-all transform hover:-translate-y-1 mb-4 md:mb-0">
+                            <h3 class="text-xl font-bold text-white mb-2">Monday Morning</h3>
+                            <div class="flex items-center justify-center md:justify-end gap-2 text-blue-400">
+                                <span class="text-sm font-mono bg-blue-500/10 px-2 py-1 rounded">MANAGE</span>
+                                <span class="font-bold">Nifty / RIF</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Content Right (Evening) -->
+                    <div class="md:w-5/12 order-3 md:order-2 text-center md:text-left mt-4 md:mt-0">
+                        <a href="ic14.html"
+                            class="glass-card block p-6 rounded-2xl border-l-4 md:border-l-0 md:border-r-4 border-emerald-500 hover:bg-slate-800/50 transition-all transform hover:-translate-y-1">
+                            <h3 class="text-xl font-bold text-white mb-2">Monday Evening</h3>
+                            <div class="flex items-center justify-center md:justify-start gap-2 text-emerald-400">
+                                <span class="text-sm font-mono bg-emerald-500/10 px-2 py-1 rounded">ENTER</span>
+                                <span class="font-bold">Nifty / IC14</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tuesday -->
+            <div class="relative mb-12 md:mb-24 group">
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <!-- Day Marker -->
+                    <div
+                        class="absolute left-1/2 transform -translate-x-1/2 -top-4 md:top-1/2 md:-translate-y-1/2 z-10">
+                        <div
+                            class="w-12 h-12 bg-slate-900 border-4 border-slate-700 rounded-full flex items-center justify-center shadow-xl group-hover:border-blue-500 transition-colors">
+                            <span class="text-xs font-bold text-slate-400">TUE</span>
+                        </div>
+                    </div>
+
+                    <!-- Content Left (Morning) -->
+                    <div class="md:w-5/12 order-2 md:order-1 text-center md:text-right mt-8 md:mt-0">
+                        <a href="ic14.html"
+                            class="glass-card block p-6 rounded-2xl border-r-4 md:border-r-0 md:border-l-4 border-red-500 hover:bg-slate-800/50 transition-all transform hover:-translate-y-1 mb-4 md:mb-0">
+                            <h3 class="text-xl font-bold text-white mb-2">Tuesday Morning</h3>
+                            <div class="flex items-center justify-center md:justify-end gap-2 text-red-400">
+                                <span class="text-sm font-mono bg-red-500/10 px-2 py-1 rounded">EXIT</span>
+                                <span class="font-bold">Nifty / IC14</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Content Right (Evening) -->
+                    <div class="md:w-5/12 order-3 md:order-2 text-center md:text-left mt-4 md:mt-0">
+                        <a href="rif.html"
+                            class="glass-card block p-6 rounded-2xl border-l-4 md:border-l-0 md:border-r-4 border-emerald-500 hover:bg-slate-800/50 transition-all transform hover:-translate-y-1">
+                            <h3 class="text-xl font-bold text-white mb-2">Tuesday Evening</h3>
+                            <div class="flex items-center justify-center md:justify-start gap-2 text-emerald-400">
+                                <span class="text-sm font-mono bg-emerald-500/10 px-2 py-1 rounded">ENTER</span>
+                                <span class="font-bold">Sensex / RIF</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wednesday -->
+            <div class="relative mb-12 md:mb-24 group">
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <!-- Day Marker -->
+                    <div
+                        class="absolute left-1/2 transform -translate-x-1/2 -top-4 md:top-1/2 md:-translate-y-1/2 z-10">
+                        <div
+                            class="w-12 h-12 bg-slate-900 border-4 border-slate-700 rounded-full flex items-center justify-center shadow-xl group-hover:border-blue-500 transition-colors">
+                            <span class="text-xs font-bold text-slate-400">WED</span>
+                        </div>
+                    </div>
+
+                    <!-- Content Left (Morning) -->
+                    <div class="md:w-5/12 order-2 md:order-1 text-center md:text-right mt-8 md:mt-0">
+                        <a href="rif.html"
+                            class="glass-card block p-6 rounded-2xl border-r-4 md:border-r-0 md:border-l-4 border-blue-500 hover:bg-slate-800/50 transition-all transform hover:-translate-y-1 mb-4 md:mb-0">
+                            <h3 class="text-xl font-bold text-white mb-2">Wednesday Morning</h3>
+                            <div class="flex items-center justify-center md:justify-end gap-2 text-blue-400">
+                                <span class="text-sm font-mono bg-blue-500/10 px-2 py-1 rounded">MANAGE</span>
+                                <span class="font-bold">Sensex / RIF</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Content Right (Evening) -->
+                    <div class="md:w-5/12 order-3 md:order-2 text-center md:text-left mt-4 md:mt-0">
+                        <a href="ic14.html"
+                            class="glass-card block p-6 rounded-2xl border-l-4 md:border-l-0 md:border-r-4 border-emerald-500 hover:bg-slate-800/50 transition-all transform hover:-translate-y-1">
+                            <h3 class="text-xl font-bold text-white mb-2">Wednesday Evening</h3>
+                            <div class="flex items-center justify-center md:justify-start gap-2 text-emerald-400">
+                                <span class="text-sm font-mono bg-emerald-500/10 px-2 py-1 rounded">ENTER</span>
+                                <span class="font-bold">Sensex / IC14</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thursday -->
+            <div class="relative mb-12 md:mb-24 group">
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <!-- Day Marker -->
+                    <div
+                        class="absolute left-1/2 transform -translate-x-1/2 -top-4 md:top-1/2 md:-translate-y-1/2 z-10">
+                        <div
+                            class="w-12 h-12 bg-slate-900 border-4 border-slate-700 rounded-full flex items-center justify-center shadow-xl group-hover:border-blue-500 transition-colors">
+                            <span class="text-xs font-bold text-slate-400">THU</span>
+                        </div>
+                    </div>
+
+                    <!-- Content Left (Morning) -->
+                    <div class="md:w-5/12 order-2 md:order-1 text-center md:text-right mt-8 md:mt-0">
+                        <a href="ic14.html"
+                            class="glass-card block p-6 rounded-2xl border-r-4 md:border-r-0 md:border-l-4 border-red-500 hover:bg-slate-800/50 transition-all transform hover:-translate-y-1 mb-4 md:mb-0">
+                            <h3 class="text-xl font-bold text-white mb-2">Thursday Morning</h3>
+                            <div class="flex items-center justify-center md:justify-end gap-2 text-red-400">
+                                <span class="text-sm font-mono bg-red-500/10 px-2 py-1 rounded">EXIT</span>
+                                <span class="font-bold">Sensex / IC14</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Content Right (Evening - No Carry) -->
+                    <div class="md:w-5/12 order-3 md:order-2 text-center md:text-left mt-4 md:mt-0">
+                        <div
+                            class="glass-card p-6 rounded-2xl border-l-4 md:border-l-0 md:border-r-4 border-slate-600 hover:bg-slate-800/50 transition-all transform hover:-translate-y-1 opacity-75">
+                            <h3 class="text-xl font-bold text-slate-400 mb-2">Thursday Evening</h3>
+                            <div class="flex items-center justify-center md:justify-start gap-2 text-slate-500">
+                                <span class="text-sm font-mono bg-slate-700/50 px-2 py-1 rounded">REST</span>
+                                <span class="font-bold">No Carry Trade</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Friday -->
+            <div class="relative group">
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <!-- Day Marker -->
+                    <div
+                        class="absolute left-1/2 transform -translate-x-1/2 -top-4 md:top-1/2 md:-translate-y-1/2 z-10">
+                        <div
+                            class="w-12 h-12 bg-slate-900 border-4 border-slate-700 rounded-full flex items-center justify-center shadow-xl group-hover:border-blue-500 transition-colors">
+                            <span class="text-xs font-bold text-slate-400">FRI</span>
+                        </div>
+                    </div>
+
+                    <!-- Space Left -->
+                    <div class="md:w-5/12 order-2 md:order-1"></div>
+
+                    <!-- Content Right -->
+                    <div class="md:w-5/12 order-3 md:order-2 text-center md:text-left mt-8 md:mt-0">
+                        <a href="rif.html"
+                            class="glass-card block p-6 rounded-2xl border-l-4 md:border-l-0 md:border-r-4 border-emerald-500 hover:bg-slate-800/50 transition-all transform hover:-translate-y-1">
+                            <h3 class="text-xl font-bold text-white mb-2">Friday Evening</h3>
+                            <div class="flex items-center justify-center md:justify-start gap-2 text-emerald-400">
+                                <span class="text-sm font-mono bg-emerald-500/10 px-2 py-1 rounded">ENTER</span>
+                                <span class="font-bold">Nifty / RIF</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <footer class="mt-16 text-center text-slate-500 text-sm">
+            <p>&copy; 2025 Trading Playbooks. Execute with discipline.</p>
+        </footer>
+
+    </div>
+</body>
+
+</html>
