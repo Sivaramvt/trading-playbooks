@@ -3,1073 +3,706 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Zigzag — Operator's Infographic</title>
+<title>Zigzag — Operator's Card</title>
 <style>
   :root {
-    color-scheme: dark;
-    --bg: #071018;
-    --bg-2: #0b1722;
-    --panel: #0e1d2a;
-    --panel-2: #102535;
-    --panel-3: #132e3f;
-    --stroke: rgba(122, 162, 247, 0.28);
-    --stroke-strong: rgba(122, 162, 247, 0.55);
-    --text: #eef6ff;
-    --muted: #a7b6c6;
-    --soft: #6f8192;
-    --blue: #5fa4ff;
-    --green: #7ddc6f;
-    --amber: #f2b84b;
-    --red: #ff665f;
-    --cyan: #6ed5ef;
-    --shadow: 0 24px 70px rgba(34, 13, 13, 0.35);
+    color-scheme: dark light;
+    --bg: #0d0f12;
+    --surface: #14171c;
+    --surface-2: #1a1e25;
+    --stroke: #2a2f38;
+    --stroke-soft: #20242c;
+    --text: #e5e7eb;
+    --text-secondary: #a3a8b3;
+    --text-tertiary: #707682;
+    --accent: #7aa2f7;
+    --info: #7aa2f7;
+    --info-bg: rgba(122, 162, 247, 0.10);
+    --info-border: rgba(122, 162, 247, 0.35);
+    --success: #9ece6a;
+    --success-bg: rgba(158, 206, 106, 0.10);
+    --success-border: rgba(158, 206, 106, 0.35);
+    --warning: #e0af68;
+    --warning-bg: rgba(224, 175, 104, 0.10);
+    --warning-border: rgba(224, 175, 104, 0.40);
+    --danger: #f7768e;
+    --danger-bg: rgba(247, 118, 142, 0.10);
+    --danger-border: rgba(247, 118, 142, 0.40);
+    --neutral-bg: rgba(255, 255, 255, 0.04);
+    --neutral-border: rgba(255, 255, 255, 0.10);
     --radius: 8px;
-    --radius-sm: 5px;
+    --radius-sm: 4px;
   }
-
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #ffffff;
+      --surface: #fafbfc;
+      --surface-2: #f3f5f8;
+      --stroke: #d8dce3;
+      --stroke-soft: #e6e9ee;
+      --text: #1a1d23;
+      --text-secondary: #4a5160;
+      --text-tertiary: #767d8c;
+      --accent: #2d62d6;
+      --info: #2d62d6;
+      --info-bg: rgba(45, 98, 214, 0.08);
+      --info-border: rgba(45, 98, 214, 0.30);
+      --success: #2f8a3d;
+      --success-bg: rgba(47, 138, 61, 0.08);
+      --success-border: rgba(47, 138, 61, 0.30);
+      --warning: #b56b1a;
+      --warning-bg: rgba(181, 107, 26, 0.08);
+      --warning-border: rgba(181, 107, 26, 0.30);
+      --danger: #c33150;
+      --danger-bg: rgba(195, 49, 80, 0.08);
+      --danger-border: rgba(195, 49, 80, 0.30);
+      --neutral-bg: rgba(0, 0, 0, 0.03);
+      --neutral-border: rgba(0, 0, 0, 0.10);
+    }
+  }
   *, *::before, *::after { box-sizing: border-box; }
-
   html, body {
     margin: 0;
-    min-height: 100%;
-    background:
-      radial-gradient(circle at 12% 0%, rgba(95, 164, 255, 0.18), transparent 28rem),
-      radial-gradient(circle at 88% 10%, rgba(125, 220, 111, 0.12), transparent 30rem),
-      linear-gradient(180deg, #050b11 0%, var(--bg) 42%, #050b11 100%);
+    padding: 0;
+    background: var(--bg);
     color: var(--text);
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "SF Pro Text", Helvetica, Arial, sans-serif;
     font-size: 14px;
-    line-height: 1.45;
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    text-rendering: geometricPrecision;
+    -moz-osx-font-smoothing: grayscale;
   }
-
-  body { padding: 28px; }
-
-  .sheet {
-    max-width: 1240px;
+  main {
+    max-width: 1100px;
     margin: 0 auto;
-    border: 1px solid var(--stroke-strong);
-    border-radius: 12px;
-    background:
-      linear-gradient(90deg, rgba(95, 164, 255, 0.08) 1px, transparent 1px),
-      linear-gradient(180deg, rgba(95, 164, 255, 0.06) 1px, transparent 1px),
-      linear-gradient(180deg, rgba(10, 23, 35, 0.96), rgba(5, 13, 20, 0.98));
-    background-size: 40px 40px, 40px 40px, auto;
-    box-shadow: var(--shadow);
-    overflow: hidden;
-  }
-
-  .inner {
+    padding: 40px 32px 64px;
     display: flex;
     flex-direction: column;
-    gap: 18px;
-    padding: 22px;
+    gap: 28px;
   }
-
-  h1, h2, h3, p { margin: 0; }
-
-  h1 {
-    font-size: clamp(38px, 7vw, 86px);
-    line-height: 0.95;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0;
+  h1, h2, h3 { margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+  h1 { font-size: 26px; line-height: 1.25; }
+  h2 { font-size: 18px; line-height: 1.3; }
+  h3 { font-size: 14px; line-height: 1.4; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-secondary); }
+  p { margin: 0; }
+  code {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.92em;
+    background: var(--neutral-bg);
+    border: 1px solid var(--stroke-soft);
+    padding: 1px 5px;
+    border-radius: 3px;
   }
+  strong, .semibold { font-weight: 600; }
+  .secondary { color: var(--text-secondary); }
+  .small { font-size: 12px; }
 
-  h1 span { color: var(--blue); }
+  /* Layout */
+  .stack { display: flex; flex-direction: column; }
+  .row { display: flex; flex-direction: row; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .grid-6 { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  hr.divider { border: none; border-top: 1px solid var(--stroke-soft); margin: 0; }
 
-  h2 {
-    color: var(--blue);
-    font-size: 18px;
-    line-height: 1.2;
-    font-weight: 850;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
+  /* Pills */
+  .pill {
+    display: inline-flex; align-items: center;
+    padding: 1px 8px;
+    font-size: 11px;
+    font-weight: 500;
+    border-radius: 999px;
+    border: 1px solid var(--stroke);
+    background: transparent;
+    color: var(--text-secondary);
+    line-height: 1.6;
   }
+  .pill.info { border-color: var(--info-border); color: var(--info); }
+  .pill.success { border-color: var(--success-border); color: var(--success); }
+  .pill.warning { border-color: var(--warning-border); color: var(--warning); }
+  .pill.danger { border-color: var(--danger-border); color: var(--danger); }
 
-  h3 {
-    color: var(--text);
-    font-size: 13px;
-    font-weight: 850;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-
-  .muted { color: var(--muted); }
-  .soft { color: var(--soft); }
-  .blue { color: var(--blue); }
-  .green { color: var(--green); }
-  .amber { color: var(--amber); }
-  .red { color: var(--red); }
-  .nowrap { white-space: nowrap; }
-
-  .hero {
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 22px;
-    align-items: end;
-    padding: 18px 22px 20px;
+  /* Stat */
+  .stat {
+    background: var(--surface);
     border: 1px solid var(--stroke);
     border-radius: var(--radius);
-    background: linear-gradient(135deg, rgba(10, 24, 38, 0.95), rgba(4, 9, 15, 0.82));
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
   }
+  .stat .value { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+  .stat .label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+  .stat.danger .value { color: var(--danger); }
+  .stat.success .value { color: var(--success); }
+  .stat.warning .value { color: var(--warning); }
 
-  .hero::before,
-  .hero::after {
-    content: "";
-    position: absolute;
-    width: 34px;
-    height: 34px;
-    border-color: var(--blue);
-    opacity: 0.8;
-  }
-
-  .hero::before {
-    top: 8px;
-    left: 8px;
-    border-top: 2px solid;
-    border-left: 2px solid;
-  }
-
-  .hero::after {
-    right: 8px;
-    bottom: 8px;
-    border-right: 2px solid;
-    border-bottom: 2px solid;
-  }
-
-  .subtitle {
-    margin-top: 10px;
-    color: var(--blue);
-    font-size: 14px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.22em;
-  }
-
-  .hero-note {
-    max-width: 470px;
-    color: var(--muted);
-    font-size: 13px;
-    text-align: right;
-  }
-
-  .section {
+  /* Card */
+  .card {
+    background: var(--surface);
     border: 1px solid var(--stroke);
     border-radius: var(--radius);
-    background: rgba(10, 23, 34, 0.76);
     overflow: hidden;
   }
-
-  .section-title {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    gap: 16px;
+  .card-header {
+    display: flex;
     align-items: center;
-    padding: 14px 18px 0;
-  }
-
-  .section-title::before,
-  .section-title::after {
-    content: "";
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--stroke-strong));
-  }
-
-  .section-title::after {
-    background: linear-gradient(90deg, var(--stroke-strong), transparent);
-  }
-
-  .metrics {
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    border-top: 1px solid var(--stroke);
-  }
-
-  .metric {
-    min-height: 130px;
-    padding: 18px 14px;
-    border-right: 1px solid var(--stroke);
-    background: rgba(8, 19, 29, 0.55);
-    display: flex;
-    flex-direction: column;
     justify-content: space-between;
-    gap: 12px;
-  }
-
-  .metric:last-child { border-right: 0; }
-
-  .metric-icon,
-  .mini-icon {
-    display: inline-grid;
-    place-items: center;
-    color: currentColor;
-    flex: 0 0 auto;
-  }
-
-  .metric-icon svg { width: 40px; height: 40px; stroke-width: 1.9; }
-  .mini-icon svg { width: 25px; height: 25px; stroke-width: 2; }
-
-  .metric-label {
-    color: var(--muted);
-    font-size: 11px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-
-  .metric-value {
-    font-size: clamp(18px, 2vw, 25px);
-    line-height: 1.05;
-    font-weight: 900;
-  }
-
-  .metric-sub {
-    color: var(--muted);
+    gap: 8px;
+    padding: 8px 14px;
     font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--stroke-soft);
+    background: var(--surface-2);
   }
+  .card-body { padding: 14px; }
+  .card-body.flush { padding: 0; }
 
-  .ownership {
-    display: grid;
-    grid-template-columns: 1fr minmax(160px, 210px) 1fr;
-    gap: 0;
-  }
-
-  .owner-panel {
-    padding: 20px;
-    border: 1px solid var(--stroke);
+  /* Callout */
+  .callout {
+    border: 1px solid var(--neutral-border);
+    background: var(--neutral-bg);
     border-radius: var(--radius);
-    background: linear-gradient(180deg, rgba(12, 30, 45, 0.88), rgba(6, 15, 23, 0.82));
-  }
-
-  .owner-panel.operator {
-    border-color: rgba(125, 220, 111, 0.45);
-    background: linear-gradient(180deg, rgba(18, 48, 32, 0.78), rgba(6, 17, 16, 0.82));
-  }
-
-  .owner-heading {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding-bottom: 12px;
-    margin-bottom: 12px;
-    border-bottom: 1px solid currentColor;
-    color: var(--blue);
-  }
-
-  .operator .owner-heading { color: var(--green); }
-
-  .owner-heading h2 {
-    color: currentColor;
-    text-align: left;
-    letter-spacing: 0.08em;
-  }
-
-  .check-list {
-    display: grid;
-    gap: 9px;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-
-  .check-list li {
-    position: relative;
-    padding-left: 25px;
-    color: var(--muted);
-  }
-
-  .check-list li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 2px;
-    width: 16px;
-    height: 16px;
-    border: 2px solid currentColor;
-    border-radius: 50%;
-    color: var(--blue);
-  }
-
-  .operator .check-list li::before { color: var(--green); }
-
-  .check-list li::after {
-    content: "";
-    position: absolute;
-    left: 5px;
-    top: 6px;
-    width: 6px;
-    height: 3px;
-    border-left: 2px solid currentColor;
-    border-bottom: 2px solid currentColor;
-    transform: rotate(-45deg);
-    color: var(--blue);
-  }
-
-  .operator .check-list li::after { color: var(--green); }
-
-  .partnership {
-    display: grid;
-    place-items: center;
-    margin: 0 -1px;
-  }
-
-  .partnership-core {
-    width: 174px;
-    aspect-ratio: 1;
-    display: grid;
-    place-items: center;
-    text-align: center;
-    border: 1px solid var(--stroke-strong);
-    border-radius: 50%;
-    background:
-      radial-gradient(circle, rgba(95, 164, 255, 0.16), transparent 58%),
-      rgba(6, 14, 22, 0.95);
-    box-shadow: inset 0 0 0 14px rgba(95, 164, 255, 0.05);
-  }
-
-  .partnership-core strong {
-    display: block;
-    color: var(--text);
-    font-size: 16px;
-    font-weight: 900;
-    text-transform: uppercase;
-  }
-
-  .partnership-core span {
-    display: block;
-    margin-top: 5px;
-    color: var(--muted);
-    font-size: 11px;
-    font-weight: 800;
-    text-transform: uppercase;
-  }
-
-  .flow {
-    display: grid;
-    grid-template-columns: 1.15fr 0.9fr 0.9fr 1.2fr 0.9fr;
-    gap: 18px;
-    align-items: stretch;
-    padding: 18px;
-  }
-
-  .step {
-    position: relative;
-    min-height: 178px;
-    padding: 16px;
-    border: 1px solid var(--stroke-strong);
-    border-radius: var(--radius);
-    background: linear-gradient(180deg, rgba(16, 39, 57, 0.9), rgba(7, 18, 27, 0.92));
+    padding: 14px 16px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 6px;
   }
+  .callout.info { border-color: var(--info-border); background: var(--info-bg); }
+  .callout.success { border-color: var(--success-border); background: var(--success-bg); }
+  .callout.warning { border-color: var(--warning-border); background: var(--warning-bg); }
+  .callout.danger { border-color: var(--danger-border); background: var(--danger-bg); }
+  .callout .callout-title { font-weight: 600; }
+  .callout.info .callout-title { color: var(--info); }
+  .callout.success .callout-title { color: var(--success); }
+  .callout.warning .callout-title { color: var(--warning); }
+  .callout.danger .callout-title { color: var(--danger); }
 
-  .step::after {
-    content: "";
-    position: absolute;
-    right: -19px;
-    top: 50%;
-    width: 18px;
-    border-top: 2px dotted var(--stroke-strong);
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 13px;
   }
-
-  .step:last-child::after { display: none; }
-
-  .step h3 { color: var(--blue); }
-  .step.manual { border-color: rgba(125, 220, 111, 0.48); }
-  .step.manual h3 { color: var(--green); }
-
-  .step strong {
-    margin-top: auto;
-    color: var(--green);
-    font-size: 14px;
-    font-weight: 900;
-    text-transform: uppercase;
-  }
-
-  .step .fail { color: var(--red); }
-
-  .indicator-grid {
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 10px;
-    padding: 18px;
-  }
-
-  .indicator {
-    position: relative;
-    min-height: 226px;
-    padding: 42px 14px 14px;
-    border: 1px solid var(--stroke-strong);
+  table.framed {
+    border: 1px solid var(--stroke);
     border-radius: var(--radius);
-    background: linear-gradient(180deg, rgba(15, 37, 54, 0.9), rgba(8, 19, 29, 0.92));
     overflow: hidden;
   }
-
-  .indicator-num {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 27px;
-    height: 27px;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    background: rgba(95, 164, 255, 0.25);
-    border: 1px solid rgba(95, 164, 255, 0.48);
-    color: var(--text);
+  th, td {
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--stroke-soft);
+    vertical-align: top;
+  }
+  th {
+    background: var(--surface-2);
+    color: var(--text-secondary);
+    font-weight: 500;
     font-size: 12px;
-    font-weight: 900;
-  }
-
-  .indicator h3 {
-    min-height: 38px;
-    color: var(--blue);
-    text-align: center;
-  }
-
-  .indicator .source {
-    min-height: 47px;
-    color: var(--muted);
-    font-size: 12px;
-    text-align: center;
-  }
-
-  .signal {
-    display: grid;
-    gap: 7px;
-    margin-top: 10px;
-    padding-top: 12px;
-    border-top: 1px solid var(--stroke);
-    font-size: 12px;
-  }
-
-  .signal p {
-    position: relative;
-    padding-left: 17px;
-  }
-
-  .signal p::before {
-    position: absolute;
-    left: 0;
-    top: 0;
-    font-weight: 900;
-  }
-
-  .signal .green::before { content: "↑"; }
-  .signal .amber::before { content: "→"; }
-  .signal .red::before { content: "↓"; }
-
-  .decision-wrap {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(260px, 0.42fr);
-    gap: 18px;
-    padding: 18px;
-  }
-
-  .ladder {
-    display: grid;
-    gap: 8px;
-  }
-
-  .ladder-row {
-    display: grid;
-    grid-template-columns: 136px minmax(0, 1fr) 220px;
-    gap: 12px;
-    align-items: center;
-    padding: 0;
-  }
-
-  .level,
-  .action {
-    min-height: 58px;
-    display: grid;
-    place-items: center;
-    padding: 10px;
-    border-radius: var(--radius);
-    border: 1px solid currentColor;
-    text-align: center;
-  }
-
-  .level strong,
-  .action strong {
-    display: block;
-    font-size: 15px;
-    font-weight: 900;
     text-transform: uppercase;
+    letter-spacing: 0.03em;
   }
+  tbody tr:last-child td { border-bottom: none; }
+  td.center, th.center { text-align: center; }
+  tr.success td { background: var(--success-bg); }
+  tr.warning td { background: var(--warning-bg); }
+  tr.danger td { background: var(--danger-bg); }
+  tr.info td { background: var(--info-bg); }
+  /* Tone column tints — green/amber/red columns in the scorecard */
+  td.col-green { color: var(--success); }
+  td.col-amber { color: var(--warning); }
+  td.col-red   { color: var(--danger); }
 
-  .level span,
-  .action span {
-    display: block;
-    color: var(--muted);
-    font-size: 11px;
-    font-weight: 750;
-    text-transform: uppercase;
-  }
-
-  .ladder-row.green { color: var(--green); }
-  .ladder-row.amber { color: var(--amber); }
-  .ladder-row.red { color: var(--red); }
-
-  .condition {
-    color: var(--muted);
-    font-size: 13px;
-  }
-
-  .action {
-    background: color-mix(in srgb, currentColor 20%, transparent);
-  }
-
-  .manual-rule {
-    padding: 16px;
-    border: 1px solid rgba(125, 220, 111, 0.48);
-    border-radius: var(--radius);
-    background: linear-gradient(180deg, rgba(18, 49, 32, 0.78), rgba(5, 17, 16, 0.86));
-  }
-
-  .manual-rule h3 {
-    margin-bottom: 11px;
-    color: var(--green);
-    text-align: center;
-  }
-
-  .rule-list {
-    display: grid;
-    gap: 8px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .rule-list li {
-    position: relative;
-    padding-left: 24px;
-    color: var(--muted);
-    font-size: 13px;
-  }
-
-  .rule-list li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 2px;
-    width: 16px;
-    height: 16px;
-    border: 2px solid var(--green);
-    border-radius: 50%;
-  }
-
-  .rule-list li::after {
-    content: "";
-    position: absolute;
-    left: 5px;
-    top: 6px;
-    width: 6px;
-    height: 3px;
-    border-left: 2px solid var(--green);
-    border-bottom: 2px solid var(--green);
-    transform: rotate(-45deg);
-  }
-
-  .forecast-hazards {
-    display: grid;
-    grid-template-columns: 1.25fr 1fr;
-    gap: 18px;
-  }
-
-  .forecast {
-    padding: 18px;
-  }
-
-  .forecast-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 9px;
-    margin-top: 13px;
-  }
-
-  .forecast-card {
-    padding: 12px;
-    min-height: 124px;
-    border-radius: var(--radius-sm);
-    background: rgba(7, 17, 26, 0.62);
-    border: 1px solid var(--stroke);
-  }
-
-  .forecast-card h3 { margin-bottom: 8px; }
-  .forecast-card p { color: var(--muted); font-size: 12px; }
-
-  .hazards {
-    padding: 18px;
-    border-left: 1px solid var(--stroke);
-  }
-
-  .hazard-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 13px;
-  }
-
-  .hazard {
-    min-height: 122px;
-    padding: 14px;
-    border: 1px solid rgba(255, 102, 95, 0.55);
-    border-radius: var(--radius);
-    background: linear-gradient(180deg, rgba(57, 20, 25, 0.58), rgba(14, 16, 22, 0.82));
-  }
-
-  .hazard h3 {
-    margin-bottom: 7px;
-    color: var(--red);
-  }
-
-  .hazard p {
-    color: var(--muted);
-    font-size: 12px;
-  }
-
-  .cheatsheet {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 10px;
-    padding: 18px;
-  }
-
-  .cheat {
-    min-height: 96px;
-    display: grid;
-    gap: 6px;
-    align-content: start;
-    padding: 13px;
-    border: 1px solid var(--stroke);
-    border-radius: var(--radius);
-    background: rgba(8, 19, 29, 0.72);
-  }
-
-  .cheat h3 { color: var(--blue); }
-  .cheat p { color: var(--muted); font-size: 12px; }
-
-  .principle {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 16px;
-    align-items: center;
-    padding: 14px 18px;
-    border: 1px solid rgba(255, 102, 95, 0.6);
-    border-radius: var(--radius);
-    background: rgba(46, 17, 20, 0.42);
-  }
-
-  .principle h3 { color: var(--amber); }
-  .principle p { color: var(--muted); }
-
-  .discipline {
-    display: grid;
-    gap: 2px;
-    color: var(--green);
-    font-size: 12px;
-    font-weight: 750;
-  }
-
-  @media (max-width: 1120px) {
-    .metrics,
-    .indicator-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .metric { border-bottom: 1px solid var(--stroke); }
-    .metric:nth-child(3n) { border-right: 0; }
-    .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .step::after { display: none; }
-    .forecast-hazards,
-    .decision-wrap { grid-template-columns: 1fr; }
-    .hazards { border-left: 0; border-top: 1px solid var(--stroke); }
-    .cheatsheet { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  }
-
-  @media (max-width: 820px) {
-    body { padding: 14px; }
-    .inner { padding: 14px; }
-    .hero,
-    .ownership,
-    .flow,
-    .forecast-grid,
-    .hazard-grid,
-    .cheatsheet,
-    .principle { grid-template-columns: 1fr; }
-    .hero-note { text-align: left; }
-    .partnership { padding: 14px 0; }
-    .partnership-core { width: 148px; }
-    .metrics,
-    .indicator-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .metric:nth-child(3n) { border-right: 1px solid var(--stroke); }
-    .metric:nth-child(2n) { border-right: 0; }
-    .ladder-row { grid-template-columns: 1fr; }
-    .condition { padding: 0 4px; }
-    .discipline { justify-self: start; }
-  }
-
-  @media (max-width: 520px) {
-    body { padding: 0; }
-    .sheet { border: 0; border-radius: 0; }
-    .metrics,
-    .indicator-grid { grid-template-columns: 1fr; }
-    .metric { border-right: 0; }
-    .section-title { grid-template-columns: 1fr; gap: 8px; }
-    .section-title::before,
-    .section-title::after { display: none; }
-    h2 { font-size: 15px; }
-  }
-
+  /* Print */
   @media print {
     :root { color-scheme: light; }
-    html, body {
-      background: #ffffff;
-      color: #111827;
-    }
-    body { padding: 0; }
-    .sheet {
-      max-width: none;
-      border: 0;
-      border-radius: 0;
-      box-shadow: none;
-      background: #ffffff;
-    }
-    .inner { padding: 10mm; gap: 8mm; }
-    .hero,
-    .section,
-    .metric,
-    .owner-panel,
-    .step,
-    .indicator,
-    .forecast-card,
-    .hazard,
-    .cheat,
-    .manual-rule,
-    .principle {
-      background: #ffffff !important;
-      border-color: #cbd5e1 !important;
-      box-shadow: none !important;
-      break-inside: avoid;
-    }
-    h1 span,
-    h2,
-    .blue,
-    .metric-icon,
-    .step h3,
-    .indicator h3,
-    .cheat h3 { color: #1d4ed8 !important; }
-    .green { color: #15803d !important; }
-    .amber { color: #b45309 !important; }
-    .red,
-    .hazard h3 { color: #b91c1c !important; }
-    .muted,
-    .soft,
-    .metric-sub,
-    .condition,
-    .rule-list li,
-    .forecast-card p,
-    .hazard p,
-    .cheat p,
-    .principle p { color: #475569 !important; }
-    .section-title::before,
-    .section-title::after { background: #cbd5e1; }
+    html, body { background: #ffffff; color: #111; }
+    main { max-width: none; padding: 16mm 12mm; }
+    .grid-6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: 1fr 1fr; }
+    .card, .stat, .callout, table.framed { box-shadow: none; }
+    h2 { page-break-after: avoid; }
+    table { page-break-inside: auto; }
+    tr  { page-break-inside: avoid; page-break-after: auto; }
+  }
+
+  /* Narrow screens */
+  @media (max-width: 860px) {
+    .grid-6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: 1fr; }
+    main { padding: 24px 16px; }
+  }
+  @media (max-width: 520px) {
+    .grid-6 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 </style>
 </head>
 <body>
-<main class="sheet" aria-label="Zigzag operator infographic">
-  <div class="inner">
-    <section class="hero">
-      <div>
-        <h1><span>Zigzag</span> — Operator's Card</h1>
-        <p class="subtitle">NIFTY 50 short ATM straddle operator workflow</p>
-      </div>
-      <p class="hero-note">
-        One screen for the everyday loop: the algo restrikes ATM and runs hard rails; the operator decides go/no-go, size, and manual override. Source: N-zigzag-everyday-v2.1 · 14 Jun 2026 IST.
-      </p>
-    </section>
+<main>
 
-    <section class="section" aria-labelledby="capital-risk-title">
-      <div class="section-title"><h2 id="capital-risk-title">Capital &amp; Risk Overview</h2></div>
-      <div class="metrics">
-        <article class="metric blue">
-          <div class="metric-label">Underlying</div>
-          <div class="metric-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 7l9-4 9 4-9 4-9-4Z"/><path d="M3 12l9 4 9-4"/><path d="M3 17l9 4 9-4"/></svg>
-          </div>
-          <div><div class="metric-value">NIFTY 50</div><div class="metric-sub">Index options</div></div>
-        </article>
-        <article class="metric blue">
-          <div class="metric-label">Structure</div>
-          <div class="metric-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 19V5"/><path d="M5 12h14"/><path d="M19 5v14"/><path d="M9 8h6"/><path d="M9 16h6"/></svg>
-          </div>
-          <div><div class="metric-value">Short ATM Straddle</div><div class="metric-sub">Restrike engine</div></div>
-        </article>
-        <article class="metric green">
-          <div class="metric-label">Full Size</div>
-          <div class="metric-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7H14a3.5 3.5 0 0 1 0 7H6"/><path d="M18 8l3-3"/><path d="M19 5h2v2"/></svg>
-          </div>
-          <div><div class="metric-value">&#8377;1 Cr</div><div class="metric-sub">40 multipliers</div></div>
-        </article>
-        <article class="metric amber">
-          <div class="metric-label">Per Multiplier</div>
-          <div class="metric-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19h16"/><path d="M6 16l4-4 3 3 5-7"/><path d="M15 8h3v3"/></svg>
-          </div>
-          <div><div class="metric-value">&#8377;2.5L</div><div class="metric-sub">Capital block</div></div>
-        </article>
-        <article class="metric red">
-          <div class="metric-label">Algo Strategy SL</div>
-          <div class="metric-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 2.9 17a2 2 0 0 0 1.7 3h14.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
-          </div>
-          <div><div class="metric-value">&#8377;3,750 × Mult</div><div class="metric-sub">&#8377;1.5L at full size</div></div>
-        </article>
-        <article class="metric blue">
-          <div class="metric-label">Time Stop</div>
-          <div class="metric-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
-          </div>
-          <div><div class="metric-value">15:23 IST</div><div class="metric-sub">Hard square-off</div></div>
-        </article>
-      </div>
-    </section>
+  <!-- Header -->
+  <section class="stack" style="gap:6px">
+    <div class="row">
+      <span class="pill info">Operator Card</span>
+      <span class="pill">N-zigzag-everyday-v2.1</span>
+    </div>
+    <h1>Zigzag — Operator&rsquo;s Card</h1>
+    <p>
+      One screen for the everyday loop: the algo restrikes ATM and runs hard rails; the operator
+      decides <strong>whether to enter, how much to size, and when to override</strong>. The 6
+      lead indicators feed both the pre-entry forecast and the 15-min monitoring scorecard.
+      Capital frame: <strong>&#8377;1 Cr full size</strong>.
+    </p>
+    <p class="secondary small">Source: N-zigzag-everyday-v2.json + operator notes &middot; 14 Jun 2026 IST</p>
+  </section>
 
-    <section class="ownership" aria-label="Algo and operator ownership split">
-      <article class="owner-panel">
-        <div class="owner-heading">
-          <span class="mini-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="5" y="9" width="14" height="10" rx="2"/><path d="M12 9V5"/><path d="M8 5h8"/><path d="M9 14h.01"/><path d="M15 14h.01"/></svg></span>
-          <h2>Algo Owns (Automated)</h2>
+  <!-- Top stats -->
+  <section class="grid-6">
+    <div class="stat"><div class="value">NIFTY 50</div><div class="label">Underlying</div></div>
+    <div class="stat"><div class="value">Short ATM Straddle</div><div class="label">Structure</div></div>
+    <div class="stat"><div class="value">&#8377;1 Cr</div><div class="label">Full size</div></div>
+    <div class="stat"><div class="value">&#8377;2.5L</div><div class="label">Per multiplier</div></div>
+    <div class="stat"><div class="value">40</div><div class="label">Multipliers @ full</div></div>
+    <div class="stat danger"><div class="value">&#8377;3,750 &times; Mult</div><div class="label">Algo strategy SL</div></div>
+  </section>
+
+  <!-- Who decides what -->
+  <section class="callout info">
+    <div class="callout-title">Who decides what</div>
+    <p><strong>Algo owns:</strong> ATM strike picking, the 50% TP / 2&times; SL on each leg, the
+      5-min ATR shock brake, the 3-calm-candle re-entry gate, the 15:23 hard square-off, and the
+      &#8377;3,750 &times; multiplier strategy SL.</p>
+    <p><strong>You own:</strong> the morning go / no-go, the day&rsquo;s position size, and the
+      15-min discretionary close when the 6 lead indicators turn against the trade before the
+      algo&rsquo;s own rails fire.</p>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- §1 -->
+  <section class="stack" style="gap:12px">
+    <h2>1 &middot; Pre-09:30 forecast &mdash; should you trade today at all?</h2>
+    <p class="secondary">
+      Score each input <code>green / amber / red</code> by 09:25 IST. If any factor is red, size
+      down or stand down. The algo&rsquo;s own RSI / HH-lower / pre-09:45 gate is a
+      <strong>permissive</strong> gate (the leading <code>Number(1) OR&hellip;</code>
+      short-circuits it to TRUE) &mdash; your forecast is the real filter.
+    </p>
+    <div class="card">
+      <div class="card-header">
+        <span>Forecast scorecard</span>
+        <span class="pill warning">Pre-market</span>
+      </div>
+      <div class="card-body flush">
+        <table>
+          <thead>
+            <tr>
+              <th>Input</th>
+              <th>Green (size up)</th>
+              <th>Amber (size down)</th>
+              <th>Red (stand down)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Intraday decay forecast</td>
+              <td class="col-green">Range / mean-revert day expected; theta-friendly</td>
+              <td class="col-amber">Mixed signal; depends on first-30-min behaviour</td>
+              <td class="col-red">Trend / event day expected &mdash; stronger move kills the trade</td>
+            </tr>
+            <tr>
+              <td>VIX level + delta</td>
+              <td class="col-green">VIX &lt; 13 AND d/d &le; 0</td>
+              <td class="col-amber">VIX 13 &ndash; 16 OR flat</td>
+              <td class="col-red">VIX &gt; 16 OR d/d &ge; +5% &rarr; premium will be earned the hard way</td>
+            </tr>
+            <tr>
+              <td>Market alignment (Nifty / broader / US fut)</td>
+              <td class="col-green">Mixed / divergent across the three</td>
+              <td class="col-amber">Two of three aligned</td>
+              <td class="col-red">All three aligned (e.g. SGX up, Nifty up, broader up) &rarr; trend day setup</td>
+            </tr>
+            <tr>
+              <td>Event calendar</td>
+              <td class="col-green">No tier-1 event; quiet domestic / global tape</td>
+              <td class="col-amber">Soft data print (PMI, IIP)</td>
+              <td class="col-red">FOMC, RBI, CPI, election result, budget, Israel/oil headline</td>
+            </tr>
+            <tr>
+              <td>Previous-day P&amp;L</td>
+              <td class="col-green">Flat to +1 day; book is calm</td>
+              <td class="col-amber">Mild drawdown (-0.3% to -0.7%)</td>
+              <td class="col-red">Hit yesterday&rsquo;s algo SL (-&#8377;3,750 &times; M) &mdash; cap exposure at 50% all day</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- §2 -->
+  <section class="stack" style="gap:12px">
+    <h2>2 &middot; Position sizing &mdash; translating the forecast into multipliers</h2>
+    <p class="secondary">
+      Set the day&rsquo;s size once, at 09:30, from the forecast scorecard above. Position size
+      is <strong>locked at entry</strong> &mdash; intraday you can only <em>reduce</em> via the
+      15-min scorecard (&sect;4), never add. Bands are in quarters of the &#8377;1 Cr book.
+    </p>
+
+    <div class="card">
+      <div class="card-header">
+        <span>Sizing band from the forecast scorecard</span>
+        <span class="pill warning">09:30 lock</span>
+      </div>
+      <div class="card-body flush">
+        <table>
+          <thead>
+            <tr>
+              <th>Forecast state (from &sect;1 — 5 inputs)</th>
+              <th>Band</th>
+              <th class="center">Multipliers</th>
+              <th class="center">Capital deployed</th>
+              <th class="center">Daily loss cap<br/><span class="small secondary">(&#8377;3,750 &times; M)</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="success">
+              <td>All 5 inputs <strong class="col-green">green</strong></td>
+              <td><strong>Full</strong></td>
+              <td class="center">40</td>
+              <td class="center">&#8377;1.00 Cr</td>
+              <td class="center">&#8377;1,50,000</td>
+            </tr>
+            <tr>
+              <td>4 <span class="col-green">green</span> + 1 <span class="col-amber">amber</span>, no reds</td>
+              <td>Tactical</td>
+              <td class="center">30</td>
+              <td class="center">&#8377;75 L</td>
+              <td class="center">&#8377;1,12,500</td>
+            </tr>
+            <tr class="warning">
+              <td>2 &ndash; 3 <span class="col-amber">ambers</span>, no reds</td>
+              <td>Reduced</td>
+              <td class="center">20</td>
+              <td class="center">&#8377;50 L</td>
+              <td class="center">&#8377;75,000</td>
+            </tr>
+            <tr class="warning">
+              <td>Exactly 1 <span class="col-red">red</span> (non-blocker) + any number of ambers</td>
+              <td>Probe</td>
+              <td class="center">10</td>
+              <td class="center">&#8377;25 L</td>
+              <td class="center">&#8377;37,500</td>
+            </tr>
+            <tr class="danger">
+              <td>2+ <span class="col-red">reds</span>, <strong>OR</strong> event-calendar red, <strong>OR</strong> hit algo SL yesterday</td>
+              <td><strong>Stand down</strong></td>
+              <td class="center">0</td>
+              <td class="center">&mdash;</td>
+              <td class="center">&mdash;</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="callout danger">
+        <div class="callout-title">Two reds that always stand you down</div>
+        <p><strong>Event calendar red</strong> &mdash; FOMC, RBI, CPI, election result, budget,
+          oil/Israel headline. Theta on these days is a coin flip; tail dominates expected
+          value. Skip, regardless of how green the other inputs are.</p>
+        <p><strong>Yesterday hit -&#8377;3,750 &times; M</strong> &mdash; force a 0-size cool-off
+          day. Sizing back into a losing streak is the most common sustainability failure on
+          short-premium books.</p>
+      </div>
+
+      <div class="callout warning">
+        <div class="callout-title">Two modifiers that cut the band one notch</div>
+        <p><strong>Hard-penny morning</strong> (ATM straddle &le; &#8377;100 combined OR
+          &le; 0.30% of spot) &mdash; one tier lower than the table suggests, OR delay entry
+          per &sect;3 rules.</p>
+        <p><strong>Margin already &gt; 30% used by other strategies</strong> &mdash; cap at the
+          Reduced band regardless of forecast (20 mult / &#8377;50 L). Keep span headroom for
+          intraday SPAN spikes.</p>
+      </div>
+    </div>
+
+    <p class="secondary small">
+      <strong>Worked example.</strong> Forecast scores: VIX green, alignment green, decay
+      forecast green, event green, prior-day amber (mild drawdown) &rarr; 4 G + 1 A &rarr;
+      <strong>Tactical band</strong>: 30 multipliers, &#8377;75 L deployed, &#8377;1,12,500
+      max loss if the algo SL trips. If hard-penny env also flags, drop one tier to Reduced
+      (20 mult / &#8377;50 L).
+    </p>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- §3 -->
+  <section class="stack" style="gap:12px">
+    <h2>3 &middot; Entry timing &mdash; when to actually fire</h2>
+    <p class="secondary">
+      The forecast (&sect;1) and band (&sect;2) tell you <em>whether</em> to trade and <em>how
+      big</em>. Before pulling the trigger at 09:31, run a 30-second lead-indicator pre-check on
+      the five indicators that exist at the open &mdash; VIX, Trend, Momentum, Price volatility,
+      and ATM premium decay. Then apply the env-specific rules below.
+    </p>
+
+    <div class="card">
+      <div class="card-header">
+        <span>Pre-entry lead-indicator check (5 of 6)</span>
+        <span class="pill info">09:30 &ndash; 09:35</span>
+      </div>
+      <div class="card-body flush">
+        <table>
+          <thead>
+            <tr>
+              <th class="center">#</th>
+              <th>Indicator</th>
+              <th>How to read it at 09:30</th>
+              <th>Green &mdash; proceed</th>
+              <th>Amber &mdash; one band lower</th>
+              <th>Red &mdash; defer or skip</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="center">1</td>
+              <td>VIX</td>
+              <td>India VIX live vs yesterday&rsquo;s close</td>
+              <td class="col-green">Flat or down vs prev close</td>
+              <td class="col-amber">+1% to +3% vs prev close</td>
+              <td class="col-red">&gt; +3% (or VIX &gt; 16 absolute) &rarr; premium will be earned the hard way</td>
+            </tr>
+            <tr>
+              <td class="center">2</td>
+              <td>Trend</td>
+              <td>NIFTY open vs prev close + first 1 &ndash; 2 min prints</td>
+              <td class="col-green">Open within &plusmn;0.20% of prev close; no immediate direction</td>
+              <td class="col-amber">Gap 0.20 &ndash; 0.45%, drifting</td>
+              <td class="col-red">Gap &gt; 0.45% AND continuing in same direction &rarr; trend-day open</td>
+            </tr>
+            <tr>
+              <td class="center">3</td>
+              <td>Momentum</td>
+              <td>NIFTY RSI(15m) on last completed bar (prev day&rsquo;s 15:15 close)</td>
+              <td class="col-green">RSI 40 &ndash; 60, neutral</td>
+              <td class="col-amber">RSI 30 &ndash; 40 or 60 &ndash; 70</td>
+              <td class="col-red">RSI &gt; 70 or &lt; 30 going into the open &mdash; reversion or continuation risk both bad for short premium</td>
+            </tr>
+            <tr>
+              <td class="center">4</td>
+              <td>Price volatility</td>
+              <td>NIFTY 5-min ATR(14) from prev day; first 5-min candle once it prints (09:35)</td>
+              <td class="col-green">First 5-min body &lt; 0.8 &times; ATR</td>
+              <td class="col-amber">First 5-min body 0.8 &ndash; 1.4 &times; ATR</td>
+              <td class="col-red">First 5-min body &ge; 1.5 &times; ATR &rarr; algo ATR brake will fire on the move &mdash; do not seed into it</td>
+            </tr>
+            <tr>
+              <td class="center">5</td>
+              <td>ATM premium decay</td>
+              <td>Combined ATM CE + PE LTP vs prev day&rsquo;s 15:15 close, then again on the first 5-min close (09:35)</td>
+              <td class="col-green">Combined &le; prev close at 09:30 AND ticks down on the first 5-min candle</td>
+              <td class="col-amber">One side flat (either no gap-down, or first candle drifts sideways)</td>
+              <td class="col-red">Combined &gt; prev close AND rising on first 5-min candle &rarr; premium re-pricing up, theta is moving against you</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-title">Pre-entry action rule</div>
+      <p><strong>All 5 green:</strong> fire at the band set in &sect;2.</p>
+      <p><strong>1 amber, rest green:</strong> drop one band (e.g. Full &rarr; Tactical) and proceed.</p>
+      <p><strong>2 ambers, or 1 red:</strong> defer entry; re-check at 09:45. Use that window to
+        verify Indicators 4 (first-candle ATR ratio) and 5 (premium decay direction).</p>
+      <p><strong>2 reds, or VIX red, or first-candle ATR red, or premium-decay red:</strong>
+        stand down for the day &mdash; regardless of what &sect;2 said.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <span>Standard entry window</span>
+          <span class="pill success">Normal env</span>
         </div>
-        <ul class="check-list">
-          <li>ATM strike picking and restrikes</li>
-          <li>50% TP / 2× SL on each leg</li>
-          <li>5-min ATR shock brake</li>
-          <li>3-calm-candle re-entry gate</li>
-          <li>15:23 hard square-off and telemetry</li>
-        </ul>
-      </article>
-      <div class="partnership" aria-hidden="true">
-        <div class="partnership-core">
-          <div>
-            <strong>System + Judgment</strong>
-            <span>Partnership model</span>
-          </div>
+        <div class="card-body">
+          <p style="margin-bottom:10px">Algo fires at <strong>09:31</strong> when the slot is
+            empty and the ATR re-entry gate is clear. After the pre-check passes:</p>
+          <table>
+            <thead><tr><th>Signal</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td>Current premium decaying (LTP &lt; previous 5-min close)</td><td>Allow entry at the band set in &sect;2 (with any pre-check downgrade applied).</td></tr>
+              <tr><td>Premium flat / rising on first 5-min candle</td><td>Hold off; wait one more candle for confirmation.</td></tr>
+              <tr><td>Forecast strong move kills the trade</td><td>Skip the day &mdash; no entry.</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <article class="owner-panel operator">
-        <div class="owner-heading">
-          <span class="mini-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></span>
-          <h2>Operator Owns (Manual)</h2>
+
+      <div class="card">
+        <div class="card-header">
+          <span>Penny / illiquid morning</span>
+          <span class="pill warning">Hard-penny env</span>
         </div>
-        <ul class="check-list">
-          <li>Morning go / no-go approval</li>
-          <li>Day's position size</li>
-          <li>15-min discretionary close</li>
-          <li>News, event, and VIX awareness</li>
-          <li>Override when indicators turn before rails fire</li>
-        </ul>
-      </article>
-    </section>
-
-    <section class="section" aria-labelledby="workflow-title">
-      <div class="section-title"><h2 id="workflow-title">Workflow Timeline</h2></div>
-      <div class="flow">
-        <article class="step">
-          <span class="mini-icon blue" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 5h18l-7 8v5l-4 2v-7L3 5Z"/></svg></span>
-          <h3>Pre-09:30 Forecast Gate</h3>
-          <p class="muted">Score decay forecast, VIX, market alignment, events, and prior-day P&amp;L by 09:25.</p>
-          <strong>Green = arm trade</strong>
-          <strong class="fail">Red = skip the day</strong>
-        </article>
-        <article class="step">
-          <span class="mini-icon blue" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
-          <h3>09:31 Auto Entry</h3>
-          <p class="muted">Allow in a normal environment if premium is decaying. Hold one candle if premium is flat or rising.</p>
-          <strong>Entry window 09:31–09:35</strong>
-        </article>
-        <article class="step">
-          <span class="mini-icon amber" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 18h16"/><path d="M7 18V9"/><path d="M12 18V5"/><path d="M17 18v-6"/></svg></span>
-          <h3>Hard-Penny Override</h3>
-          <p class="muted">If ATM premium is thin, delay entry, fade the first spike, or wait for premium below the day's open.</p>
-          <strong class="fail">Bad print = leg SL</strong>
-        </article>
-        <article class="step">
-          <span class="mini-icon blue" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 17h16"/><path d="m5 12 4-4 4 4 6-7"/><path d="M17 5h2v2"/></svg></span>
-          <h3>Live Monitoring Every 15m</h3>
-          <p class="muted">Review the six lead indicators and compare them with the risk decision ladder.</p>
-          <strong>Manual close can pre-empt rails</strong>
-        </article>
-        <article class="step manual">
-          <span class="mini-icon green" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.8 0"/></svg></span>
-          <h3>Exit</h3>
-          <p class="muted">Flat the book by manual rule, strategy SL, or hard square-off.</p>
-          <strong>Do not wait when red</strong>
-        </article>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="indicators-title">
-      <div class="section-title"><h2 id="indicators-title">Six Lead Indicators · Monitor Every 15 Minutes</h2></div>
-      <div class="indicator-grid">
-        <article class="indicator">
-          <div class="indicator-num">1</div>
-          <h3>VIX</h3>
-          <p class="source">India VIX live vs open</p>
-          <div class="signal">
-            <p class="green">Flat to down: premium risk contained</p>
-            <p class="amber">+1% to +3%: caution</p>
-            <p class="red">+5%: manual exit trigger</p>
-          </div>
-        </article>
-        <article class="indicator">
-          <div class="indicator-num">2</div>
-          <h3>Trend</h3>
-          <p class="source">NIFTY 5-min vs VWAP / 15-min EMA stack</p>
-          <div class="signal">
-            <p class="green">Chop around VWAP</p>
-            <p class="amber">One-sided drift but VWAP held</p>
-            <p class="red">Stair-step higher-highs / lower-lows</p>
-          </div>
-        </article>
-        <article class="indicator">
-          <div class="indicator-num">3</div>
-          <h3>Momentum</h3>
-          <p class="source">RSI(15m) and NIFTY rate of change</p>
-          <div class="signal">
-            <p class="green">RSI 40–60, ROC near zero</p>
-            <p class="amber">RSI 30–40 or 60–70</p>
-            <p class="red">RSI &gt;70 / &lt;30 and extending</p>
-          </div>
-        </article>
-        <article class="indicator">
-          <div class="indicator-num">4</div>
-          <h3>Price Volatility</h3>
-          <p class="source">5-min ATR(14) on NIFTY</p>
-          <div class="signal">
-            <p class="green">Bodies &lt; 0.8× ATR</p>
-            <p class="amber">Bodies 0.8–1.4× ATR</p>
-            <p class="red">Any body ≥ 1.5× ATR</p>
-          </div>
-        </article>
-        <article class="indicator">
-          <div class="indicator-num">5</div>
-          <h3>P&amp;L Rate of Change</h3>
-          <p class="source">Strategy unrealised P&amp;L per 15-min slice</p>
-          <div class="signal">
-            <p class="green">Steady positive drift</p>
-            <p class="amber">Flat / oscillating</p>
-            <p class="red">Drawdown accelerating before noon</p>
-          </div>
-        </article>
-        <article class="indicator">
-          <div class="indicator-num">6</div>
-          <h3>ATM Premium Decay</h3>
-          <p class="source">CE + PE LTP vs entry total</p>
-          <div class="signal">
-            <p class="green">Decay at or above forecast</p>
-            <p class="amber">Decay lagging forecast</p>
-            <p class="red">Premium flat/rising despite time</p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section forecast-hazards" aria-label="Forecast filters and hazards">
-      <div class="forecast">
-        <h2>Pre-09:30 Forecast Scorecard</h2>
-        <div class="forecast-grid">
-          <article class="forecast-card">
-            <h3 class="green">Green · Size Up</h3>
-            <p>Range / mean-revert day, VIX &lt; 13 and falling, mixed markets, quiet calendar, calm book.</p>
-          </article>
-          <article class="forecast-card">
-            <h3 class="amber">Amber · Size Down</h3>
-            <p>Mixed signal, VIX 13–16, two of three markets aligned, soft data print, mild drawdown.</p>
-          </article>
-          <article class="forecast-card">
-            <h3 class="red">Red · Stand Down</h3>
-            <p>Trend/event day, VIX &gt; 16 or +5%, all markets aligned, tier-1 event, prior SL hit.</p>
-          </article>
+        <div class="card-body">
+          <p style="margin-bottom:10px">When ATM premium is so thin that 1 tick is 5 &ndash; 10%
+            of premium, the algo&rsquo;s 100% SL is one bad print away. Override the default
+            09:31 entry:</p>
+          <table>
+            <thead><tr><th>Rule</th><th>Why</th></tr></thead>
+            <tbody>
+              <tr><td>Delay entry beyond 09:31</td><td>Let the first 5-min candle print; pennies need price discovery.</td></tr>
+              <tr><td>Enter only after the first spike</td><td>Buy yourself a known top to fade &mdash; premium needs a high to decay from.</td></tr>
+              <tr><td>Wait for ATM premium to fall below the day&rsquo;s open</td><td>Confirms the decay regime; entering on a rising curve in pennies = instant SL.</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <div class="hazards">
-        <h2>Four Hazards Algo Cannot Protect From</h2>
-        <div class="hazard-grid">
-          <article class="hazard"><h3>Trend Day, Normal Candles</h3><p>ATR brake stays silent while losing leg chains restrikes one SL at a time.</p></article>
-          <article class="hazard"><h3>Pinning Day, No Drift</h3><p>Strike-drift gate never lifts; manually harvest 60–70% decay near 14:30 if needed.</p></article>
-          <article class="hazard"><h3>Hard-Penny Morning</h3><p>&#8377;15–&#8377;30 premium makes one bad print equal full leg loss.</p></article>
-          <article class="hazard"><h3>Mid-Day VIX Repricing</h3><p>A +5% VIX move can inflate both legs without triggering the ATR brake.</p></article>
-        </div>
-      </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="section" aria-labelledby="decision-title">
-      <div class="section-title"><h2 id="decision-title">Risk Decision Ladder · Operator Action</h2></div>
-      <div class="decision-wrap">
-        <div class="ladder">
-          <div class="ladder-row green">
-            <div class="level"><div><strong>Level 0</strong><span>All clear</span></div></div>
-            <p class="condition">All indicators in green.</p>
-            <div class="action"><div><strong>Hold &amp; Collect</strong><span>Let theta work</span></div></div>
-          </div>
-          <div class="ladder-row amber">
-            <div class="level"><div><strong>Level 1</strong><span>Caution</span></div></div>
-            <p class="condition">One amber: note it, do nothing. Two ambers: start reducing risk.</p>
-            <div class="action"><div><strong>Stay Alert</strong><span>Prepare action</span></div></div>
-          </div>
-          <div class="ladder-row amber">
-            <div class="level"><div><strong>Level 2</strong><span>Risk rising</span></div></div>
-            <p class="condition">Two ambers or one red: close 50%, leave the rest to native rails.</p>
-            <div class="action"><div><strong>Close 50%</strong><span>Protect &amp; manage</span></div></div>
-          </div>
-          <div class="ladder-row red">
-            <div class="level"><div><strong>Level 3</strong><span>Danger</span></div></div>
-            <p class="condition">Two reds or VIX +5% intraday: do not wait for &#8377;3,750 × M strategy SL.</p>
-            <div class="action"><div><strong>Exit Position</strong><span>Manual flat</span></div></div>
-          </div>
-        </div>
+  <hr class="divider" />
 
-        <aside class="manual-rule">
-          <h3>Manual Close Rule</h3>
-          <ul class="rule-list">
-            <li>2 ambers OR 1 red: close 50%</li>
-            <li>2 reds: flat the book manually</li>
-            <li>VIX +5% intraday: flat immediately</li>
-            <li>Daily drawdown &gt; -50% of SL with &gt;90 min left: reduce risk</li>
-            <li>Tomorrow starts at 50% size if today hit algo SL</li>
-          </ul>
-        </aside>
-      </div>
-    </section>
+  <!-- §4 -->
+  <section class="stack" style="gap:12px">
+    <h2>4 &middot; The 6 lead indicators &mdash; what to watch every 15 minutes</h2>
+    <p class="secondary">
+      Post-entry, run this scorecard every 15 minutes. Two ambers or one red &rarr;
+      <strong>manual close</strong> ahead of the algo&rsquo;s own SL.
+    </p>
+    <table class="framed">
+      <thead>
+        <tr>
+          <th class="center">#</th>
+          <th>Indicator</th>
+          <th>Read it from</th>
+          <th>Green</th>
+          <th>Amber</th>
+          <th>Red &mdash; close manually</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="center">1</td>
+          <td>VIX</td>
+          <td>India VIX live</td>
+          <td class="col-green">Flat to down vs open</td>
+          <td class="col-amber">+1% to +3% vs open</td>
+          <td class="col-red">+5% or more vs open &rarr; premium re-pricing, both legs at risk</td>
+        </tr>
+        <tr>
+          <td class="center">2</td>
+          <td>Trend</td>
+          <td>NIFTY 5-min vs VWAP / 15-min EMA stack</td>
+          <td class="col-green">NIFTY chopping around VWAP</td>
+          <td class="col-amber">One-sided drift, VWAP held</td>
+          <td class="col-red">Stair-step trend; consecutive higher-highs / lower-lows on 15-min</td>
+        </tr>
+        <tr>
+          <td class="center">3</td>
+          <td>Momentum</td>
+          <td>RSI(15m) and rate-of-change on NIFTY</td>
+          <td class="col-green">RSI 40 &ndash; 60, ROC near zero</td>
+          <td class="col-amber">RSI 30 &ndash; 40 or 60 &ndash; 70</td>
+          <td class="col-red">RSI &gt; 70 / &lt; 30 AND extending &mdash; losing leg about to chain restrike</td>
+        </tr>
+        <tr>
+          <td class="center">4</td>
+          <td>Price volatility</td>
+          <td>5-min ATR(14) on NIFTY (the algo&rsquo;s own brake)</td>
+          <td class="col-green">Bodies &lt; 0.8 &times; ATR</td>
+          <td class="col-amber">Bodies 0.8 &ndash; 1.4 &times; ATR</td>
+          <td class="col-red">Any body &ge; 1.5 &times; ATR &rarr; algo brake will fire; pre-empt the SL leg</td>
+        </tr>
+        <tr>
+          <td class="center">5</td>
+          <td>Rate of change &mdash; P&amp;L</td>
+          <td>Strategy unrealised P&amp;L per 15-min slice</td>
+          <td class="col-green">Steady positive drift</td>
+          <td class="col-amber">Flat / oscillating</td>
+          <td class="col-red">Drawdown accelerating; &gt; -50% of daily SL with &gt; 90 min to go</td>
+        </tr>
+        <tr>
+          <td class="center">6</td>
+          <td>ATM premium decay</td>
+          <td>Sum of CE + PE LTP vs entry total</td>
+          <td class="col-green">Combined premium &darr; &ge; forecast</td>
+          <td class="col-amber">Premium &darr; but lagging forecast</td>
+          <td class="col-red">Combined premium flat or rising despite time &mdash; theta isn&rsquo;t arriving</td>
+        </tr>
+      </tbody>
+    </table>
 
-    <section class="section" aria-labelledby="cheatsheet-title">
-      <div class="section-title"><h2 id="cheatsheet-title">Quick Operator Cheatsheet</h2></div>
-      <div class="cheatsheet">
-        <article class="cheat"><h3>1 · Pre-09:30</h3><p>Forecast gate: green = full, amber = down, red = stand down.</p></article>
-        <article class="cheat"><h3>2 · 09:31 Entry</h3><p>Normal env only. If premium rises, wait one more candle.</p></article>
-        <article class="cheat"><h3>3 · Penny Morning</h3><p>Delay, fade first spike, or skip. Do not short blind thin premium.</p></article>
-        <article class="cheat"><h3>4 · Monitor 15m</h3><p>Six indicators decide whether to hold, reduce, or exit.</p></article>
-        <article class="cheat"><h3>5 · Hard Stops</h3><p>&#8377;3,750 × Mult or 15:23 IST, whichever comes first.</p></article>
-      </div>
-    </section>
+    <div class="callout danger">
+      <div class="callout-title">Manual-close decision rule</div>
+      <p><strong>1 amber:</strong> note, do nothing.</p>
+      <p><strong>2 ambers OR 1 red:</strong> close 50% of position and pull the other 50% to the
+        algo&rsquo;s native rails.</p>
+      <p><strong>2 reds OR VIX +5% intraday:</strong> flat the book manually &mdash; do not wait
+        for the &#8377;3,750 &times; M strategy SL.</p>
+    </div>
+  </section>
 
-    <footer class="principle">
-      <h3>Core Principle</h3>
-      <p>Small losses are normal. Big losses are optional. Protect capital first; let probabilities work over time.</p>
-      <div class="discipline">
-        <span>✓ Discipline over prediction</span>
-        <span>✓ Process over emotion</span>
-        <span>✓ Consistency over intensity</span>
+  <hr class="divider" />
+
+  <!-- §5 -->
+  <section class="stack" style="gap:12px">
+    <h2>5 &middot; Things the algo can&rsquo;t protect you from</h2>
+    <div class="grid-2">
+      <div class="callout warning">
+        <div class="callout-title">Trend day with normal candles</div>
+        <p>ATR brake won&rsquo;t fire &mdash; bodies stay below 1.5&times; ATR. Losing leg chains
+          100% SLs one restrike at a time. <strong>Your RSI(1H) + market-alignment check is the
+          only real defence.</strong></p>
       </div>
-    </footer>
-  </div>
+      <div class="callout warning">
+        <div class="callout-title">Pinning day, no drift</div>
+        <p>Strike-drift gate never lifts &rarr; 50% TP can&rsquo;t fire. Premium decays beneath
+          your feet but the algo holds. Either accept the slower decay-to-close, or close
+          manually at 60 &ndash; 70% decay around 14:30.</p>
+      </div>
+      <div class="callout warning">
+        <div class="callout-title">Hard-penny morning</div>
+        <p>Algo will short &#8377;15 &ndash; &#8377;30 ATM with the same 100% SL. One bad print =
+          full leg loss. <strong>Delay entry, fade first spike, or skip.</strong></p>
+      </div>
+      <div class="callout warning">
+        <div class="callout-title">Mid-day VIX repricing</div>
+        <p>A +5% VIX move on a quiet tape will inflate both legs without a single 1.5&times; ATR
+          candle &mdash; the ATR brake stays silent. Watch VIX explicitly in the 15-min loop.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Cheatsheet -->
+  <section class="stack" style="gap:10px">
+    <h3>Quick-reference cheatsheet</h3>
+    <table class="framed">
+      <thead><tr><th>Question</th><th>Answer</th></tr></thead>
+      <tbody>
+        <tr><td>Max position today?</td><td>40 multipliers &middot; &#8377;1 Cr &middot; &#8377;3,750 &times; 40 = &#8377;1.5L hard daily loss cap</td></tr>
+        <tr><td>Sizing decision?</td><td>Map forecast scorecard (&sect;1) onto the band table in &sect;2 &mdash; locked at 09:30</td></tr>
+        <tr><td>Bands?</td><td>Full 40 / Tactical 30 / Reduced 20 / Probe 10 / Stand down 0 multipliers</td></tr>
+        <tr><td>Entry trigger?</td><td>09:31 after the 5-indicator pre-check (&sect;3); delayed past first spike in hard-penny env</td></tr>
+        <tr><td>Pre-check downgrade?</td><td>1 amber &rarr; drop one band; 2 ambers / 1 red &rarr; defer to 09:45; 2 reds &rarr; stand down</td></tr>
+        <tr><td>Forced manual close?</td><td>2 ambers OR 1 red on the 6-indicator scorecard</td></tr>
+        <tr><td>Algo hard stop?</td><td>&#8377;3,750 &times; Mult OR 15:23 IST &mdash; whichever first</td></tr>
+        <tr><td>Tomorrow&rsquo;s starting size?</td><td>Capped at Stand-down (0) if today hit algo SL</td></tr>
+      </tbody>
+    </table>
+  </section>
+
 </main>
 </body>
 </html>
