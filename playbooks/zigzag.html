@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Zigzag — Operator's Card</title>
+<title>Zigzag — Operator's Card (v101)</title>
 <style>
   :root {
     color-scheme: dark light;
@@ -97,14 +97,12 @@
   .secondary { color: var(--text-secondary); }
   .small { font-size: 12px; }
 
-  /* Layout */
   .stack { display: flex; flex-direction: column; }
   .row { display: flex; flex-direction: row; align-items: center; gap: 8px; flex-wrap: wrap; }
   .grid-6 { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   hr.divider { border: none; border-top: 1px solid var(--stroke-soft); margin: 0; }
 
-  /* Pills */
   .pill {
     display: inline-flex; align-items: center;
     padding: 1px 8px;
@@ -121,7 +119,6 @@
   .pill.warning { border-color: var(--warning-border); color: var(--warning); }
   .pill.danger { border-color: var(--danger-border); color: var(--danger); }
 
-  /* Stat */
   .stat {
     background: var(--surface);
     border: 1px solid var(--stroke);
@@ -138,7 +135,6 @@
   .stat.success .value { color: var(--success); }
   .stat.warning .value { color: var(--warning); }
 
-  /* Card */
   .card {
     background: var(--surface);
     border: 1px solid var(--stroke);
@@ -160,7 +156,6 @@
   .card-body { padding: 14px; }
   .card-body.flush { padding: 0; }
 
-  /* Callout */
   .callout {
     border: 1px solid var(--neutral-border);
     background: var(--neutral-bg);
@@ -180,7 +175,6 @@
   .callout.warning .callout-title { color: var(--warning); }
   .callout.danger .callout-title { color: var(--danger); }
 
-  /* Table */
   table {
     width: 100%;
     border-collapse: separate;
@@ -212,34 +206,10 @@
   tr.warning td { background: var(--warning-bg); }
   tr.danger td { background: var(--danger-bg); }
   tr.info td { background: var(--info-bg); }
-  /* Tone column tints — green/amber/red columns in the scorecard */
   td.col-green { color: var(--success); }
   td.col-amber { color: var(--warning); }
   td.col-red   { color: var(--danger); }
 
-  /* Back link */
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: var(--text-secondary);
-    text-decoration: none;
-    padding: 4px 8px;
-    margin-left: -8px;
-    border-radius: var(--radius-sm);
-    border: 1px solid transparent;
-    transition: color 120ms ease, border-color 120ms ease, background 120ms ease;
-    width: fit-content;
-  }
-  .back-link:hover {
-    color: var(--accent);
-    border-color: var(--info-border);
-    background: var(--info-bg);
-  }
-  .back-link svg { width: 12px; height: 12px; }
-
-  /* Print */
   @media print {
     :root { color-scheme: light; }
     html, body { background: #ffffff; color: #111; }
@@ -250,10 +220,8 @@
     h2 { page-break-after: avoid; }
     table { page-break-inside: auto; }
     tr  { page-break-inside: avoid; page-break-after: auto; }
-    .back-link { display: none; }
   }
 
-  /* Narrow screens */
   @media (max-width: 860px) {
     .grid-6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .grid-2 { grid-template-columns: 1fr; }
@@ -267,29 +235,21 @@
 <body>
 <main>
 
-  <!-- Back to home -->
-  <a href="../index.html" class="back-link" aria-label="Back to home">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M19 12H5" />
-      <path d="M12 19l-7-7 7-7" />
-    </svg>
-    Back to Playbooks
-  </a>
-
   <!-- Header -->
   <section class="stack" style="gap:6px">
     <div class="row">
       <span class="pill info">Operator Card</span>
-      <span class="pill">N-zigzag-everyday-v2.1</span>
+      <span class="pill success">N-zigzag-everyday-v101</span>
+      <span class="pill">Phase 0 deploy</span>
     </div>
     <h1>Zigzag — Operator&rsquo;s Card</h1>
     <p>
-      One screen for the everyday loop: the algo restrikes ATM and runs hard rails; the operator
-      decides <strong>whether to enter, how much to size, and when to override</strong>. The 6
-      lead indicators feed both the pre-entry forecast and the 15-min monitoring scorecard.
+      One screen for the everyday loop: v101 restrikes ATM and runs hard rails; the operator
+      sets <strong>go / no-go, position size, and discretionary overrides</strong>. The 6 lead
+      indicators feed both the pre-entry forecast and the 15-min monitoring scorecard.
       Capital frame: <strong>&#8377;1 Cr full size</strong>.
     </p>
-    <p class="secondary small">Source: N-zigzag-everyday-v2.json + operator notes &middot; 14 Jun 2026 IST</p>
+    <p class="secondary small">Source: Tradetron/v2/N-zigzag-everyday-v101.json + operator notes &middot; 28 Jun 2026 IST</p>
   </section>
 
   <!-- Top stats -->
@@ -304,13 +264,57 @@
 
   <!-- Who decides what -->
   <section class="callout info">
-    <div class="callout-title">Who decides what</div>
-    <p><strong>Algo owns:</strong> ATM strike picking, the 50% TP / 2&times; SL on each leg, the
-      5-min ATR shock brake, the 3-calm-candle re-entry gate, the 15:23 hard square-off, and the
-      &#8377;3,750 &times; multiplier strategy SL.</p>
-    <p><strong>You own:</strong> the morning go / no-go, the day&rsquo;s position size, and the
-      15-min discretionary close when the 6 lead indicators turn against the trade before the
-      algo&rsquo;s own rails fire.</p>
+    <div class="callout-title">Who decides what (v101)</div>
+    <p><strong>Algo owns:</strong> ATM strike picking; unconditional 2&times; premium SL per leg;
+      drift-gated 50% TP (needs spot to move out of entry strike bucket); 5-min ATR shock brake
+      (body &gt; 1.5&times; ATR); 3-calm-candle re-entry gate after ATR exit only; post-11:00
+      directional entry filter (RSI + 15m structure); 15:15 per-leg exit window cutoff; 15:23
+      universal square-off; &#8377;3,750 &times; multiplier strategy SL.</p>
+    <p><strong>You own:</strong> the morning regime forecast and sizing bands; whether to deploy
+      at all on event / trend / penny mornings; the 15-min discretionary scorecard and manual
+      flatten on <strong>open positions</strong> (v101&rsquo;s RSI + structure logic is
+      entry-side only &mdash; it does not exit a leg already in trade).</p>
+    <p class="small secondary"><strong>Not in v101</strong> (planned in P1 JSON): restrike cap,
+      post&ndash;premium-SL cooldown, daily leg-SL circuit breaker. Until promoted, those gaps
+      stay on you via &sect;4&ndash;5.</p>
+  </section>
+
+  <!-- v101 algo entry gate -->
+  <section class="card">
+    <div class="card-header">
+      <span>v101 entry gate (algo-side) &mdash; new entries only</span>
+      <span class="pill info">09:31 &ndash; 15:15</span>
+    </div>
+    <div class="card-body flush">
+      <table>
+        <thead>
+          <tr>
+            <th>Window / state</th>
+            <th>CE (short call)</th>
+            <th>PE (short put)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="info">
+            <td><strong>Before 11:00</strong><br/><span class="small secondary">new entry</span></td>
+            <td colspan="2">No RSI/structure check (morning bypass). Your &sect;1&ndash;3 forecast is the only gate. SL &rarr; instant restrike allowed (no post-SL cooldown).</td>
+          </tr>
+          <tr>
+            <td><strong>After 11:00</strong><br/><span class="small secondary">new entry</span></td>
+            <td class="col-green">RSI(15m) &le; 65 AND (RSI falling OR lower high on 15m)</td>
+            <td class="col-green">RSI(15m) &ge; 35 AND (higher low OR RSI rising on 15m)</td>
+          </tr>
+          <tr class="warning">
+            <td><strong>While leg is open</strong><br/><span class="small secondary">in trade</span></td>
+            <td colspan="2">Entry gate does <strong>not</strong> apply. Exits: 2&times; SL, drift-gated TP, or ATR spike only. RSI momentum repair exists in JSON but is disabled (<code>Number(0)</code>) &mdash; no early trend exit.</td>
+          </tr>
+          <tr>
+            <td><strong>Re-entry after ATR exit</strong></td>
+            <td colspan="2">Blocked until last 3 &times; 5m bodies each &le; 1.5&times; ATR(14), OR no prior ATR exit flag on that leg</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
   <hr class="divider" />
@@ -319,10 +323,11 @@
   <section class="stack" style="gap:12px">
     <h2>1 &middot; Pre-09:30 forecast &mdash; should you trade today at all?</h2>
     <p class="secondary">
-      Score each input <code>green / amber / red</code> by 09:25 IST. If any factor is red, size
-      down or stand down. The algo&rsquo;s own RSI / HH-lower / pre-09:45 gate is a
-      <strong>permissive</strong> gate (the leading <code>Number(1) OR&hellip;</code>
-      short-circuits it to TRUE) &mdash; your forecast is the real filter.
+      Score each input <code>green / amber / red</code> by 09:25 IST (penny check uses first
+      tradable ATM quotes by 09:30). If any factor is red, size down or stand down. v101 adds a
+      post-11:00 algo entry filter, but <strong>before 11:00 the morning bypass still lets the
+      algo enter</strong> &mdash; your forecast remains the primary gate for the first 90 minutes
+      and for sizing all day.
     </p>
     <div class="card">
       <div class="card-header">
@@ -370,9 +375,70 @@
               <td class="col-amber">Mild drawdown (-0.3% to -0.7%)</td>
               <td class="col-red">Hit yesterday&rsquo;s algo SL (-&#8377;3,750 &times; M) &mdash; cap exposure at 50% all day</td>
             </tr>
+            <tr>
+              <td>ATM premium / penny morning</td>
+              <td class="col-green">Combined &gt; &#8377;150; each leg &gt; &#8377;25; combined &gt; 0.45% of spot</td>
+              <td class="col-amber">Combined &#8377;100&ndash;150, or either leg &#8377;15&ndash;25, or combined 0.30&ndash;0.45% of spot &mdash; defer 09:31 (&sect;3)</td>
+              <td class="col-red">Combined &le; &#8377;100, or either leg &lt; &#8377;15, or combined &le; 0.30% of spot &mdash; v101 2&times; SL = one bad print; <strong>multiplier 0 at open</strong></td>
+            </tr>
           </tbody>
         </table>
       </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span>How to determine penny morning</span>
+        <span class="pill warning">09:25 &ndash; 09:30</span>
+      </div>
+      <div class="card-body flush">
+        <table>
+          <thead>
+            <tr>
+              <th>Step</th>
+              <th>What to pull</th>
+              <th>Why</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>NIFTY spot &rarr; round to nearest 50 &rarr; current-week ATM CE + PE LTP</td>
+              <td>Same strike v101 will short at 09:31</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><strong>Combined</strong> = CE LTP + PE LTP &nbsp;&middot;&nbsp; <strong>Min leg</strong> = lower of CE, PE</td>
+              <td>Thin straddle = both legs fragile; one side can be ultra-penny alone</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><strong>Combined %</strong> = combined &divide; spot &times; 100</td>
+              <td>&le; 0.30% on 24k spot &asymp; &#8377;72 combined &mdash; hard penny regardless of nominal rupees</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><strong>Tick bite</strong> = &#8377;0.05 &divide; min-leg LTP &times; 100 (NFO tick size)</td>
+              <td>If one tick &ge; 3% of min leg, slippage alone can approach 2&times; SL on a gap print</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Re-check after first 5-min candle (09:35) if amber at 09:30</td>
+              <td>Premiums often spike then fade; amber &rarr; green only if combined ticks down on that candle</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="callout warning">
+      <div class="callout-title">Penny morning &rarr; go / no-go action</div>
+      <p><strong>Green:</strong> normal &sect;2 band + 09:31 entry if &sect;3 pre-check passes.</p>
+      <p><strong>Amber:</strong> do <strong>not</strong> fire at 09:31 &mdash; drop one sizing band,
+        wait for first 5-min candle, enter only after fade-first-spike rules in &sect;3.</p>
+      <p><strong>Red:</strong> <strong>multiplier 0 at 09:30</strong> (stand down). v101 will still
+        short &#8377;15&ndash;&#8377;30 ATM with the same 2&times; SL if multiplier &gt; 0; one
+        bad print = full leg loss. Delay, fade, or skip is not optional on red.</p>
     </div>
   </section>
 
@@ -382,9 +448,11 @@
   <section class="stack" style="gap:12px">
     <h2>2 &middot; Position sizing &mdash; translating the forecast into multipliers</h2>
     <p class="secondary">
-      Set the day&rsquo;s size once, at 09:30, from the forecast scorecard above. Position size
-      is <strong>locked at entry</strong> &mdash; intraday you can only <em>reduce</em> via the
-      15-min scorecard (&sect;4), never add. Bands are in quarters of the &#8377;1 Cr book.
+      Set the day&rsquo;s size once, at 09:30, from the 6-input forecast (&sect;1). Penny
+      <span class="col-amber">amber</span> drops one band on top of the table result; penny
+      <span class="col-red">red</span> is a hard stand-down (multiplier 0). Position size is
+      <strong>locked at entry</strong> &mdash; intraday you can only <em>reduce</em> via the
+      15-min scorecard (&sect;4), never add.
     </p>
 
     <div class="card">
@@ -396,7 +464,7 @@
         <table>
           <thead>
             <tr>
-              <th>Forecast state (from &sect;1 — 5 inputs)</th>
+              <th>Forecast state (from &sect;1 — 6 inputs)</th>
               <th>Band</th>
               <th class="center">Multipliers</th>
               <th class="center">Capital deployed</th>
@@ -405,7 +473,7 @@
           </thead>
           <tbody>
             <tr class="success">
-              <td>All 5 inputs <strong class="col-green">green</strong></td>
+              <td>All 6 inputs <strong class="col-green">green</strong></td>
               <td><strong>Full</strong></td>
               <td class="center">40</td>
               <td class="center">&#8377;1.00 Cr</td>
@@ -426,14 +494,14 @@
               <td class="center">&#8377;75,000</td>
             </tr>
             <tr class="warning">
-              <td>Exactly 1 <span class="col-red">red</span> (non-blocker) + any number of ambers</td>
+              <td>Exactly 1 <span class="col-red">red</span> (non-blocker: not event, prior SL, or penny) + any ambers</td>
               <td>Probe</td>
               <td class="center">10</td>
               <td class="center">&#8377;25 L</td>
               <td class="center">&#8377;37,500</td>
             </tr>
             <tr class="danger">
-              <td>2+ <span class="col-red">reds</span>, <strong>OR</strong> event-calendar red, <strong>OR</strong> hit algo SL yesterday</td>
+              <td>2+ <span class="col-red">reds</span>, <strong>OR</strong> event red, <strong>OR</strong> prior-SL red, <strong>OR</strong> penny red</td>
               <td><strong>Stand down</strong></td>
               <td class="center">0</td>
               <td class="center">&mdash;</td>
@@ -446,32 +514,31 @@
 
     <div class="grid-2">
       <div class="callout danger">
-        <div class="callout-title">Two reds that always stand you down</div>
+        <div class="callout-title">Three reds that always stand you down</div>
         <p><strong>Event calendar red</strong> &mdash; FOMC, RBI, CPI, election result, budget,
           oil/Israel headline. Theta on these days is a coin flip; tail dominates expected
           value. Skip, regardless of how green the other inputs are.</p>
         <p><strong>Yesterday hit -&#8377;3,750 &times; M</strong> &mdash; force a 0-size cool-off
           day. Sizing back into a losing streak is the most common sustainability failure on
           short-premium books.</p>
+        <p><strong>Penny morning red</strong> (&sect;1 #6) &mdash; multiplier 0 at 09:30. Do not
+          rely on delayed entry; v101 has no penny filter on entry.</p>
       </div>
 
       <div class="callout warning">
-        <div class="callout-title">Two modifiers that cut the band one notch</div>
-        <p><strong>Hard-penny morning</strong> (ATM straddle &le; &#8377;100 combined OR
-          &le; 0.30% of spot) &mdash; one tier lower than the table suggests, OR delay entry
-          per &sect;3 rules.</p>
+        <div class="callout-title">Modifier that cuts the band one notch</div>
         <p><strong>Margin already &gt; 30% used by other strategies</strong> &mdash; cap at the
           Reduced band regardless of forecast (20 mult / &#8377;50 L). Keep span headroom for
           intraday SPAN spikes.</p>
+        <p class="small secondary">Penny <span class="col-amber">amber</span> (&sect;1 #6) also
+          drops one band <em>and</em> defers 09:31 &mdash; see &sect;3.</p>
       </div>
     </div>
 
     <p class="secondary small">
-      <strong>Worked example.</strong> Forecast scores: VIX green, alignment green, decay
-      forecast green, event green, prior-day amber (mild drawdown) &rarr; 4 G + 1 A &rarr;
-      <strong>Tactical band</strong>: 30 multipliers, &#8377;75 L deployed, &#8377;1,12,500
-      max loss if the algo SL trips. If hard-penny env also flags, drop one tier to Reduced
-      (20 mult / &#8377;50 L).
+      <strong>Worked example.</strong> Forecast: VIX green, alignment green, decay green, event
+      green, prior-day amber, penny green &rarr; 4 G + 1 A &rarr; <strong>Tactical band</strong>:
+      30 multipliers. Penny amber instead &rarr; Reduced (20 mult) and no 09:31 entry.
     </p>
   </section>
 
@@ -483,8 +550,9 @@
     <p class="secondary">
       The forecast (&sect;1) and band (&sect;2) tell you <em>whether</em> to trade and <em>how
       big</em>. Before pulling the trigger at 09:31, run a 30-second lead-indicator pre-check on
-      the five indicators that exist at the open &mdash; VIX, Trend, Momentum, Price volatility,
-      and ATM premium decay. Then apply the env-specific rules below.
+      the five indicators that exist at the open. v101 will auto-enter from 09:31 if the leg slot
+      is empty and gates pass &mdash; <strong>your multiplier setting is what actually controls
+      deployment</strong>.
     </p>
 
     <div class="card">
@@ -557,7 +625,7 @@
       <p><strong>2 ambers, or 1 red:</strong> defer entry; re-check at 09:45. Use that window to
         verify Indicators 4 (first-candle ATR ratio) and 5 (premium decay direction).</p>
       <p><strong>2 reds, or VIX red, or first-candle ATR red, or premium-decay red:</strong>
-        stand down for the day &mdash; regardless of what &sect;2 said.</p>
+        stand down for the day &mdash; set multiplier 0; v101&rsquo;s 11:00 gate does not replace this.</p>
     </div>
 
     <div class="grid-2">
@@ -568,13 +636,14 @@
         </div>
         <div class="card-body">
           <p style="margin-bottom:10px">Algo fires at <strong>09:31</strong> when the slot is
-            empty and the ATR re-entry gate is clear. After the pre-check passes:</p>
+            empty, time &lt; 15:15, and ATR re-entry gate is clear. Before 11:00, no RSI filter.
+            After 11:00, v101 blocks entries on obvious trend structure.</p>
           <table>
             <thead><tr><th>Signal</th><th>Action</th></tr></thead>
             <tbody>
               <tr><td>Current premium decaying (LTP &lt; previous 5-min close)</td><td>Allow entry at the band set in &sect;2 (with any pre-check downgrade applied).</td></tr>
               <tr><td>Premium flat / rising on first 5-min candle</td><td>Hold off; wait one more candle for confirmation.</td></tr>
-              <tr><td>Forecast strong move kills the trade</td><td>Skip the day &mdash; no entry.</td></tr>
+              <tr><td>Forecast strong move kills the trade</td><td>Skip the day &mdash; multiplier 0.</td></tr>
             </tbody>
           </table>
         </div>
@@ -582,19 +651,19 @@
 
       <div class="card">
         <div class="card-header">
-          <span>Penny / illiquid morning</span>
-          <span class="pill warning">Hard-penny env</span>
+          <span>Penny morning deferred entry</span>
+          <span class="pill warning">&sect;1 #6 amber only</span>
         </div>
         <div class="card-body">
-          <p style="margin-bottom:10px">When ATM premium is so thin that 1 tick is 5 &ndash; 10%
-            of premium, the algo&rsquo;s 100% SL is one bad print away. Override the default
-            09:31 entry:</p>
+          <p style="margin-bottom:10px">When &sect;1 scores penny <span class="col-amber">amber</span>
+            (not red), v101&rsquo;s 2&times; SL is still one gap away. Do not fire at 09:31:</p>
           <table>
             <thead><tr><th>Rule</th><th>Why</th></tr></thead>
             <tbody>
-              <tr><td>Delay entry beyond 09:31</td><td>Let the first 5-min candle print; pennies need price discovery.</td></tr>
-              <tr><td>Enter only after the first spike</td><td>Buy yourself a known top to fade &mdash; premium needs a high to decay from.</td></tr>
-              <tr><td>Wait for ATM premium to fall below the day&rsquo;s open</td><td>Confirms the decay regime; entering on a rising curve in pennies = instant SL.</td></tr>
+              <tr><td>Wait for first 5-min candle (09:35)</td><td>Penny premiums need price discovery before you fade.</td></tr>
+              <tr><td>Enter only after the first spike fades</td><td>Buy a known top to short from &mdash; decay needs a high first.</td></tr>
+              <tr><td>Combined premium below day&rsquo;s open on first 5-min close</td><td>Confirms decay regime; rising curve in pennies = instant SL.</td></tr>
+              <tr><td>Re-score &sect;1 #6 green before sizing up</td><td>If still amber/red after 09:35, stay on Reduced or stand down.</td></tr>
             </tbody>
           </table>
         </div>
@@ -608,8 +677,10 @@
   <section class="stack" style="gap:12px">
     <h2>4 &middot; The 6 lead indicators &mdash; what to watch every 15 minutes</h2>
     <p class="secondary">
-      Post-entry, run this scorecard every 15 minutes. Two ambers or one red &rarr;
-      <strong>manual close</strong> ahead of the algo&rsquo;s own SL.
+      Post-entry, run this scorecard every 15 minutes. v101&rsquo;s RSI + structure check blocks
+      bad <em>re-entries</em> after 11:00 &mdash; it does not flatten open legs. Two ambers or
+      one red &rarr; <strong>manual close</strong> ahead of 2&times; SL. Between 15:15 and 15:23,
+      per-leg exits are off &mdash; only the universal exit remains active.
     </p>
     <table class="framed">
       <thead>
@@ -637,7 +708,7 @@
           <td>NIFTY 5-min vs VWAP / 15-min EMA stack</td>
           <td class="col-green">NIFTY chopping around VWAP</td>
           <td class="col-amber">One-sided drift, VWAP held</td>
-          <td class="col-red">Stair-step trend; consecutive higher-highs / lower-lows on 15-min</td>
+          <td class="col-red">Stair-step trend; consecutive HH / LL on 15-min &mdash; entry gate won&rsquo;t exit open legs; flatten manually</td>
         </tr>
         <tr>
           <td class="center">3</td>
@@ -645,12 +716,12 @@
           <td>RSI(15m) and rate-of-change on NIFTY</td>
           <td class="col-green">RSI 40 &ndash; 60, ROC near zero</td>
           <td class="col-amber">RSI 30 &ndash; 40 or 60 &ndash; 70</td>
-          <td class="col-red">RSI &gt; 70 / &lt; 30 AND extending &mdash; losing leg about to chain restrike</td>
+          <td class="col-red">RSI &gt; 70 / &lt; 30 AND extending &mdash; blocks re-entry after 11:00, not current leg; chain risk before 11:00</td>
         </tr>
         <tr>
           <td class="center">4</td>
           <td>Price volatility</td>
-          <td>5-min ATR(14) on NIFTY (the algo&rsquo;s own brake)</td>
+          <td>5-min ATR(14) on NIFTY (v101 ATR brake)</td>
           <td class="col-green">Bodies &lt; 0.8 &times; ATR</td>
           <td class="col-amber">Bodies 0.8 &ndash; 1.4 &times; ATR</td>
           <td class="col-red">Any body &ge; 1.5 &times; ATR &rarr; algo brake will fire; pre-empt the SL leg</td>
@@ -681,6 +752,8 @@
         algo&rsquo;s native rails.</p>
       <p><strong>2 reds OR VIX +5% intraday:</strong> flat the book manually &mdash; do not wait
         for the &#8377;3,750 &times; M strategy SL.</p>
+      <p><strong>After 15:15:</strong> v101 per-leg TP/SL conditions stop evaluating. If still
+        exposed, flatten manually or rely on 15:23 universal exit / strategy SL.</p>
     </div>
   </section>
 
@@ -688,29 +761,49 @@
 
   <!-- §5 -->
   <section class="stack" style="gap:12px">
-    <h2>5 &middot; Things the algo can&rsquo;t protect you from</h2>
+    <h2>5 &middot; Things v101 can&rsquo;t protect you from</h2>
     <div class="grid-2">
       <div class="callout warning">
         <div class="callout-title">Trend day with normal candles</div>
-        <p>ATR brake won&rsquo;t fire &mdash; bodies stay below 1.5&times; ATR. Losing leg chains
-          100% SLs one restrike at a time. <strong>Your RSI(1H) + market-alignment check is the
-          only real defence.</strong></p>
+        <p><strong>Entry gate &ne; open-position defence.</strong> v101&rsquo;s RSI + structure
+          filter only runs when the leg slot is empty (new entry / restrike). It does not cut a
+          leg already in trade.</p>
+        <p><strong>09:31&ndash;11:00:</strong> morning bypass &mdash; no RSI check on entry.
+          Slow grind up in small bodies (&lt; 1.5&times; ATR) &rarr; ATR brake silent, 2&times; SL
+          fires late. Each SL can restrike immediately (no post-SL cooldown, no restrike cap).</p>
+        <p><strong>After 11:00:</strong> losing-side re-entry usually blocked &mdash; but damage
+          may already be done. While still in, only 2&times; SL or an ATR spike exits you.
+          <strong>&sect;4 Trend + Momentum red &rarr; flatten; don&rsquo;t wait for the chain.</strong></p>
       </div>
       <div class="callout warning">
         <div class="callout-title">Pinning day, no drift</div>
-        <p>Strike-drift gate never lifts &rarr; 50% TP can&rsquo;t fire. Premium decays beneath
-          your feet but the algo holds. Either accept the slower decay-to-close, or close
-          manually at 60 &ndash; 70% decay around 14:30.</p>
+        <p>Drift-gated TP never lifts &rarr; 50% TP can&rsquo;t fire while spot stays in the
+          entry 50-pt bucket. Premium decays beneath your feet but the algo holds. Either accept
+          decay-to-close, or close manually at 60 &ndash; 70% decay around 14:30.</p>
       </div>
       <div class="callout warning">
         <div class="callout-title">Hard-penny morning</div>
-        <p>Algo will short &#8377;15 &ndash; &#8377;30 ATM with the same 100% SL. One bad print =
-          full leg loss. <strong>Delay entry, fade first spike, or skip.</strong></p>
+        <p>Scored in <strong>&sect;1 #6</strong> before 09:30. v101 has no penny filter &mdash; it
+          will short thin ATM with the same 2&times; SL. Red &rarr; multiplier 0; amber &rarr;
+          defer per &sect;3; never let the algo auto-enter at 09:31 on a red penny score.</p>
+      </div>
+      <div class="callout warning">
+        <div class="callout-title">Instant re-entry after premium SL</div>
+        <p>Cooldown exists only after ATR exit, not after 2&times; premium SL. Worst window:
+          <strong>09:31&ndash;11:00</strong> (morning bypass + instant restrike). After 11:00 the
+          entry gate may block the next restrike &mdash; but &sect;4 #3 red is still the early
+          warning on the first leg.</p>
       </div>
       <div class="callout warning">
         <div class="callout-title">Mid-day VIX repricing</div>
         <p>A +5% VIX move on a quiet tape will inflate both legs without a single 1.5&times; ATR
           candle &mdash; the ATR brake stays silent. Watch VIX explicitly in the 15-min loop.</p>
+      </div>
+      <div class="callout warning">
+        <div class="callout-title">15:15 &ndash; 15:23 exit gap</div>
+        <p>Per-leg exits cut off at 15:15; universal square-off is 15:23. Eight minutes with no
+          per-leg TP/SL logic active. Reduce size into the close or manual-flat if indicators
+          are amber.</p>
       </div>
     </div>
   </section>
@@ -719,18 +812,23 @@
 
   <!-- Cheatsheet -->
   <section class="stack" style="gap:10px">
-    <h3>Quick-reference cheatsheet</h3>
+    <h3>Quick-reference cheatsheet (v101)</h3>
     <table class="framed">
       <thead><tr><th>Question</th><th>Answer</th></tr></thead>
       <tbody>
-        <tr><td>Max position today?</td><td>40 multipliers &middot; &#8377;1 Cr &middot; &#8377;3,750 &times; 40 = &#8377;1.5L hard daily loss cap</td></tr>
-        <tr><td>Sizing decision?</td><td>Map forecast scorecard (&sect;1) onto the band table in &sect;2 &mdash; locked at 09:30</td></tr>
+        <tr><td>Deployed JSON?</td><td>N-zigzag-everyday-v101.json (Phase 0)</td></tr>
+        <tr><td>Max position today?</td><td>40 mult &middot; &#8377;1 Cr &middot; &#8377;3,750 &times; 40 = &#8377;1.5L hard daily loss cap</td></tr>
+        <tr><td>Sizing decision?</td><td>Map forecast scorecard (&sect;1) onto band table (&sect;2) &mdash; locked at 09:30</td></tr>
         <tr><td>Bands?</td><td>Full 40 / Tactical 30 / Reduced 20 / Probe 10 / Stand down 0 multipliers</td></tr>
-        <tr><td>Entry trigger?</td><td>09:31 after the 5-indicator pre-check (&sect;3); delayed past first spike in hard-penny env</td></tr>
-        <tr><td>Pre-check downgrade?</td><td>1 amber &rarr; drop one band; 2 ambers / 1 red &rarr; defer to 09:45; 2 reds &rarr; stand down</td></tr>
+        <tr><td>RSI + structure gate?</td><td>09:31&ndash;15:15 entry window; bypass until 11:00; after 11:00 blocks new entries only &mdash; not open-leg exits</td></tr>
+        <tr><td>Trend-day defence?</td><td>&sect;4 Trend + Momentum red &rarr; manual flatten; critical 09:31&ndash;11:00</td></tr>
+        <tr><td>Penny morning?</td><td>&sect;1 #6 at 09:30: combined + min-leg + % of spot; red = mult 0, amber = defer 09:31</td></tr>
+        <tr><td>Your entry trigger?</td><td>6-input forecast (&sect;1) + 5-indicator pre-check (&sect;3); 0 mult = stand down</td></tr>
+        <tr><td>Per-leg SL / TP?</td><td>2&times; SL unconditional &middot; 50% TP needs strike drift</td></tr>
         <tr><td>Forced manual close?</td><td>2 ambers OR 1 red on the 6-indicator scorecard</td></tr>
         <tr><td>Algo hard stop?</td><td>&#8377;3,750 &times; Mult OR 15:23 IST &mdash; whichever first</td></tr>
-        <tr><td>Tomorrow&rsquo;s starting size?</td><td>Capped at Stand-down (0) if today hit algo SL</td></tr>
+        <tr><td>Per-leg exits active?</td><td>Until 15:15 only; 15:15&ndash;15:23 = universal exit only</td></tr>
+        <tr><td>Tomorrow&rsquo;s starting size?</td><td>Stand down (0) if today hit algo SL</td></tr>
       </tbody>
     </table>
   </section>
